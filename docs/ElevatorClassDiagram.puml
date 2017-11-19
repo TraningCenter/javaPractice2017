@@ -1,0 +1,101 @@
+@startuml
+Building "1" *-left- "N" Floor
+BuildingManager *-left- Building
+Floor "1" o-left-- "N" Passenger
+Building "1" *-up- "N" Elevator
+Elevator "1" o-- "N" Passenger
+Elevator "1" o-- "N" Floor
+BuildingManager *-down- BuildingVisualizer
+Elevator .left.> State
+Passenger .up.> State
+ElevatorPicture .up.> VisualizerConfig
+BuildingVisualizer .right.> VisualizerConfig
+BuildingVisualizer "1" *-- "N" ElevatorPicture
+BuildingVisualizer "1" *-- "N" FloorPicture
+
+Class Passenger {
+- startFloor
+- destinationFloor
+- weight
+- probabilityOfChoice
++ State getDirection()
+}
+
+Class Floor {
+- id
+- listOfPassengers
++ void addPassenger()
++ void deletePassanger()
+}
+
+Class Building {
+- listOfElevators
+- listOfFloors
++ void addFloor()
++ void addElevator()
+}
+
+Class Elevator {
+- id
+- state
+- capacity
+- remainingCapacity
+- currentFloor
+- maxFloor
+- minFloor
+- listOfPassengers
+- queueOfFloorsToVisit
++ void addPassenger()
++ void deletePassenger()
++ void addFloorWithPriority()
++ void deleteFloor()
++ void countRemainingCapacity()
++ void setState()
+}
+
+Class BuildingManager {
+- building
+- buildingVisualizer
++ {static} void main(String[] args)
+- {static} void createBuilding()
+- {static} void createPassenger()
+- {static} void callLift()
+}
+
+Enum State {
+UP
+DOWN
+STOPPED
+}
+
+Class BuildingVisualizer {
+- listOfElevatorPictures
+- listOfFloorPictures
+- buildingWidth
+- buildingHeight
++ void visualize()
+}
+
+Class ElevatorPicture {
+- id
+- xCoordinate
+- countOfPassengers
++ int getYCoordinate()
++ int getCurrentFloor()
++ void setCountOfPassengers()
+}
+
+Class FloorPicture {
+- id
+- countOfPassengers
++ int getXCoordinate()
++ int getYCoordinate()
++ void setCountOfPassengers()
+}
+
+Class VisualizerConfig {
+- {static} elevatorWidth
+- {static} elevatorHeight
+- {static} floorWeight
+}
+@enduml
