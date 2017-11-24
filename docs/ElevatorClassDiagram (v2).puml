@@ -1,0 +1,275 @@
+@startuml
+ApplicationManager *-up- Building
+ApplicationManager *-right- BuildingVisualizer
+ApplicationManager *-left- CommandManager
+
+Building "1" *-up- "N" Floor
+Building "1" *-up- "N" Shaft
+Shaft *-left- IElevator
+Shaft "1" o-right- "N" Floor
+Floor "1" o-right- "N" IPassenger
+Floor <|-up- IFloorButton
+IElevator "1" o-right- "N" IPassenger
+IElevator "1" o-- "N" Floor
+IElevator .right.> State
+IPassenger .up.> State
+IPassenger <|-down- Passenger
+IElevator <|-left- Elevator
+IButton <|-- IFloorButton
+IButton <|-down- IElevatorButton
+IElevator <|-up- IElevatorButton
+
+BuildingVisualizer .right.> VisualizerConfig
+BuildingVisualizer "1" *-- "N" ElevatorPicture
+BuildingVisualizer "1" *-- "N" FloorPicture
+ElevatorPicture .up.> VisualizerConfig
+FloorPicture .up.> VisualizerConfig
+ElevatorPicture -down-|> IPicture
+FloorPicture -down-|> IPicture
+
+CommandManager *-left- ICommand
+ICommand <|-up- IElevatorCommand
+ICommand <|-down- IPassengerCommand
+ICommand <|-left- IFloorCommand
+IElevatorCommand <|-up- MoveElevatorCommand
+IElevatorCommand <|-up- LoadPassengersElevatorCommand
+IElevatorCommand <|-up- UnLoadPassengersElevatorCommand
+IElevatorCommand <|-left- OpenDoorsElevatorCommand
+IElevatorCommand <|-left- CloseDoorsElevatorCommand
+IElevatorCommand <|-right- StopElevatorCommand
+IPassengerCommand <|-down- CallElevatorPassengerCommand
+IPassengerCommand <|-down- ChooseFloorPassengerCommand
+IFloorCommand <|-left- AddNewPassengerFloorCommand
+IFloorCommand <|-down- DeletePassengerFloorCommand
+
+
+Interface IPassenger {
++ int getStartFloor()
++ int getDestinationFloor()
++ int getWeight()
++ State getDirection()
+}
+
+Class Passenger {
+- startFloor
+- destinationFloor
+- weight
+- probabilityOfChoice
++ int getStartFloor()
++ int getDestinationFloor()
++ int getWeight()
++ State getDirection()
+}
+
+
+Class Floor {
+- id
+- listOfPassengers
++ int getId()
++ int getListOfPassengers()
++ void addPassenger(IPassenger passenger)
++ void deletePassenger(IPassenger passenger)
++ void callElevatorToDown()
++ void callElevatorToUp()
+}
+
+Class Building {
+- listOfShafts
+- listOfFloors
++ void addFloor(Floor floor)
++ void addShaft(Shaft shaft)
+}
+
+Interface IElevator {
++ List<IPassenger> getPassengers()
++ List<IFloor> getAvailableFloors()
++ void setAvailableFloors(List<IFloor> floors)
++ void addPassenger(IPassenger passenger)
++ void deletePassenger(IPassenger passenger)
++ void addFloorInQueue(IFloor floor)
++ IFloor getNextDestinationFloor()
++ void deleteFloorFromQueue(IFloor floor)
++ void countRemainingCapacity(int currentWeight)
++ void setState(State state)
++ void goToFloor(Floor floor)
+}
+
+Class Elevator {
+- id
+- state
+- currentFloor
+- listOfAvailableFloors
+- listOfPassengers
+- queueOfFloorsToVisit
+- capacity
+- remainingCapacity
++ List<IPassenger> getPassengers()
++ List<IFloor> getAvailableFloors()
++ void setAvailableFloors(List<IFloor> floors)
++ void addPassenger(IPassenger passenger)
++ void deletePassenger(IPassenger passenger)
++ void addFloorInQueue(IFloor floor)
++ IFloor getNextDestinationFloor()
++ void deleteFloorFromQueue(IFloor floor)
++ void countRemainingCapacity(int currentWeight)
++ void setState(State state)
++ void goToFloor(Floor floor)
+}
+
+class Shaft{
+- id
+- elevator
+- listOfFloors
++ void setFloors(List<Floor> floors)
++ void setElevator(IElevator elevator) 
+}
+
+interface IButton {
+}
+
+interface IFloorButton {
++ void callElevatorToDown()
++ void callElevatorToUp()
+}
+
+interface IElevatorButton {
++ void goToFloor(Floor floor)
+}
+
+Class ApplicationManager {
+- building
+- buildingVisualizer
+- commandManager
++ {static} void main(String[] args)
+- {static} void createBuilding()
+}
+
+Enum State {
+UP
+DOWN
+STOPPED
+}
+
+interface ICommand {
++ void execute()
+}
+
+interface IPassengerCommand {
++ void execute()
+}
+
+interface IElevatorCommand {
++ void execute()
+}
+
+interface IFloorCommand {
++ void execute()
+}
+
+class AddNewPassengerFloorCommand {
+- passenger
+- floor
++ void execute()
+}
+
+class DeletePassengerFloorCommand {
+- passenger
+- floor
++ void execute()
+}
+
+class MoveElevatorCommand {
+- elevator
+- floor
++ void execute()
+}
+
+class LoadPassengersElevatorCommand {
+- listOfPassengers
+- elevator
++ void execute()
+}
+
+
+class UnLoadPassengersElevatorCommand {
+- listOfPassengers
+- elevator
++ void execute()
+}
+
+class OpenDoorsElevatorCommand {
+- elevator
++ void execute()
+}
+
+class CloseDoorsElevatorCommand {
+- elevator
++ void execute()
+}
+
+class StopElevatorCommand {
+- elevator
++ void execute()
+}
+
+class CallElevatorPassengerCommand {
+- floor
++ void execute()
+}
+
+class ChooseFloorPassengerCommand {
+- elevator
+- floor
++ void execute()
+}
+
+class CommandManager {
+- queueOfCommands
++ void executeNextCommand()
++ void addCommand(ICommand command)
+}
+
+Class BuildingVisualizer {
+- listOfElevatorPictures
+- listOfFloorPictures
++ void visualize()
+}
+
+interface IPicture {
++ int getXCoordinate()
++ int getYCoordinate()
++ draw(int x, int y)
+}
+
+Class ElevatorPicture {
+- id
+- yCoordinate
+- countOfPassengers
+- isOpened
++ int getXCoordinate()
++ int getCurrentFloor()
++ void setCountOfPassengers(int count)
++ boolean IsOpened()
++ draw(int x, int y)
+}
+
+Class FloorPicture {
+- id
+- countOfPassengers
+- isPushedUp
+- isPushedDown
++ int getXCoordinate()
++ int getYCoordinate()
++ void setCountOfPassengers(int count)
++ draw(int x, int y)
+}
+
+Class VisualizerConfig {
+- {static} final int elevatorWidth
+- {static} final int elevatorHeight
+- {static} final int floorWidth
+- {static} final int separatorWidth
+- {static} final int buildingWidth
+- {static} final int buildingHeight
+}
+@enduml
