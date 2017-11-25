@@ -5,6 +5,9 @@ import com.alegerd.model.Floor;
 import com.alegerd.model.House;
 import com.alegerd.model.Lift;
 import com.alegerd.model.Person;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.IHouse;
+import com.alegerd.model.interfaces.IPerson;
 import com.alegerd.tests.FloorTest;
 import com.alegerd.view.Parser;
 import com.alegerd.view.Renderer;
@@ -19,7 +22,7 @@ import java.util.Queue;
 
 public class Application {
 
-    private House model;
+    private IHouse model;
     private Renderer view;
     private Parser parser;
     private Queue<ICommand> commandQueue;
@@ -35,7 +38,7 @@ public class Application {
         view = new Renderer();
         model = parser.parseInputFile("src/main/resources/input");
         floorsToDraw = makeDrawableModel();
-        view.outputData(floorsToDraw);
+        view.drawHouse(floorsToDraw);
     }
 
     /**
@@ -53,16 +56,16 @@ public class Application {
             floorsToDraw = new Integer[numberOfFloors][];
 
             int i = 0;
-            Iterator<Floor> iter = model.floorIterator();
+            Iterator<IFloor> iter = model.floorIterator();
 
             while (iter.hasNext()){
-                Floor next = iter.next();
+                IFloor next = iter.next();
                 floorsToDraw[i] = new Integer[next.getNumberOfPeople()];
 
                     int num = 0;
-                    Iterator<Person> personIterator = next.getPersonIterator();
+                    Iterator<IPerson> personIterator = next.getPersonIterator();
                     while (personIterator.hasNext()){
-                        Person nextPerson = personIterator.next();
+                        IPerson nextPerson = personIterator.next();
                         floorsToDraw[i][num] = nextPerson.getDestinationFloor();
                         num++;
                     }

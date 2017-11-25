@@ -1,6 +1,8 @@
 package com.alegerd.model;
 
+import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.ILift;
+import com.alegerd.model.interfaces.IPerson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +18,9 @@ public class Lift implements ILift{
     private Integer maxWeight;
     private Integer maxFloor;
     private List<Integer> floorsToVisit = new ArrayList<>();
-    private List<Person> peopleIn = new ArrayList<>();
-    private List<Floor> floors = new ArrayList<>();
-    private PriorityQueue<Floor> floorsQueue = new PriorityQueue<>();
+    private List<IPerson> peopleIn = new ArrayList<>();
+    private List<IFloor> floors = new ArrayList<>();
+    private PriorityQueue<IFloor> floorsQueue = new PriorityQueue<>();
 
     public Lift(Integer number){
         this.number = number;
@@ -28,7 +30,7 @@ public class Lift implements ILift{
     public String toString() {
         String result;
         result = "Lift number: " + number + ", number of people: " + peopleIn.size() + "\n";
-        for (Person p :
+        for (IPerson p :
                 peopleIn) {
             result += "   " + p.toString() + "\n";
         }
@@ -39,7 +41,7 @@ public class Lift implements ILift{
      * Takes people from chosen floor
      * @param floor chosen floor
      */
-    public void takePeopleFromFloor(Floor floor){
+    public void takePeopleFromFloor(IFloor floor){
 
     }
 

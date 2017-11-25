@@ -10,7 +10,7 @@ public interface ILift {
      * Takes people from chosen floor
      * @param floor chosen floor
      */
-     void takePeopleFromFloor(Floor floor);
+     void takePeopleFromFloor(IFloor floor);
 
     /**
      * Adds new floor number to priority queue

@@ -4,6 +4,9 @@ import com.alegerd.model.Floor;
 import com.alegerd.model.House;
 import com.alegerd.model.Lift;
 import com.alegerd.model.Person;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.ILift;
+import com.alegerd.model.interfaces.IPerson;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,8 +40,8 @@ public class Parser {
             data = sb.toString();
             String[] inputList = data.split(";");
 
-            List<Floor> floors = new ArrayList<>();
-            List<Lift> lifts = new ArrayList<>();
+            List<IFloor> floors = new ArrayList<>();
+            List<ILift> lifts = new ArrayList<>();
 
             //заполнение списка лифтов
             Integer amountOfLifts = Integer.parseInt(inputList[0].split(" ")[1]);
@@ -72,11 +75,11 @@ public class Parser {
         return newHouse;
     }
 
-    private void addPersonToFloor(Person person, List<Floor> floors) throws Exception{
+    private void addPersonToFloor(IPerson person, List<IFloor> floors) throws Exception{
 
         boolean personAdded = false;
 
-        for (Floor floor :
+        for (IFloor floor :
                 floors) {
             if(floor.getNumber().equals(person.getFloorNumber())){
                 floor.addWaitingPerson(person);

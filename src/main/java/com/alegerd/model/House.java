@@ -1,6 +1,8 @@
 package com.alegerd.model;
 
+import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IHouse;
+import com.alegerd.model.interfaces.ILift;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,10 +14,10 @@ import java.util.function.Consumer;
  * House
  */
 public class House implements IHouse{
-    private List<Lift> lifts = new ArrayList<>();
-    private List<Floor> floors = new ArrayList<>();
+    private List<ILift> lifts = new ArrayList<>();
+    private List<IFloor> floors = new ArrayList<>();
 
-    public House(List<Floor> floors, List<Lift> lifts){
+    public House(List<IFloor> floors, List<ILift> lifts){
         this.floors = floors;
         this.lifts = lifts;
     }
@@ -38,7 +40,7 @@ public class House implements IHouse{
      * Adds new Floor to the House
      * @param newFloor adding floor
      */
-    public void addFloor(Floor newFloor){
+    public void addFloor(IFloor newFloor){
         if(newFloor == null)
             throw new IllegalArgumentException("argument newFloor can't be Null");
         else {
@@ -49,7 +51,7 @@ public class House implements IHouse{
      * Adds new Lift to the House
      * @param newLift adding floor
      */
-    public void addLift(Lift newLift){
+    public void addLift(ILift newLift){
         if(newLift == null)
             throw new IllegalArgumentException("argument newLift can't be Null");
         else {
@@ -60,18 +62,18 @@ public class House implements IHouse{
     @Override
     public String toString(){
         String result = "House \n Number of floors " + getNumberOfFloors() + "\n";
-        for (Floor floor : floors ) {
+        for (IFloor floor : floors ) {
             result += "   " + floor.toString() + "\n";
         }
         result += "Number of Lifts " + getNumberOfLifts() + "\n";
-        for (Lift lift : lifts ) {
+        for (ILift lift : lifts ) {
             result += "   " + lift.toString() + "\n";
         }
         return result;
     }
 
-    public Iterator<Floor> floorIterator() {
-        return new Iterator<Floor>() {
+    public Iterator<IFloor> floorIterator() {
+        return new Iterator<IFloor>() {
             int i = 0;
 
             @Override
@@ -80,16 +82,16 @@ public class House implements IHouse{
             }
 
             @Override
-            public Floor next() {
-                Floor next = floors.get(i);
+            public IFloor next() {
+                IFloor next = floors.get(i);
                 i++;
                 return next;
             }
         };
     }
 
-    public void forEach(Consumer<? super Floor> action) {
-        for (Floor floor : floors){
+    public void forEach(Consumer<? super IFloor> action) {
+        for (IFloor floor : floors){
             action.accept(floor);
         }
     }

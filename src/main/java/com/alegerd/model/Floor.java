@@ -1,6 +1,7 @@
 package com.alegerd.model;
 
 import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.IPerson;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -11,9 +12,9 @@ import java.util.function.Consumer;
 public class Floor implements IFloor{
 
     private Integer number;
-    private List<Person> peopleOn = new ArrayList<>();
-    private List<Person> arrivedPeople = new LinkedList<>();
-    private List<Person> waitingPeople = new ArrayList<>();
+    private List<IPerson> peopleOn = new ArrayList<>();
+    private List<IPerson> arrivedPeople = new LinkedList<>();
+    private List<IPerson> waitingPeople = new ArrayList<>();
 
     public Floor(Integer number){
         this.number = number;
@@ -27,7 +28,7 @@ public class Floor implements IFloor{
                     "\n Amount of arrived people: " + arrivedPeople.size() +
                     "\n Amount of waiting people: " + waitingPeople.size() +
                     "\n People: ";
-        for (Person person :
+        for (IPerson person :
                 peopleOn) {
             result += "   " + person.toString() + "\n";
         }
@@ -38,7 +39,7 @@ public class Floor implements IFloor{
      * Adds person to "waiting" list
      * @param newPerson person
      */
-    public void addWaitingPerson(Person newPerson){
+    public void addWaitingPerson(IPerson newPerson){
         if(newPerson == null)
             throw new IllegalArgumentException("argument newPerson can't be null");
         if(personIsAlreadyOnFloor(newPerson))
@@ -54,8 +55,8 @@ public class Floor implements IFloor{
      * @param people people from lift
      * @throws IllegalArgumentException if some people are nulls or already on the floor
      */
-    public void takePeople(List<Person> people) throws IllegalArgumentException{
-        for (Person person :
+    public void takePeople(List<IPerson> people) throws IllegalArgumentException{
+        for (IPerson person :
                 people) {
             addArrivedPerson(person);
         }
@@ -65,11 +66,11 @@ public class Floor implements IFloor{
      * Gives waiting people
      * @return list with waiting people
      */
-    public List<Person> getWaitingPeople(){
+    public List<IPerson> getWaitingPeople(){
         return waitingPeople;
     }
 
-    private void addArrivedPerson(Person newPerson){
+    private void addArrivedPerson(IPerson newPerson){
         if(newPerson == null)
             throw new IllegalArgumentException("Argument newPerson can't be null");
         if(personIsAlreadyOnFloor(newPerson))
@@ -80,9 +81,9 @@ public class Floor implements IFloor{
         }
     }
 
-    private boolean personIsAlreadyOnFloor(Person person){
+    private boolean personIsAlreadyOnFloor(IPerson person){
         boolean result = false;
-        for (Person p :
+        for (IPerson p :
                 peopleOn) {
             if(p == person)result = true;
             return result;
@@ -102,8 +103,8 @@ public class Floor implements IFloor{
         this.number = number;
     }
     
-    public Iterator<Person> getPersonIterator(){
-        return new Iterator<Person>() {
+    public Iterator<IPerson> getPersonIterator(){
+        return new Iterator<IPerson>() {
             int i = 0;
             
             @Override
@@ -112,16 +113,16 @@ public class Floor implements IFloor{
             }
 
             @Override
-            public Person next() {
-                Person next = peopleOn.get(i);
+            public IPerson next() {
+                IPerson next = peopleOn.get(i);
                 i++;
                 return next;
             }
         };
     }
     
-    public void forEach(Consumer<? super Person> action){
-        for (Person p :
+    public void forEach(Consumer<? super IPerson> action){
+        for (IPerson p :
                 peopleOn) {
             action.accept(p);
         }

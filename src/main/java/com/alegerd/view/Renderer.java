@@ -11,7 +11,18 @@ public class Renderer {
      * @param floorsToDraw twodimentional array of floors and people
      */
     public void drawHouse(Integer[][] floorsToDraw){
-
+        if(floorsToDraw == null)
+            throw new IllegalArgumentException("floors array is null");
+        else {
+            for(int row = floorsToDraw.length-1; row >= 0; row--){
+                System.out.println("=======================================");
+                for (Integer col :
+                        floorsToDraw[row]) {
+                    System.out.print(col + " ");
+                }
+                System.out.println();
+            }
+        }
     }
 
     /**
@@ -19,7 +30,7 @@ public class Renderer {
      */
     public void outputData(Integer[][] floorsToDraw){
         if(floorsToDraw == null)
-            throw new NullPointerException("floors array is null");
+            throw new IllegalArgumentException("floors array is null");
         else {
             for (int row = 0; row < floorsToDraw.length; row++) {
                 System.out.print(row + " floor: ");
