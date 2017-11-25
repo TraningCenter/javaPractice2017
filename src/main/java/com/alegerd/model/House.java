@@ -1,17 +1,23 @@
 package com.alegerd.model;
 
+import com.alegerd.model.interfaces.IHouse;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * House
  */
-public class House {
+public class House implements IHouse{
     private List<Lift> lifts = new ArrayList<>();
     private List<Floor> floors = new ArrayList<>();
 
-    public House(){
-
+    public House(List<Floor> floors, List<Lift> lifts){
+        this.floors = floors;
+        this.lifts = lifts;
     }
 
     /**
@@ -50,6 +56,7 @@ public class House {
             lifts.add(newLift);
         }
     }
+
     @Override
     public String toString(){
         String result = "House \n Number of floors " + getNumberOfFloors() + "\n";
@@ -62,4 +69,29 @@ public class House {
         }
         return result;
     }
+
+    public Iterator<Floor> floorIterator() {
+        return new Iterator<Floor>() {
+            int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < floors.size();
+            }
+
+            @Override
+            public Floor next() {
+                Floor next = floors.get(i);
+                i++;
+                return next;
+            }
+        };
+    }
+
+    public void forEach(Consumer<? super Floor> action) {
+        for (Floor floor : floors){
+            action.accept(floor);
+        }
+    }
+
 }

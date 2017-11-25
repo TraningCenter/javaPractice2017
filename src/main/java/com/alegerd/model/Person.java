@@ -1,6 +1,7 @@
 package com.alegerd.model;
 
 import com.alegerd.model.buttons.IButton;
+import com.alegerd.model.interfaces.IPerson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +9,16 @@ import java.util.List;
 /**
  * Person
  */
-public class Person {
-    public Integer id;
+public class Person implements IPerson{
+    private Integer id;
 
-    public Integer floorNumber;
+    private Integer floorNumber;
 
-    public Integer destinationFloor;
+    private Integer destinationFloor;
 
     public boolean inLift = false;
 
-    public Integer weight;
+    private Integer weight;
 
     public Person(Integer id, Integer weight, Integer floorNumber, Integer destinationFloor){
         this.id = id;
@@ -48,5 +49,37 @@ public class Person {
      */
     public void chooseDestinationFloor(){
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(Integer floorNumber) {
+        this.floorNumber = floorNumber;
+    }
+
+    public Integer getDestinationFloor() {
+        return destinationFloor;
+    }
+
+    public void setDestinationFloor(Integer destinationFloor) {
+        this.destinationFloor = destinationFloor;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 }

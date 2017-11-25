@@ -1,5 +1,7 @@
 package com.alegerd.model;
 
+import com.alegerd.model.interfaces.ILift;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -7,7 +9,7 @@ import java.util.PriorityQueue;
 /**
  * Lift
  */
-public class Lift {
+public class Lift implements ILift{
     public Integer number;
 
     private Integer floorNumber;
@@ -17,6 +19,10 @@ public class Lift {
     private List<Person> peopleIn = new ArrayList<>();
     private List<Floor> floors = new ArrayList<>();
     private PriorityQueue<Floor> floorsQueue = new PriorityQueue<>();
+
+    public Lift(Integer number){
+        this.number = number;
+    }
 
     @Override
     public String toString() {

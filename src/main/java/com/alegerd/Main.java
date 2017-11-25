@@ -1,7 +1,5 @@
 package com.alegerd;
 
-import com.alegerd.commands.interfaces.Application;
-
 public class Main {
 
     static Application application;

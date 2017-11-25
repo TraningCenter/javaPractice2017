@@ -5,10 +5,28 @@ package com.alegerd.view;
  */
 public class Renderer {
 
+
     /**
      * Draws house to console
+     * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(){
+    public void drawHouse(Integer[][] floorsToDraw){
 
+    }
+
+    /**
+     * Prints floors array to the console
+     */
+    public void outputData(Integer[][] floorsToDraw){
+        if(floorsToDraw == null)
+            throw new NullPointerException("floors array is null");
+        else {
+            for (int row = 0; row < floorsToDraw.length; row++) {
+                System.out.print(row + " floor: ");
+                for (Integer col : floorsToDraw[row])
+                    System.out.print(col.toString() + ", ");
+                System.out.println();
+            }
+        }
     }
 }

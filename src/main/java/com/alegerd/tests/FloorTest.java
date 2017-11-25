@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FloorTest extends Assert {
-    private Floor floor = new Floor();
+    private Floor floor = new Floor(1);
 
     @Before
     public void setUpNewPersons(){

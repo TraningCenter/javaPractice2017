@@ -31,7 +31,7 @@ public class Parser {
         House newHouse = null;
 
         try{
-            String data = new String();
+            String data;
             StringBuilder sb = new StringBuilder();
             Files.lines(Paths.get(pathToInputFile), StandardCharsets.UTF_8).forEach(sb::append);
             data = sb.toString();
@@ -43,7 +43,7 @@ public class Parser {
             //заполнение списка лифтов
             Integer amountOfLifts = Integer.parseInt(inputList[0].split(" ")[1]);
             for (int i = 0; i < amountOfLifts; i++){
-                Lift newLift = new Lift(i+1);
+                Lift newLift = new Lift(i);
                 lifts.add(newLift);
             }
 
@@ -57,12 +57,13 @@ public class Parser {
             for(int i = 2; i < inputList.length; i++){
                 Person newPerson = new Person(i,
                         Integer.parseInt(inputList[i].split(" ")[1]),
-                        Integer.parseInt(inputList[i].split(" ")[2]));
+                        Integer.parseInt(inputList[i].split(" ")[2]),
+                        Integer.parseInt(inputList[i].split(" ")[3]));
 
                 addPersonToFloor(newPerson, floors);
             }
 
-            newHouse = new House(floors.size(), floors, lifts); //создание дома
+            newHouse = new House(floors, lifts); //создание дома
 
         }catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -77,14 +78,14 @@ public class Parser {
 
         for (Floor floor :
                 floors) {
-            if(floor.getNumber().equals(person.getFloor())){
-                floor.addPerson(person);
+            if(floor.getNumber().equals(person.getFloorNumber())){
+                floor.addWaitingPerson(person);
                 personAdded = true;
             }
         }
 
         if(!personAdded){
-            throw new Exception("There is no " + person.getFloor() + " floor in this House." +
+            throw new Exception("There is no " + person.getFloorNumber() + " floor in this House." +
                     "But person with id " + person.getId() + " is on it.");
         }
     }

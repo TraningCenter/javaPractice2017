@@ -1,18 +1,22 @@
 package com.alegerd.model;
 
+import com.alegerd.model.interfaces.IFloor;
+
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Floor
  */
-public class Floor{
-    public Integer number;
+public class Floor implements IFloor{
+
+    private Integer number;
     private List<Person> peopleOn = new ArrayList<>();
     private List<Person> arrivedPeople = new LinkedList<>();
     private List<Person> waitingPeople = new ArrayList<>();
 
-    public Floor(){
-
+    public Floor(Integer number){
+        this.number = number;
     }
 
     @Override
@@ -84,5 +88,42 @@ public class Floor{
             return result;
         }
         return result;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public Integer getNumberOfPeople(){
+        return peopleOn.size();
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+    
+    public Iterator<Person> getPersonIterator(){
+        return new Iterator<Person>() {
+            int i = 0;
+            
+            @Override
+            public boolean hasNext() {
+                return i < peopleOn.size();
+            }
+
+            @Override
+            public Person next() {
+                Person next = peopleOn.get(i);
+                i++;
+                return next;
+            }
+        };
+    }
+    
+    public void forEach(Consumer<? super Person> action){
+        for (Person p :
+                peopleOn) {
+            action.accept(p);
+        }
     }
 }
