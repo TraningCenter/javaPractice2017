@@ -51,9 +51,9 @@ public class Parser {
                 floors.add(newFloor);
             }
 
-            ViewController.setFloorLength(20);
-
             Integer amountOfLifts = Integer.parseInt(inputList[1].split(" ")[1]);
+
+            ViewController.setFloorLength(amountOfLifts * 12);
 
             ViewController.setNumberOfLifts(amountOfLifts);
             maxPeopleInSection = ViewController.getNumberOfPeopleInSection();
@@ -76,8 +76,7 @@ public class Parser {
                 Integer num = Integer.parseInt(line[4]);
                 if(num > sections.size()) throw new IllegalArgumentException("Person waits for not existing lift");
                 Integer newNum = sections.get(num)+1;
-                if(newNum > maxPeopleInSection) throw new IllegalArgumentException("Section size limit");
-                else sections.add(num, newNum);
+                sections.add(num, newNum);
 
                 Person newPerson = new Person(i,
                         Integer.parseInt(line[1]),

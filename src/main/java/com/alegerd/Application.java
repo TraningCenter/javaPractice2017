@@ -38,22 +38,18 @@ public class Application {
     public void start(){
         parser = new Parser();
         view = new Renderer();
+
         try {
             model = parser.parseInputFile("src/main/resources/input");
+
+            floorsToDraw = makeDrawableModel();
+            liftsToDraw = makeDrawableLiftModel();
+            view.drawHouse(floorsToDraw, liftsToDraw);
+            //view.outputData(floorsToDraw, liftsToDraw);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
-        try {
-            floorsToDraw = makeDrawableModel();
-            liftsToDraw = makeDrawableLiftModel();
-        }
-        catch (NullPointerException e){
-            System.out.println(e.getMessage());
-        }
-        view.drawHouse(floorsToDraw, liftsToDraw);
-        //view.outputData(floorsToDraw, liftsToDraw);
     }
 
     /**

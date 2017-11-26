@@ -15,7 +15,7 @@ public class Renderer {
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw){
+    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw) throws Exception{
 
         Integer numberOfLifts = ViewController.getNumberOfLifts();
         Integer numberOfSections = ViewController.getNumberOfSections();
@@ -37,11 +37,7 @@ public class Renderer {
                         Integer sect = Integer.parseInt(line[0]);
                         if(sect == section) lift = Integer.parseInt(line[1]);
                     }
-
-                    if(lift == null)
                         System.out.print("   ");
-                    else
-                        System.out.print("---");
 
                     for (int j = 0; j < sectionSize; j++) {
                         System.out.print("=");
@@ -73,6 +69,7 @@ public class Renderer {
                             Integer sect = Integer.parseInt(line[0]);
                             if(sect == section){
                                 peopleCount++;
+                                if(peopleCount > maxPeople) throw new Exception("Too many people in one section");
                                 System.out.print(line[1]);
                             }
                         }
