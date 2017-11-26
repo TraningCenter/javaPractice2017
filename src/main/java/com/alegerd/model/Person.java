@@ -14,17 +14,30 @@ public class Person implements IPerson{
 
     private Integer floorNumber;
 
+    private Integer waitsForLiftNumber;
+
     private Integer destinationFloor;
 
     public boolean inLift = false;
 
     private Integer weight;
 
-    public Person(Integer id, Integer weight, Integer floorNumber, Integer destinationFloor){
+    public Person(Integer id, Integer weight, Integer floorNumber,
+                  Integer destinationFloor){
         this.id = id;
         this.weight = weight;
         this.floorNumber = floorNumber;
         this.destinationFloor = destinationFloor;
+        this.waitsForLiftNumber = 0;
+    }
+
+    public Person(Integer id, Integer weight, Integer floorNumber,
+                  Integer destinationFloor, Integer waitsForLiftNumber){
+        this.id = id;
+        this.weight = weight;
+        this.floorNumber = floorNumber;
+        this.destinationFloor = destinationFloor;
+        this.waitsForLiftNumber = waitsForLiftNumber;
     }
 
     private List<IButton> buttonsToCallLift = new ArrayList<>();
@@ -81,5 +94,13 @@ public class Person implements IPerson{
 
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public Integer getWaitsForLiftNumber() {
+        return waitsForLiftNumber;
+    }
+
+    public void setWaitsForLiftNumber(Integer waitsForLiftNumber) {
+        this.waitsForLiftNumber = waitsForLiftNumber;
     }
 }

@@ -30,4 +30,8 @@ public interface IPerson {
      Integer getWeight();
 
      void setWeight(Integer weight);
+
+      Integer getWaitsForLiftNumber();
+
+      void setWaitsForLiftNumber(Integer waitsForLiftNumber);
 }

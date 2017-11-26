@@ -1,5 +1,10 @@
 package com.alegerd.view;
 
+import com.alegerd.ViewController;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Builds House in console out of JSON
  */
@@ -10,15 +15,71 @@ public class Renderer {
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(Integer[][] floorsToDraw){
+    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw){
+
+        Integer numberOfLifts = ViewController.getNumberOfLifts();
+        Integer numberOfSections = ViewController.getNumberOfSections();
+        Integer sectionSize = ViewController.getSizeOfSection();
+        Integer maxPeople = ViewController.getNumberOfPeopleInSection();
+
         if(floorsToDraw == null)
             throw new IllegalArgumentException("floors array is null");
         else {
             for(int row = floorsToDraw.length-1; row >= 0; row--){
-                System.out.println("=======================================");
-                for (Integer col :
-                        floorsToDraw[row]) {
-                    System.out.print(col + " ");
+
+                for(int section = 0; section < numberOfSections; section++) {
+
+                    Integer lift = null;
+
+                    for (String s :
+                            liftsToDraw[row]) {
+                        String[] line = s.split(":");
+                        Integer sect = Integer.parseInt(line[0]);
+                        if(sect == section) lift = Integer.parseInt(line[1]);
+                    }
+
+                    if(lift == null)
+                        System.out.print("   ");
+                    else
+                        System.out.print("---");
+
+                    for (int j = 0; j < sectionSize; j++) {
+                        System.out.print("=");
+                    }
+                }
+
+                System.out.println();
+
+                for(int section = 0; section < numberOfSections; section++) {
+
+                    Integer lift = null;
+
+                    for (String s :
+                            liftsToDraw[row]) {
+                        String[] line = s.split(":");
+                        Integer sect = Integer.parseInt(line[0]);
+                        if(sect == section) lift = Integer.parseInt(line[1]);
+                    }
+
+                    if(lift == null)
+                        System.out.print("   ");
+                    else
+                        System.out.print("|" + lift + "|");
+
+                        Integer peopleCount = 0;
+                        for (String col :
+                                floorsToDraw[row]) {
+                            String[] line = col.split(":");
+                            Integer sect = Integer.parseInt(line[0]);
+                            if(sect == section){
+                                peopleCount++;
+                                System.out.print(line[1]);
+                            }
+                        }
+                        Integer count = sectionSize - peopleCount;
+                        for (int i = 0; i < count; i++){
+                            System.out.print(" ");
+                        }
                 }
                 System.out.println();
             }
@@ -28,20 +89,20 @@ public class Renderer {
     /**
      * Prints floors array to the console
      */
-    public void outputData(Integer[][] floorsToDraw, Integer[][] liftsToDraw){
+    public void outputData(String[][] floorsToDraw, String[][] liftsToDraw){
         if(floorsToDraw == null || liftsToDraw == null)
             throw new IllegalArgumentException("argument is null");
         else {
             for (int row = 0; row < floorsToDraw.length; row++) {
                 System.out.print(row + " floor: ");
-                for (Integer col : floorsToDraw[row])
+                for (String col : floorsToDraw[row])
                     System.out.print(col.toString() + ", ");
                 System.out.println();
             }
 
             for (int row = 0; row < liftsToDraw.length; row++) {
                 System.out.print(row + " lift: ");
-                for (Integer col : liftsToDraw[row])
+                for (String col : liftsToDraw[row])
                     System.out.print(col.toString() + ", ");
                 System.out.println();
             }

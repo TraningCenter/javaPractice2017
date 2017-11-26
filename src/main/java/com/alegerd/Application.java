@@ -28,8 +28,8 @@ public class Application {
     private Parser parser;
     private Queue<ICommand> commandQueue;
 
-    private Integer[][] floorsToDraw;
-    private Integer[][] liftsToDraw;
+    private String[][] floorsToDraw;
+    private String[][] liftsToDraw;
 
     public Application(){
 
@@ -38,10 +38,21 @@ public class Application {
     public void start(){
         parser = new Parser();
         view = new Renderer();
-        model = parser.parseInputFile("src/main/resources/input");
-        floorsToDraw = makeDrawableModel();
-        liftsToDraw = makeDrawableLiftModel();
-        view.drawHouse(floorsToDraw);
+        try {
+            model = parser.parseInputFile("src/main/resources/input");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            floorsToDraw = makeDrawableModel();
+            liftsToDraw = makeDrawableLiftModel();
+        }
+        catch (NullPointerException e){
+            System.out.println(e.getMessage());
+        }
+        view.drawHouse(floorsToDraw, liftsToDraw);
         //view.outputData(floorsToDraw, liftsToDraw);
     }
 
@@ -50,30 +61,29 @@ public class Application {
      * out of model
      * @return array of floors and people
      */
-    private Integer[][] makeDrawableModel(){
-        Integer[][] floorsToDraw;
+    private String[][] makeDrawableModel(){
+        String[][] floorsToDraw;
 
         if(model == null)
             throw new NullPointerException("The model is null");
         else{
             Integer numberOfFloors = model.getNumberOfFloors();
-            floorsToDraw = new Integer[numberOfFloors][];
+            floorsToDraw = new String[numberOfFloors][];
 
             int i = 0;
             Iterator<IFloor> iter = model.floorIterator();
 
             while (iter.hasNext()){
                 IFloor next = iter.next();
-                floorsToDraw[i] = new Integer[next.getNumberOfPeople()];
+                floorsToDraw[i] = new String[next.getNumberOfPeople()];
 
                     int num = 0;
                     Iterator<IPerson> personIterator = next.getPersonIterator();
                     while (personIterator.hasNext()){
                         IPerson nextPerson = personIterator.next();
-                        floorsToDraw[i][num] = nextPerson.getDestinationFloor();
+                        floorsToDraw[i][num] = nextPerson.getWaitsForLiftNumber() + ":" + nextPerson.getDestinationFloor();
                         num++;
                     }
-
                 i++;
             }
         }
@@ -86,14 +96,14 @@ public class Application {
      * on them out of model
      * @return array of lift and people
      */
-    private Integer[][] makeDrawableLiftModel(){
-        Integer[][] liftsToDraw;
+    private String[][] makeDrawableLiftModel(){
+        String[][] liftsToDraw;
 
         if(model == null)
             throw new NullPointerException("The model is null");
         else{
             Integer modelNumberOfFloors = model.getNumberOfFloors();
-            liftsToDraw = new Integer[modelNumberOfFloors][];
+            liftsToDraw = new String[modelNumberOfFloors][];
 
             Iterator<ILift> iter = model.liftIterator();
 
@@ -109,9 +119,9 @@ public class Application {
 
             for (int i = 0; i < modelNumberOfFloors; i++){
                 Integer numberOfLifts = floorList.get(i).size();
-                liftsToDraw[i] = new Integer[numberOfLifts];
+                liftsToDraw[i] = new String[numberOfLifts];
                 for (int j = 0; j < numberOfLifts; j++){
-                    liftsToDraw[i][j] = floorList.get(i).get(j);
+                    liftsToDraw[i][j] = j + ":" + floorList.get(i).get(j);
                 }
             }
         }
