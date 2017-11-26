@@ -34,4 +34,5 @@ public interface IPerson {
       Integer getWaitsForLiftNumber();
 
       void setWaitsForLiftNumber(Integer waitsForLiftNumber);
+
 }

@@ -1,6 +1,7 @@
 package com.alegerd;
 
 import com.alegerd.commands.interfaces.ICommand;
+import com.alegerd.commands.interfaces.PersonCallsLiftCommand;
 import com.alegerd.model.Floor;
 import com.alegerd.model.House;
 import com.alegerd.model.Lift;
@@ -16,10 +17,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 import java.io.Console;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Application {
 
@@ -27,6 +25,7 @@ public class Application {
     private Renderer view;
     private Parser parser;
     private Queue<ICommand> commandQueue;
+    private List<IPerson> people;
 
     private String[][] floorsToDraw;
     private String[][] liftsToDraw;
@@ -38,20 +37,47 @@ public class Application {
     public void start(){
         parser = new Parser();
         view = new Renderer();
+        commandQueue = new LinkedList<>();
 
         try {
             model = parser.parseInputFile("src/main/resources/input");
+            people = getListOfPeople();
+            pushFirstCommands();
 
-            floorsToDraw = makeDrawableModel();
-            liftsToDraw = makeDrawableLiftModel();
-            view.drawHouse(floorsToDraw, liftsToDraw);
-            //view.outputData(floorsToDraw, liftsToDraw);
+            while (!commandQueue.isEmpty()){
+                ICommand command = commandQueue.poll();
+                command.execute();
+                updateView();
+                Thread.sleep(2000);
+                view.clear();
+            }
+            view.writeMessage("FIN.");
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Updates the view
+     */
+    public void updateView(){
+        try{
+            floorsToDraw = makeDrawableModel();
+            liftsToDraw = makeDrawableLiftModel();
+            view.drawHouse(floorsToDraw, liftsToDraw);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    /**
+     * Pushes new command ICommand to the command queue
+     * @param newCommand new command to push
+     */
+    public void addNewCommand(ICommand newCommand){
+        this.commandQueue.add(newCommand);
+    }
     /**
      * Creates twodimensional array of floors and people on them
      * out of model
@@ -123,6 +149,31 @@ public class Application {
         }
 
         return liftsToDraw;
+    }
+
+    private List<IPerson> getListOfPeople(){
+        if(model == null) throw new NullPointerException("Model is null");
+        else {
+            List<IPerson> people = new ArrayList<>();
+            Iterator<IFloor> iter = model.floorIterator();
+            while (iter.hasNext()) {
+                IFloor floor = iter.next();
+                Iterator<IPerson> personIterator = floor.getPersonIterator();
+                while (personIterator.hasNext()) {
+                    people.add(personIterator.next());
+                }
+            }
+
+            return people;
+        }
+    }
+
+    private void pushFirstCommands(){
+        for (IPerson person :
+                people) {
+            ICommand command = new PersonCallsLiftCommand(person);
+            commandQueue.add(command);
+        }
     }
 
     private void test(){

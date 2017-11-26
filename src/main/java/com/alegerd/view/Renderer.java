@@ -22,6 +22,7 @@ public class Renderer {
         Integer sectionSize = ViewController.getSizeOfSection();
         Integer maxPeople = ViewController.getNumberOfPeopleInSection();
 
+        System.out.flush();
         if(floorsToDraw == null)
             throw new IllegalArgumentException("floors array is null");
         else {
@@ -83,6 +84,16 @@ public class Renderer {
         }
     }
 
+    public void clear(){
+        Integer num = ViewController.getNumberOfFloors()*2 + 10;
+        for (int i = 0; i < num; i++){
+            System.out.println();
+        }
+    }
+
+    public void writeMessage(String message){
+        System.out.println(message);
+    }
     /**
      * Prints floors array to the console
      */

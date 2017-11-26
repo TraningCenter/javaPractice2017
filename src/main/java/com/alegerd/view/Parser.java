@@ -46,6 +46,9 @@ public class Parser {
 
             //заполнение списка этажей
             Integer amountOfFloors = Integer.parseInt(inputList[0].split(" ")[1]);
+
+            ViewController.setNumberOfFloors(amountOfFloors);
+
             for (int i = 0; i < amountOfFloors; i++){
                 Floor newFloor = new Floor(i+1);
                 floors.add(newFloor);

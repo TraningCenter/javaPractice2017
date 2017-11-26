@@ -9,6 +9,7 @@ public class ViewController {
     static Integer numberOfLifts;
     static Integer sizeOfSection;
     static Integer numberOfPeopleInSection;
+    static Integer numberOfFloors;
 
     /**
      *
@@ -60,6 +61,14 @@ public class ViewController {
 
     public static Integer getNumberOfSections(){
         return numberOfLifts;
+    }
+
+    public static Integer getNumberOfFloors() {
+        return numberOfFloors;
+    }
+
+    public static void setNumberOfFloors(Integer numberOfFloors) {
+        ViewController.numberOfFloors = numberOfFloors;
     }
 
     private static boolean checkNumberOfLifts(Integer num){
