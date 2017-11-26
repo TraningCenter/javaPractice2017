@@ -30,5 +30,9 @@ public interface IHouse {
 
      Iterator<IFloor> floorIterator();
 
-     void forEach(Consumer<? super IFloor> action);
+    Iterator<ILift> liftIterator();
+
+     void forEachFloor(Consumer<? super IFloor> action);
+
+    void forEachLift(Consumer<? super ILift> action);
 }

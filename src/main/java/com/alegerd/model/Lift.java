@@ -5,8 +5,10 @@ import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.function.Consumer;
 
 /**
  * Lift
@@ -22,8 +24,14 @@ public class Lift implements ILift{
     private List<IFloor> floors = new ArrayList<>();
     private PriorityQueue<IFloor> floorsQueue = new PriorityQueue<>();
 
+    public Lift(Integer number, Integer floorNumber){
+        this.number = number;
+        this.floorNumber = floorNumber;
+    }
+
     public Lift(Integer number){
         this.number = number;
+        this.floorNumber = 0;
     }
 
     @Override
@@ -68,10 +76,47 @@ public class Lift implements ILift{
 
     }
 
+    @Override
+    public Integer getNumberOfPeople() {
+        return peopleIn.size();
+    }
+
+    @Override
+    public Integer getFloorLiftOn() {
+        return floorNumber;
+    }
+
     /**
      * Invokes when person calls the lift from floor
      */
     public void callingButtonPushed(){
 
+    }
+
+    @Override
+    public Iterator<IPerson> getPeopleIterator() {
+        return new Iterator<IPerson>() {
+            int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < peopleIn.size();
+            }
+
+            @Override
+            public IPerson next() {
+                IPerson next = peopleIn.get(i);
+                i++;
+                return next;
+            }
+        };
+    }
+
+    @Override
+    public void forEachPerson(Consumer<? super IPerson> action) {
+        for (IPerson p :
+                peopleIn) {
+            action.accept(p);
+        }
     }
 }

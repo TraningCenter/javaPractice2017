@@ -90,9 +90,33 @@ public class House implements IHouse{
         };
     }
 
-    public void forEach(Consumer<? super IFloor> action) {
+    public void forEachFloor(Consumer<? super IFloor> action) {
         for (IFloor floor : floors){
             action.accept(floor);
+        }
+    }
+
+    public Iterator<ILift> liftIterator() {
+        return new Iterator<ILift>() {
+            int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < lifts.size();
+            }
+
+            @Override
+            public ILift next() {
+                ILift next = lifts.get(i);
+                i++;
+                return next;
+            }
+        };
+    }
+
+    public void forEachLift(Consumer<? super ILift> action) {
+        for (ILift lift : lifts){
+            action.accept(lift);
         }
     }
 

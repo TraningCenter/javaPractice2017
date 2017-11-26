@@ -3,6 +3,9 @@ package com.alegerd.model.interfaces;
 
 import com.alegerd.model.Floor;
 
+import java.util.Iterator;
+import java.util.function.Consumer;
+
 public interface ILift {
     public String toString();
 
@@ -28,8 +31,15 @@ public interface ILift {
      */
      void liftButtonPushed();
 
+     Integer getNumberOfPeople();
+
+     Integer getFloorLiftOn();
     /**
      * Invokes when person calls the lift from floor
      */
      void callingButtonPushed();
+
+     Iterator<IPerson> getPeopleIterator();
+
+     void forEachPerson(Consumer<? super IPerson> action);
 }

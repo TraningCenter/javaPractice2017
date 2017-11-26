@@ -7,6 +7,7 @@ import com.alegerd.model.Lift;
 import com.alegerd.model.Person;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IHouse;
+import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
 import com.alegerd.tests.FloorTest;
 import com.alegerd.view.Parser;
@@ -28,6 +29,7 @@ public class Application {
     private Queue<ICommand> commandQueue;
 
     private Integer[][] floorsToDraw;
+    private Integer[][] liftsToDraw;
 
     public Application(){
 
@@ -38,7 +40,9 @@ public class Application {
         view = new Renderer();
         model = parser.parseInputFile("src/main/resources/input");
         floorsToDraw = makeDrawableModel();
+        liftsToDraw = makeDrawableLiftModel();
         view.drawHouse(floorsToDraw);
+        //view.outputData(floorsToDraw, liftsToDraw);
     }
 
     /**
@@ -75,6 +79,44 @@ public class Application {
         }
 
         return floorsToDraw;
+    }
+
+    /**
+     * Creates twodimensional array of floors and number of people in lifts
+     * on them out of model
+     * @return array of lift and people
+     */
+    private Integer[][] makeDrawableLiftModel(){
+        Integer[][] liftsToDraw;
+
+        if(model == null)
+            throw new NullPointerException("The model is null");
+        else{
+            Integer modelNumberOfFloors = model.getNumberOfFloors();
+            liftsToDraw = new Integer[modelNumberOfFloors][];
+
+            Iterator<ILift> iter = model.liftIterator();
+
+            ArrayList<ArrayList<Integer>> floorList = new ArrayList<>(modelNumberOfFloors);
+            for(int i = 0; i < modelNumberOfFloors; i++){
+                floorList.add(i, new ArrayList<>());
+            }
+
+            while (iter.hasNext()){
+                ILift next = iter.next();
+                floorList.get(next.getFloorLiftOn()).add(next.getNumberOfPeople());
+            }
+
+            for (int i = 0; i < modelNumberOfFloors; i++){
+                Integer numberOfLifts = floorList.get(i).size();
+                liftsToDraw[i] = new Integer[numberOfLifts];
+                for (int j = 0; j < numberOfLifts; j++){
+                    liftsToDraw[i][j] = floorList.get(i).get(j);
+                }
+            }
+        }
+
+        return liftsToDraw;
     }
 
     private void test(){
