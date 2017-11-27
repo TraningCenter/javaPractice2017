@@ -1,5 +1,10 @@
 package com.alegerd.model.interfaces;
 
+import com.alegerd.model.buttons.IButton;
+import com.alegerd.model.buttons.ICallLiftButton;
+
+import java.util.List;
+
 public interface IPerson {
      String toString();
 
@@ -34,5 +39,9 @@ public interface IPerson {
       Integer getWaitsForLiftNumber();
 
       void setWaitsForLiftNumber(Integer waitsForLiftNumber);
+
+      void acceptLiftButtons(List<ICallLiftButton> buttons);
+
+      void acceptFloorButtons(List<IButton> buttons);
 
 }

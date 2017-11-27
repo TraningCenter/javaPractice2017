@@ -6,6 +6,8 @@ import com.alegerd.model.Floor;
 import com.alegerd.model.House;
 import com.alegerd.model.Lift;
 import com.alegerd.model.Person;
+import com.alegerd.model.buttons.CallLiftButton;
+import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IHouse;
 import com.alegerd.model.interfaces.ILift;
@@ -26,6 +28,8 @@ public class Application {
     private Parser parser;
     private Queue<ICommand> commandQueue;
     private List<IPerson> people;
+    private List<IFloor> floors;
+    private List<ILift> lifts;
 
     private String[][] floorsToDraw;
     private String[][] liftsToDraw;
@@ -41,7 +45,13 @@ public class Application {
 
         try {
             model = parser.parseInputFile("src/main/resources/input");
+
             people = getListOfPeople();
+            floors = getListOfFloors();
+            lifts = getListOfLifts();
+
+            injectLiftButtonsToFloors();
+            injectLiftButtonsToPeople();
             pushFirstCommands();
 
             while (!commandQueue.isEmpty()){
@@ -165,6 +175,51 @@ public class Application {
             }
 
             return people;
+        }
+    }
+
+    private List<ILift> getListOfLifts(){
+        if(model == null) throw new NullPointerException("Model is null");
+        else {
+            List<ILift> lifts = new ArrayList<>();
+            Iterator<ILift> iter = model.liftIterator();
+            while (iter.hasNext()) {
+                lifts.add(iter.next());
+            }
+
+            return lifts;
+        }
+    }
+
+    private List<IFloor> getListOfFloors(){
+        if(model == null) throw new NullPointerException("Model is null");
+        else {
+            List<IFloor> floors = new ArrayList<>();
+            Iterator<IFloor> iter = model.floorIterator();
+            while (iter.hasNext()) {
+                floors.add(iter.next());
+            }
+
+            return floors;
+        }
+    }
+
+    private void injectLiftButtonsToFloors(){
+
+        for (IFloor floor : floors) {
+            ArrayList<ICallLiftButton> buttons = new ArrayList<>();
+            for (ILift lift : lifts) {
+                ICallLiftButton button = new CallLiftButton(lift);
+                buttons.add(button);
+            }
+            floor.acceptLiftButtons(buttons);
+        }
+    }
+
+    private void injectLiftButtonsToPeople(){
+        for (IFloor floor :
+                floors) {
+            floor.injectLiftButtonsToPeople();
         }
     }
 

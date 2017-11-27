@@ -1,6 +1,7 @@
 package com.alegerd.model.interfaces;
 
 
+import com.alegerd.Direction;
 import com.alegerd.model.Floor;
 
 import java.util.Iterator;
@@ -37,7 +38,7 @@ public interface ILift {
     /**
      * Invokes when person calls the lift from floor
      */
-     void callingButtonPushed();
+     void callingButtonPushed(Direction direction);
 
      Iterator<IPerson> getPeopleIterator();
 

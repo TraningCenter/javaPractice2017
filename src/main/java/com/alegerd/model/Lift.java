@@ -1,5 +1,6 @@
 package com.alegerd.model;
 
+import com.alegerd.Direction;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
@@ -9,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.function.Consumer;
-
 /**
  * Lift
  */
@@ -89,7 +89,7 @@ public class Lift implements ILift{
     /**
      * Invokes when person calls the lift from floor
      */
-    public void callingButtonPushed(){
+    public void callingButtonPushed(Direction direction){
 
     }
 

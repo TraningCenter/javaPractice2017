@@ -1,6 +1,7 @@
 package com.alegerd.model;
 
 import com.alegerd.model.buttons.IButton;
+import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IPerson;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class Person implements IPerson{
         this.waitsForLiftNumber = waitsForLiftNumber;
     }
 
-    private List<IButton> buttonsToCallLift = new ArrayList<>();
+    private List<ICallLiftButton> buttonsToCallLift = new ArrayList<>();
     private List<IButton> buttonsInLift = new ArrayList<>();
 
     @Override
@@ -103,4 +104,16 @@ public class Person implements IPerson{
     public void setWaitsForLiftNumber(Integer waitsForLiftNumber) {
         this.waitsForLiftNumber = waitsForLiftNumber;
     }
+
+    @Override
+    public void acceptLiftButtons(List<ICallLiftButton> buttons) {
+        this.buttonsToCallLift = buttons;
+    }
+
+    @Override
+    public void acceptFloorButtons(List<IButton> buttons) {
+        this.buttonsInLift = buttons;
+    }
+
+
 }

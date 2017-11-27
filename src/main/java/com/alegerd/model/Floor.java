@@ -1,5 +1,6 @@
 package com.alegerd.model;
 
+import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IPerson;
 
@@ -15,6 +16,8 @@ public class Floor implements IFloor{
     private List<IPerson> peopleOn = new ArrayList<>();
     private List<IPerson> arrivedPeople = new LinkedList<>();
     private List<IPerson> waitingPeople = new ArrayList<>();
+
+    private List<ICallLiftButton> liftButtons = new ArrayList<>();
 
     public Floor(Integer number){
         this.number = number;
@@ -125,6 +128,19 @@ public class Floor implements IFloor{
         for (IPerson p :
                 peopleOn) {
             action.accept(p);
+        }
+    }
+
+    @Override
+    public void acceptLiftButtons(List<ICallLiftButton> buttons) {
+        this.liftButtons = buttons;
+    }
+
+    @Override
+    public void injectLiftButtonsToPeople() {
+        if(liftButtons == null) throw new NullPointerException("There no lift buttons on the floor");
+        for (IPerson person : peopleOn) {
+            person.acceptLiftButtons(liftButtons);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.alegerd.model.interfaces;
 
 import com.alegerd.model.Person;
+import com.alegerd.model.buttons.ICallLiftButton;
 
 import java.util.Iterator;
 import java.util.List;
@@ -37,4 +38,8 @@ public interface IFloor {
      Iterator<IPerson> getPersonIterator();
 
      void forEach(Consumer<? super IPerson> action);
+
+     void acceptLiftButtons(List<ICallLiftButton> buttons);
+
+     void injectLiftButtonsToPeople();
 }
