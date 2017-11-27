@@ -7,13 +7,15 @@ import com.alegerd.model.interfaces.ILift;
 public class CallLiftButton implements ICallLiftButton{
 
     ILift lift;
+    Integer floorNumber;
 
-    public CallLiftButton(ILift lift) {
+    public CallLiftButton(Integer floorNumber, ILift lift) {
+        this.floorNumber = floorNumber;
         this.lift = lift;
     }
 
     @Override
     public void push(Direction direction) {
-        lift.callingButtonPushed(direction);
+        lift.callingButtonPushed(floorNumber, direction);
     }
 }

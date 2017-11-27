@@ -89,8 +89,10 @@ public class Lift implements ILift{
     /**
      * Invokes when person calls the lift from floor
      */
-    public void callingButtonPushed(Direction direction){
-
+    public void callingButtonPushed(Integer floorNumber, Direction direction){
+        //System.out.print("Лифт " + number + " Вызов с этажа " + floorNumber);
+        //String s = direction.equals(Direction.UP) ? " вверх" : " вниз";
+        //System.out.println(s);
     }
 
     @Override

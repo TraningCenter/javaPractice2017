@@ -1,9 +1,11 @@
 package com.alegerd.model;
 
+import com.alegerd.Direction;
 import com.alegerd.model.buttons.IButton;
 import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IPerson;
 
+import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,9 @@ public class Person implements IPerson{
      * buttonsToCallLift and invokes method push() of it
      */
     public void callLift(){
+        Direction dir = floorNumber > destinationFloor? Direction.DOWN : Direction.UP;
 
+        buttonsToCallLift.get(waitsForLiftNumber).push(dir);
     }
 
     /**

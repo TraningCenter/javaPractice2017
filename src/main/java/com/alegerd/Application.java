@@ -209,7 +209,7 @@ public class Application {
         for (IFloor floor : floors) {
             ArrayList<ICallLiftButton> buttons = new ArrayList<>();
             for (ILift lift : lifts) {
-                ICallLiftButton button = new CallLiftButton(lift);
+                ICallLiftButton button = new CallLiftButton(floor.getNumber(), lift);
                 buttons.add(button);
             }
             floor.acceptLiftButtons(buttons);

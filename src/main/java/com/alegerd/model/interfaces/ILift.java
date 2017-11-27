@@ -38,7 +38,7 @@ public interface ILift {
     /**
      * Invokes when person calls the lift from floor
      */
-     void callingButtonPushed(Direction direction);
+     void callingButtonPushed(Integer floorNumber, Direction direction);
 
      Iterator<IPerson> getPeopleIterator();
 
