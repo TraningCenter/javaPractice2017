@@ -23,7 +23,7 @@ public class Lift implements ILift{
     private Integer maxFloor;
     private List<Integer> floorsToVisit = new ArrayList<>();
     private List<IPerson> peopleIn = new ArrayList<>();
-    private List<IFloor> floors = new ArrayList<>();
+    private List<IFloor> floors = new ArrayList<>();  //обязательно инициализировать
     private Integer targetFloor;
     private Queue<Integer> floorsQueue = new LinkedList<>();
 
@@ -32,9 +32,10 @@ public class Lift implements ILift{
         this.floorNumber = floorNumber;
     }
 
-    public Lift(Integer number){
+    public Lift(Integer number, List<IFloor> floors){
         this.number = number;
         this.floorNumber = 0;
+        this.floors = floors;
     }
 
     @Override
@@ -130,7 +131,7 @@ public class Lift implements ILift{
         //System.out.print("Лифт " + number + " Вызов с этажа " + floorNumber);
         //String s = direction.equals(Direction.UP) ? " вверх" : " вниз";
         //System.out.println(s);
-        floorsQueue.add(floorNumber - 1);
+        floorsQueue.add(floorNumber);
         CommandReceiver.addNewCommand(new LiftWereToGoCommand(this));
     }
 

@@ -70,7 +70,20 @@ public class Floor implements IFloor{
      * @return list with waiting people
      */
     public List<IPerson> getWaitingPeople(){
-        return waitingPeople;
+        List<IPerson> people = new ArrayList<>();
+        for (IPerson p :
+                waitingPeople) {
+            people.add(p);
+        }
+        removeWaitingPeople();
+        return people;
+    }
+
+    private void removeWaitingPeople(){
+        for (IPerson person : waitingPeople) {
+            peopleOn.remove(person);
+        }
+        waitingPeople.clear();
     }
 
     private void addArrivedPerson(IPerson newPerson){

@@ -70,7 +70,7 @@ public class Renderer {
                             if(sect == section){
                                 peopleCount++;
                                 if(peopleCount > maxPeople) throw new Exception("Too many people in one section");
-                                System.out.print(line[1]);
+                                System.out.print(Integer.parseInt(line[1]) + 1);
                             }
                         }
                         Integer count = sectionSize - peopleCount;

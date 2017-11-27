@@ -44,17 +44,16 @@ public class Parser {
             List<IFloor> floors = new ArrayList<>();
             List<ILift> lifts = new ArrayList<>();
 
+            Integer amountOfLifts = Integer.parseInt(inputList[0].split(" ")[1]);
             //заполнение списка этажей
-            Integer amountOfFloors = Integer.parseInt(inputList[0].split(" ")[1]);
+            Integer amountOfFloors = Integer.parseInt(inputList[1].split(" ")[1]);
 
             ViewController.setNumberOfFloors(amountOfFloors);
 
             for (int i = 0; i < amountOfFloors; i++){
-                Floor newFloor = new Floor(i+1);
+                Floor newFloor = new Floor(i);
                 floors.add(newFloor);
             }
-
-            Integer amountOfLifts = Integer.parseInt(inputList[1].split(" ")[1]);
 
             ViewController.setFloorLength(amountOfLifts * 12);
 
@@ -69,7 +68,7 @@ public class Parser {
             }
 
             for (int i = 0; i < amountOfLifts; i++){
-                Lift newLift = new Lift(i);
+                Lift newLift = new Lift(i, floors);
                 lifts.add(newLift);
             }
 
@@ -83,8 +82,8 @@ public class Parser {
 
                 Person newPerson = new Person(i,
                         Integer.parseInt(line[1]),
-                        Integer.parseInt(line[2]),
-                        Integer.parseInt(line[3]),
+                        Integer.parseInt(line[2]) - 1,
+                        Integer.parseInt(line[3]) - 1,
                         num);
 
                 addPersonToFloor(newPerson, floors);
