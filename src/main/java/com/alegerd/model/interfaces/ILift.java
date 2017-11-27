@@ -22,15 +22,21 @@ public interface ILift {
      */
      void addFloorToVisit(Integer floorNumber);
     /**
-     * Moves lift to next floor from priority queue
+     * Moves lift on floor
      */
-     void moveToNextFloor();
+     void moveOneFloor();
+
+     void thinkWhereToGo();
+
+     void arrived();
 
     /**
      * Invokes when person pushes a floor-number-button
      * in lift to choose the floor he wants to go to
      */
      void liftButtonPushed();
+
+     Integer getNumber();
 
      Integer getNumberOfPeople();
 

@@ -1,14 +1,15 @@
 package com.alegerd.model;
 
+import com.alegerd.CommandReceiver;
 import com.alegerd.Direction;
+import com.alegerd.commands.interfaces.LiftArrivedCommand;
+import com.alegerd.commands.interfaces.LiftWereToGoCommand;
+import com.alegerd.commands.interfaces.MoveLiftCommand;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.util.function.Consumer;
 /**
  * Lift
@@ -17,12 +18,14 @@ public class Lift implements ILift{
     public Integer number;
 
     private Integer floorNumber;
+    private Integer weight;
     private Integer maxWeight;
     private Integer maxFloor;
     private List<Integer> floorsToVisit = new ArrayList<>();
     private List<IPerson> peopleIn = new ArrayList<>();
     private List<IFloor> floors = new ArrayList<>();
-    private PriorityQueue<IFloor> floorsQueue = new PriorityQueue<>();
+    private Integer targetFloor;
+    private Queue<Integer> floorsQueue = new LinkedList<>();
 
     public Lift(Integer number, Integer floorNumber){
         this.number = number;
@@ -62,10 +65,44 @@ public class Lift implements ILift{
     }
 
     /**
-     * Moves lift to next floor from priority queue
+     * Executes when lift comes to the target floor
      */
-    public void moveToNextFloor(){
+    public void arrived(){
 
+        IFloor floor = floors.get(targetFloor);
+
+        List<IPerson> whoWantsToLeave = whoWantsToLeave(targetFloor);
+        floor.takePeople(whoWantsToLeave);
+        removeLeavedPeople(whoWantsToLeave);
+
+        List<IPerson> newPeople = floor.getWaitingPeople();
+        addNewPeople(newPeople);
+    }
+
+    /**
+     * Moves lift towards the next floor
+     */
+    public void moveOneFloor(){
+        if(floorNumber < targetFloor){
+            System.out.println(floorNumber);
+            floorNumber++;
+            CommandReceiver.addNewCommand(new LiftWereToGoCommand(this)); //едем вверх
+        }
+        else if(floorNumber > targetFloor){
+            System.out.println(floorNumber);
+            floorNumber--;
+            CommandReceiver.addNewCommand(new LiftWereToGoCommand(this)); //едем вниз
+        }
+        else CommandReceiver.addNewCommand(new LiftArrivedCommand(this)); //приехали
+    }
+
+    int i = 0;
+    public void thinkWhereToGo(){
+        if(i == 0) {
+            targetFloor = floorsQueue.poll();
+            i=1;
+        }
+        CommandReceiver.addNewCommand(new MoveLiftCommand(this));
     }
 
     /**
@@ -93,6 +130,8 @@ public class Lift implements ILift{
         //System.out.print("Лифт " + number + " Вызов с этажа " + floorNumber);
         //String s = direction.equals(Direction.UP) ? " вверх" : " вниз";
         //System.out.println(s);
+        floorsQueue.add(floorNumber - 1);
+        CommandReceiver.addNewCommand(new LiftWereToGoCommand(this));
     }
 
     @Override
@@ -120,5 +159,41 @@ public class Lift implements ILift{
                 peopleIn) {
             action.accept(p);
         }
+    }
+
+    private List<IPerson> whoWantsToLeave(Integer floorNumber){
+        List<IPerson> people = new ArrayList<>();
+        for (IPerson person :
+                peopleIn) {
+            if (person.getDestinationFloor() == floorNumber) {
+                people.add(person);
+            }
+        }
+
+        return people;
+    }
+
+    private void removeLeavedPeople(List<IPerson> leaved){
+        for (IPerson person : leaved) {
+            peopleIn.remove(person);
+        }
+    }
+
+    private void addNewPeople(List<IPerson> newPeople){
+        for (IPerson person : newPeople) {
+            if(checkWeight(person.getWeight())){
+                peopleIn.add(person);
+                person.chooseDestinationFloor();
+            }
+        }
+    }
+
+    private boolean checkWeight(Integer weight){
+        //реализовать систему веса
+        return true;
+    }
+
+    public Integer getNumber() {
+        return number;
     }
 }

@@ -18,6 +18,7 @@ public class PersonCallsLiftCommand implements IPersonCommand{
 
     @Override
     public void execute() {
+        System.out.println("человек вызывает лифт");
         person.callLift();
     }
 }

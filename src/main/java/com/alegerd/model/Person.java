@@ -63,7 +63,7 @@ public class Person implements IPerson{
 
     /**
      * Chooses floor button from buttonsInLift
-     * It depends on the floor he wants to go to.
+     * It depends on the floor they wants to go to.
      */
     public void chooseDestinationFloor(){
 
@@ -118,6 +118,4 @@ public class Person implements IPerson{
     public void acceptFloorButtons(List<IButton> buttons) {
         this.buttonsInLift = buttons;
     }
-
-
 }

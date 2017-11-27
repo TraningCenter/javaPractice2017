@@ -2,10 +2,6 @@ package com.alegerd;
 
 import com.alegerd.commands.interfaces.ICommand;
 import com.alegerd.commands.interfaces.PersonCallsLiftCommand;
-import com.alegerd.model.Floor;
-import com.alegerd.model.House;
-import com.alegerd.model.Lift;
-import com.alegerd.model.Person;
 import com.alegerd.model.buttons.CallLiftButton;
 import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IFloor;
@@ -18,7 +14,6 @@ import com.alegerd.view.Renderer;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
-import java.io.Console;
 import java.util.*;
 
 public class Application {
@@ -52,13 +47,14 @@ public class Application {
 
             injectLiftButtonsToFloors();
             injectLiftButtonsToPeople();
+            createCommandReceiver();
             pushFirstCommands();
 
             while (!commandQueue.isEmpty()){
                 ICommand command = commandQueue.poll();
                 command.execute();
                 updateView();
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 view.clear();
             }
             view.writeMessage("FIN.");
@@ -139,21 +135,22 @@ public class Application {
 
             Iterator<ILift> iter = model.liftIterator();
 
-            ArrayList<ArrayList<Integer>> floorList = new ArrayList<>(modelNumberOfFloors);
+            ArrayList<ArrayList<ILift>> floorList = new ArrayList<>(modelNumberOfFloors);
             for(int i = 0; i < modelNumberOfFloors; i++){
                 floorList.add(i, new ArrayList<>());
             }
 
             while (iter.hasNext()){
                 ILift next = iter.next();
-                floorList.get(next.getFloorLiftOn()).add(next.getNumberOfPeople());
+                floorList.get(next.getFloorLiftOn()).add(next);
             }
 
             for (int i = 0; i < modelNumberOfFloors; i++){
                 Integer numberOfLifts = floorList.get(i).size();
                 liftsToDraw[i] = new String[numberOfLifts];
                 for (int j = 0; j < numberOfLifts; j++){
-                    liftsToDraw[i][j] = j + ":" + floorList.get(i).get(j);
+                    liftsToDraw[i][j] = floorList.get(i).get(j).getNumber() + ":"
+                            + floorList.get(i).get(j).getNumberOfPeople();
                 }
             }
         }
@@ -229,6 +226,10 @@ public class Application {
             ICommand command = new PersonCallsLiftCommand(person);
             commandQueue.add(command);
         }
+    }
+
+    private void createCommandReceiver(){
+        CommandReceiver.addModel(this);
     }
 
     private void test(){

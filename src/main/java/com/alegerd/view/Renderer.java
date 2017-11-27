@@ -22,7 +22,6 @@ public class Renderer {
         Integer sectionSize = ViewController.getSizeOfSection();
         Integer maxPeople = ViewController.getNumberOfPeopleInSection();
 
-        System.out.flush();
         if(floorsToDraw == null)
             throw new IllegalArgumentException("floors array is null");
         else {
