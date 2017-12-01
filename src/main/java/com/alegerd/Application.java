@@ -54,7 +54,7 @@ public class Application {
                 ICommand command = commandQueue.poll();
                 command.execute();
                 updateView();
-                Thread.sleep(500);
+                Thread.sleep(2000);
                 view.clear();
             }
             view.writeMessage("FIN.");

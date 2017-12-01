@@ -2,6 +2,7 @@ package com.alegerd.model.interfaces;
 
 import com.alegerd.model.buttons.IButton;
 import com.alegerd.model.buttons.ICallLiftButton;
+import com.alegerd.model.buttons.LiftButton;
 
 import java.util.List;
 
@@ -42,6 +43,6 @@ public interface IPerson {
 
       void acceptLiftButtons(List<ICallLiftButton> buttons);
 
-      void acceptFloorButtons(List<IButton> buttons);
+      void acceptFloorButtons(List<LiftButton> buttons);
 
 }

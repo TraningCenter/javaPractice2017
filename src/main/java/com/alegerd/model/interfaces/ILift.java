@@ -34,7 +34,7 @@ public interface ILift {
      * Invokes when person pushes a floor-number-button
      * in lift to choose the floor he wants to go to
      */
-     void liftButtonPushed();
+     void liftButtonPushed(Integer floor);
 
      Integer getNumber();
 

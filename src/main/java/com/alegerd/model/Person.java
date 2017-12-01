@@ -3,6 +3,7 @@ package com.alegerd.model;
 import com.alegerd.Direction;
 import com.alegerd.model.buttons.IButton;
 import com.alegerd.model.buttons.ICallLiftButton;
+import com.alegerd.model.buttons.LiftButton;
 import com.alegerd.model.interfaces.IPerson;
 
 import javax.print.attribute.standard.Destination;
@@ -44,7 +45,7 @@ public class Person implements IPerson{
     }
 
     private List<ICallLiftButton> buttonsToCallLift = new ArrayList<>();
-    private List<IButton> buttonsInLift = new ArrayList<>();
+    private List<LiftButton> buttonsInLift = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -66,7 +67,13 @@ public class Person implements IPerson{
      * It depends on the floor they wants to go to.
      */
     public void chooseDestinationFloor(){
-
+        for (IButton button:
+             buttonsInLift) {
+            if(button.getFloorNumber().equals(destinationFloor)){
+                button.push();
+                return;
+            }
+        }
     }
 
     public Integer getId() {
@@ -115,7 +122,7 @@ public class Person implements IPerson{
     }
 
     @Override
-    public void acceptFloorButtons(List<IButton> buttons) {
+    public void acceptFloorButtons(List<LiftButton> buttons) {
         this.buttonsInLift = buttons;
     }
 }
