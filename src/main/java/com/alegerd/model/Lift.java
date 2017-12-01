@@ -395,12 +395,52 @@ public class Lift implements ILift{
         }
         for (FloorDTO dto :
                 fromFloors) {
-            if((dto.getNumber() == number) && (dto.getDir() == currentDirection)){
-                arrived();
-                return;
+            if(dto.getNumber() == number){
+                if(dto.getDir() == currentDirection) {
+                    arrived();
+                    return;
+                }
+                else if(changeDirection(currentDirection)){
+                    arrived();
+                    return;
+                }
             }
         }
 
+    }
+
+    private boolean changeDirection(Direction direction){
+        if(currentDirection == Direction.UP) {
+            for (Integer floor : fromLift) {
+                if (floor > getFloorLiftOn()) {
+                    return false;
+                }
+            }
+
+            for (FloorDTO floor : fromFloors) {
+                if (floor.getNumber() > getFloorLiftOn()) {
+                    return false;
+                }
+            }
+            currentDirection = Direction.DOWN;
+            return true;
+        }
+        if(currentDirection == Direction.DOWN) {
+            for (Integer floor : fromLift) {
+                if (floor < getFloorLiftOn()) {
+                    return false;
+                }
+            }
+
+            for (FloorDTO floor : fromFloors) {
+                if (floor.getNumber() < getFloorLiftOn()) {
+                    return false;
+                }
+            }
+            currentDirection = Direction.UP;
+            return true;
+        }
+        return false;
     }
 
     public Integer getNumber() {
