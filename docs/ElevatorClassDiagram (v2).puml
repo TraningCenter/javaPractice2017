@@ -3,21 +3,21 @@ ApplicationManager *-up- Building
 ApplicationManager *-right- BuildingVisualizer
 ApplicationManager *-left- CommandManager
 
-Building "1" *-up- "N" Floor
+Building "1" *-up- "N" logic.Floor
 Building "1" *-up- "N" Shaft
 Shaft *-left- IElevator
-Shaft "1" o-right- "N" Floor
-Floor "1" o-right- "N" IPassenger
-Floor <|-up- IFloorButton
+Shaft "1" o-right- "N" logic.Floor
+logic.Floor "1" o-right- "N" IPassenger
+logic.Floor <|-up- logic.interfaces.buttons.IFloorButton
 IElevator "1" o-right- "N" IPassenger
-IElevator "1" o-- "N" Floor
+IElevator "1" o-- "N" logic.Floor
 IElevator .right.> State
 IPassenger .up.> State
 IPassenger <|-down- Passenger
 IElevator <|-left- Elevator
-IButton <|-- IFloorButton
-IButton <|-down- IElevatorButton
-IElevator <|-up- IElevatorButton
+logic.interfaces.buttons.IButton <|-- logic.interfaces.buttons.IFloorButton
+logic.interfaces.buttons.IButton <|-down- logic.interfaces.buttons.IElevatorButton
+IElevator <|-up- logic.interfaces.buttons.IElevatorButton
 
 BuildingVisualizer .right.> VisualizerConfig
 BuildingVisualizer "1" *-- "N" ElevatorPicture
@@ -62,7 +62,7 @@ Class Passenger {
 }
 
 
-Class Floor {
+Class logic.Floor {
 - id
 - listOfPassengers
 + int getId()
@@ -76,7 +76,7 @@ Class Floor {
 Class Building {
 - listOfShafts
 - listOfFloors
-+ void addFloor(Floor floor)
++ void addFloor(logic.Floor floor)
 + void addShaft(Shaft shaft)
 }
 
@@ -91,7 +91,7 @@ Interface IElevator {
 + void deleteFloorFromQueue(IFloor floor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(Floor floor)
++ void goToFloor(logic.Floor floor)
 }
 
 Class Elevator {
@@ -113,27 +113,27 @@ Class Elevator {
 + void deleteFloorFromQueue(IFloor floor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(Floor floor)
++ void goToFloor(logic.Floor floor)
 }
 
 class Shaft{
 - id
 - elevator
 - listOfFloors
-+ void setFloors(List<Floor> floors)
++ void setFloors(List<logic.Floor> floors)
 + void setElevator(IElevator elevator) 
 }
 
-interface IButton {
+interface logic.interfaces.buttons.IButton {
 }
 
-interface IFloorButton {
+interface logic.interfaces.buttons.IFloorButton {
 + void callElevatorToDown()
 + void callElevatorToUp()
 }
 
-interface IElevatorButton {
-+ void goToFloor(Floor floor)
+interface logic.interfaces.buttons.IElevatorButton {
++ void goToFloor(logic.Floor floor)
 }
 
 Class ApplicationManager {
