@@ -4,12 +4,20 @@ package com.netcracker.unc.logic;
 import com.netcracker.unc.logic.interfaces.IPassenger;
 
 public class Passenger implements IPassenger {
-    private int startFloor;
-    private int destinationFloor;
+    private Floor startFloor;
+    private Floor destinationFloor;
     private int weight;
-    private double probabilityOfChoice;
+    private int probabilityOfChoice;
 
-    public Passenger(int startFloor, int destinationFloor, int weight, double probabilityOfChoice) {
+    public Passenger() {
+    }
+
+    public Passenger(Floor startFloor, Floor destinationFloor) {
+        this.startFloor = startFloor;
+        this.destinationFloor = destinationFloor;
+    }
+
+    public Passenger(Floor startFloor, Floor destinationFloor, int weight, int probabilityOfChoice) {
         this.startFloor = startFloor;
         this.destinationFloor = destinationFloor;
         this.weight = weight;
@@ -17,22 +25,23 @@ public class Passenger implements IPassenger {
     }
 
     public State getDirection() {
-        return (startFloor - destinationFloor) > 0 ? State.DOWN : State.UP;
+        return (startFloor.getId() - destinationFloor.getId()) > 0 ? State.DOWN : State.UP;
     }
 
-    public int getStartFloor() {
+    public Floor getStartFloor() {
         return startFloor;
     }
 
-    public void setStartFloor(int startFloor) {
+    public void setStartFloor(Floor startFloor) {
         this.startFloor = startFloor;
+        //startFloor.addPassenger(this);
     }
 
-    public int getDestinationFloor() {
+    public Floor getDestinationFloor() {
         return destinationFloor;
     }
 
-    public void setDestinationFloor(int destinationFloor) {
+    public void setDestinationFloor(Floor destinationFloor) {
         this.destinationFloor = destinationFloor;
     }
 
@@ -44,12 +53,11 @@ public class Passenger implements IPassenger {
         this.weight = weight;
     }
 
-    public double getProbabilityOfChoice() {
+    public int getProbabilityOfChoice() {
         return probabilityOfChoice;
     }
 
-    public void setProbabilityOfChoice(double probabilityOfChoice) {
+    public void setProbabilityOfChoice(int probabilityOfChoice) {
         this.probabilityOfChoice = probabilityOfChoice;
     }
-
 }

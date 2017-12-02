@@ -16,6 +16,14 @@ public class Elevator implements IElevator {
     private int capacity;
     private int remainingCapacity;
 
+    public Elevator(int id) {
+        this.id = id;
+        state = State.STOPPED;
+        availableFloors = new ArrayList<Floor>();
+        passengers = new ArrayList<IPassenger>();
+        floorsToVisit = new LinkedList<Floor>();
+    }
+
     public Elevator(int id, Floor currentFloor, List<Floor> availableFloors, int capacity) {
         this.id = id;
         this.state = State.STOPPED;
@@ -23,10 +31,9 @@ public class Elevator implements IElevator {
         this.availableFloors = availableFloors;
         this.passengers = new ArrayList<IPassenger>();
         this.floorsToVisit = new LinkedList<Floor>();
-        this.capacity = capacity;
-        this.remainingCapacity = capacity;
+        this.capacity = remainingCapacity = capacity;
     }
-    
+
     public List<IPassenger> getPassengers() {
         return passengers;
     }
@@ -49,8 +56,12 @@ public class Elevator implements IElevator {
         return availableFloors;
     }
 
-    public void setAvailableFloor(List<Floor> floors) {
+    public void setAvailableFloors(List<Floor> floors) {
         availableFloors = floors;
+    }
+
+    public void addAvailableFloor(Floor floor) {
+        availableFloors.add(floor);
     }
 
     public void addFloorInQueue(Floor floor) {
@@ -131,10 +142,6 @@ public class Elevator implements IElevator {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public State getState() {
         return state;
     }
@@ -144,14 +151,10 @@ public class Elevator implements IElevator {
     }
 
     public boolean setCurrentFloor(Floor currentFloor) {
-        if (availableFloors.contains(currentFloor))
+        if (!availableFloors.contains(currentFloor))
             return false;
         this.currentFloor = currentFloor;
         return true;
-    }
-
-    public void setAvailableFloors(List<Floor> availableFloors) {
-        this.availableFloors = availableFloors;
     }
 
     public boolean setPassengers(List<IPassenger> passengers) {
@@ -176,7 +179,7 @@ public class Elevator implements IElevator {
     }
 
     public void setCapacity(int capacity) {
-        this.capacity = capacity;
+        this.capacity = remainingCapacity = capacity;
     }
 
     public int getRemainingCapacity() {

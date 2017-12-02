@@ -23,10 +23,6 @@ public class Floor implements Comparable<Floor> {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<IPassenger> passengers() {
         return passengers;
     }
