@@ -9,7 +9,7 @@ import java.util.List;
 public interface IElevator {
     List<IPassenger> getPassengers();
 
-    void addPassenger(IPassenger passenger);
+    boolean addPassenger(IPassenger passenger);
 
     void deletePassenger(IPassenger passenger);
 
@@ -21,9 +21,7 @@ public interface IElevator {
 
     Floor getNextDestinationFloor();
 
-    void deleteFloorFromQueue(Floor floor);
-
-    void countRemainingCapacity(int currentWeight);
+    void deleteFloorFromQueue();
 
     void setState(State state);
 

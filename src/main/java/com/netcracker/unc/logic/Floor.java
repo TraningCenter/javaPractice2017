@@ -55,4 +55,21 @@ public class Floor implements Comparable<Floor> {
     public int compareTo(Floor floor) {
         return id - floor.id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Floor floor = (Floor) o;
+
+        return id == floor.id && passengers.equals(floor.passengers);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + passengers.hashCode();
+        return result;
+    }
 }

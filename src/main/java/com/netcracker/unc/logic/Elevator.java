@@ -26,26 +26,23 @@ public class Elevator implements IElevator {
         this.capacity = capacity;
         this.remainingCapacity = capacity;
     }
-
-
+    
     public List<IPassenger> getPassengers() {
         return passengers;
     }
 
-    public void addPassenger(IPassenger passenger) {
-        passengers.add(passenger);
-    }
-
-    public void addPassengers(List<IPassenger> passengers) {
-        this.passengers.addAll(passengers);
+    public boolean addPassenger(IPassenger passenger) {
+        if (remainingCapacity - passenger.getWeight() > 0) {
+            passengers.add(passenger);
+            remainingCapacity -= passenger.getWeight();
+            return true;
+        }
+        return false;
     }
 
     public void deletePassenger(IPassenger passenger) {
         passengers.remove(passenger);
-    }
-
-    public void deletePassengers(List<IPassenger> passengers) {
-        this.passengers.removeAll(passengers);
+        remainingCapacity += passenger.getWeight();
     }
 
     public List<Floor> getAvailableFloors() {
@@ -60,44 +57,70 @@ public class Elevator implements IElevator {
         int n = floorsToVisit.size();
         if (floorsToVisit.contains(floor))
             return;
-        if (state == State.UP) {
-            for (int i = 0; i < n; i++) {
-                //если этаж выше текущего
-                if (currentFloor.compareTo(floor) < 0) {
-                    // и добавляемый этаж ниже того что в списке
-                    if (floor.compareTo(floorsToVisit.get(i)) < 0) {
-                        floorsToVisit.add(i, floor);
-                        return;
-                    }
-                    // перешли к этажам в обратном направлении
-                    if (floorsToVisit.get(i).compareTo(currentFloor) < 0) {
-                        floorsToVisit.add(i, floor);
-                        return;
-                    }
+        switch (state) {
+            case UP:
+                // по всем этажам в списке посещений
+                for (int i = 0; i < n; i++) {
+                    // если этаж выше текущего
+                    if (currentFloor.compareTo(floor) < 0) {
+                        // и добавляемый этаж ниже того что в списке
+                        if (floor.compareTo(floorsToVisit.get(i)) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
+                        // перешли к этажам в обратном направлении
+                        if (floorsToVisit.get(i).compareTo(currentFloor) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
 
-                } else
-                    //если этаж ниже текущего и добавляемый этаж выше того что в списке
-                    if (floorsToVisit.get(i).compareTo(floor) < 0) {
-                        floorsToVisit.add(i, floor);
-                        return;
-                    }
-            }
-            floorsToVisit.add(floor);
+                    } else
+                        // если этаж ниже текущего и добавляемый этаж выше того что в списке
+                        if (floorsToVisit.get(i).compareTo(floor) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
+                }
+                floorsToVisit.add(floor);
+                break;
+            case DOWN:
+                // по всем этажам в списке посещений
+                for (int i = 0; i < n; i++) {
+                    //если текущий этаж выше
+                    if (floor.compareTo(currentFloor) < 0) {
+                        // и добавляемый этаж выше того что в списке
+                        if (floorsToVisit.get(i).compareTo(floor) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
+                        // перешли к этажам в обратном направлении
+                        if (currentFloor.compareTo(floorsToVisit.get(i)) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
 
+                    } else
+                        //если этаж выше текущего и добавляемый этаж ниже того что в списке
+                        if (floor.compareTo(floorsToVisit.get(i)) < 0) {
+                            floorsToVisit.add(i, floor);
+                            return;
+                        }
+                }
+                floorsToVisit.add(floor);
+                break;
+            case STOPPED:
+                floorsToVisit.add(floor);
+                state = (floor.compareTo(currentFloor) < 0) ? State.DOWN : State.UP;
+                break;
         }
-
     }
 
     public Floor getNextDestinationFloor() {
-        return null;
+        return floorsToVisit.get(0);
     }
 
-    public void deleteFloorFromQueue(Floor floor) {
-
-    }
-
-    public void countRemainingCapacity(int currentWeight) {
-
+    public void deleteFloorFromQueue() {
+        floorsToVisit.remove(0);
     }
 
     public void setState(State state) {
@@ -120,24 +143,32 @@ public class Elevator implements IElevator {
         return currentFloor;
     }
 
-    public void setCurrentFloor(Floor currentFloor) {
+    public boolean setCurrentFloor(Floor currentFloor) {
+        if (availableFloors.contains(currentFloor))
+            return false;
         this.currentFloor = currentFloor;
+        return true;
     }
 
     public void setAvailableFloors(List<Floor> availableFloors) {
         this.availableFloors = availableFloors;
     }
 
-    public void setPassengers(List<IPassenger> passengers) {
+    public boolean setPassengers(List<IPassenger> passengers) {
+        int cap = remainingCapacity;
+        for (IPassenger passenger : passengers) {
+            remainingCapacity -= passenger.getWeight();
+        }
+        if (remainingCapacity < 0) {
+            remainingCapacity = cap;
+            return false;
+        }
         this.passengers = passengers;
+        return true;
     }
 
     public List<Floor> getFloorsToVisit() {
         return floorsToVisit;
-    }
-
-    public void setFloorsToVisit(List<Floor> floorsToVisit) {
-        this.floorsToVisit = floorsToVisit;
     }
 
     public int getCapacity() {

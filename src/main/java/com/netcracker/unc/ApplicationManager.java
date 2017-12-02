@@ -24,6 +24,21 @@ public class ApplicationManager {
         elevator.addFloorInQueue(new Floor(8));
         elevator.addFloorInQueue(new Floor(5));
         System.out.println(elevator.getFloorsToVisit().toString());
+        Elevator elevator2 = new Elevator(2, new Floor(5), new ArrayList<Floor>(), 10);
+        elevator2.setState(State.DOWN);
+        elevator2.addFloorInQueue(new Floor(4));
+        elevator2.addFloorInQueue(new Floor(8));
+        elevator2.addFloorInQueue(new Floor(2));
+        elevator2.addFloorInQueue(new Floor(7));
+
+        Elevator elevator3 = new Elevator(3, new Floor(5), new ArrayList<Floor>(), 10);
+        elevator3.setState(State.STOPPED);
+        elevator3.addFloorInQueue(new Floor(7));
+        elevator3.addFloorInQueue(new Floor(1));
+        elevator3.addFloorInQueue(new Floor(6));
+        elevator3.addFloorInQueue(new Floor(8));
+        System.out.println(elevator.getFloorsToVisit().toString());
+        elevator3.deleteFloorFromQueue();
         //System.out.println(countFloors);
         //System.out.println(countElevators);
     }
