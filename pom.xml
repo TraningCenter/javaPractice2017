@@ -44,7 +44,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.alegerd.Main</mainClass>
+                            <mainClass>com.alegerd.mainData.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

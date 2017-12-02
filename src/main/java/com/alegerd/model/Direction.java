@@ -1,4 +1,4 @@
-package com.alegerd;
+package com.alegerd.model;
 
 public enum Direction {
     UP,

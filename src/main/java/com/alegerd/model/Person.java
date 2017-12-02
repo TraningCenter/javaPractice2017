@@ -1,12 +1,10 @@
 package com.alegerd.model;
 
-import com.alegerd.Direction;
 import com.alegerd.model.buttons.IButton;
 import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.buttons.LiftButton;
 import com.alegerd.model.interfaces.IPerson;
 
-import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,51 +74,99 @@ public class Person implements IPerson{
         }
     }
 
+    /**
+     *
+     * @return Person's id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id Person's id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return number of the floor person id on
+     */
     public Integer getFloorNumber() {
         return floorNumber;
     }
 
+    /**
+     *
+     * @param floorNumber number of the floor person id on
+     */
     public void setFloorNumber(Integer floorNumber) {
         this.floorNumber = floorNumber;
     }
 
+    /**
+     *
+     * @return what floor person wants to go
+     */
     public Integer getDestinationFloor() {
         return destinationFloor;
     }
 
+    /**
+     *
+     * @param destinationFloor what floor person wants to go
+     */
     public void setDestinationFloor(Integer destinationFloor) {
         this.destinationFloor = destinationFloor;
     }
 
+    /**
+     *
+     * @return Person's weight
+     */
     public Integer getWeight() {
         return weight;
     }
 
+    /**
+     *
+     * @param weight Person's weight
+     */
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
+    /**
+     *
+     * @return what lift person is waiting for
+     */
     public Integer getWaitsForLiftNumber() {
         return waitsForLiftNumber;
     }
 
+    /**
+     *
+     * @param waitsForLiftNumber what lift person is waiting for
+     */
     public void setWaitsForLiftNumber(Integer waitsForLiftNumber) {
         this.waitsForLiftNumber = waitsForLiftNumber;
     }
 
+    /**
+     *
+     * @param buttons Person accepts buttons on floor
+     */
     @Override
     public void acceptLiftButtons(List<ICallLiftButton> buttons) {
         this.buttonsToCallLift = buttons;
     }
 
+    /**
+     *
+     * @param buttons Person accepts buttons in lift
+     */
     @Override
     public void acceptFloorButtons(List<LiftButton> buttons) {
         this.buttonsInLift = buttons;

@@ -1,6 +1,6 @@
 package com.alegerd.view;
 
-import com.alegerd.ViewController;
+import com.alegerd.mainData.ViewController;
 import com.alegerd.model.Floor;
 import com.alegerd.model.House;
 import com.alegerd.model.Lift;
@@ -10,10 +10,8 @@ import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +58,7 @@ public class Parser {
             List<ILift> lifts = new ArrayList<>();
 
             Integer amountOfLifts = Integer.parseInt(inputList[0].split(" ")[1]);
+            Integer liftMaxWaight = Integer.parseInt(inputList[0].split(" ")[2]);
             //заполнение списка этажей
             Integer amountOfFloors = Integer.parseInt(inputList[1].split(" ")[1]);
 
@@ -83,7 +82,7 @@ public class Parser {
             }
 
             for (int i = 0; i < amountOfLifts; i++){
-                Lift newLift = new Lift(i, floors);
+                Lift newLift = new Lift(i, floors, liftMaxWaight);
                 lifts.add(newLift);
             }
 

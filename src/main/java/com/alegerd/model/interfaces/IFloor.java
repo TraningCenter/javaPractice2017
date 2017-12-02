@@ -1,5 +1,6 @@
 package com.alegerd.model.interfaces;
 
+import com.alegerd.exceptions.LiftWeightException;
 import com.alegerd.model.Person;
 import com.alegerd.model.buttons.ICallLiftButton;
 
@@ -42,4 +43,8 @@ public interface IFloor {
      void acceptLiftButtons(List<ICallLiftButton> buttons);
 
      void injectLiftButtonsToPeople();
+
+     Integer howManyPeopleWaiting();
+
+     IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws LiftWeightException;
 }

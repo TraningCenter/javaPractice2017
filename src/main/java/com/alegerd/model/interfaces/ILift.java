@@ -1,8 +1,7 @@
 package com.alegerd.model.interfaces;
 
 
-import com.alegerd.Direction;
-import com.alegerd.model.Floor;
+import com.alegerd.model.Direction;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
@@ -16,11 +15,6 @@ public interface ILift {
      */
      void takePeopleFromFloor(IFloor floor);
 
-    /**
-     * Adds new floor number to priority queue
-     * @param floorNumber new floor number
-     */
-     void addFloorToVisit(Integer floorNumber);
     /**
      * Moves lift on floor
      */

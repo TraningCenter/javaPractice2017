@@ -47,6 +47,7 @@ public class House implements IHouse{
             floors.add(newFloor);
         }
     }
+
     /**
      * Adds new Lift to the House
      * @param newLift adding floor
@@ -59,6 +60,10 @@ public class House implements IHouse{
         }
     }
 
+    /**
+     *
+     * @return String information about class
+     */
     @Override
     public String toString(){
         String result = "House \n Number of floors " + getNumberOfFloors() + "\n";
@@ -72,6 +77,10 @@ public class House implements IHouse{
         return result;
     }
 
+    /**
+     *
+     * @return Iterator for floors in the house
+     */
     public Iterator<IFloor> floorIterator() {
         return new Iterator<IFloor>() {
             int i = 0;
@@ -90,12 +99,20 @@ public class House implements IHouse{
         };
     }
 
+    /**
+     *
+     * @param action What to do for all floors in the house
+     */
     public void forEachFloor(Consumer<? super IFloor> action) {
         for (IFloor floor : floors){
             action.accept(floor);
         }
     }
 
+    /**
+     *
+     * @return Iterator for all lifts in the house
+     */
     public Iterator<ILift> liftIterator() {
         return new Iterator<ILift>() {
             int i = 0;
@@ -114,6 +131,10 @@ public class House implements IHouse{
         };
     }
 
+    /**
+     *
+     * @param action What to do for all lifts in the house
+     */
     public void forEachLift(Consumer<? super ILift> action) {
         for (ILift lift : lifts){
             action.accept(lift);

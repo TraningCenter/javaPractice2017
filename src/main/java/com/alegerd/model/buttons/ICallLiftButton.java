@@ -1,6 +1,6 @@
 package com.alegerd.model.buttons;
 
-import com.alegerd.Direction;
+import com.alegerd.model.Direction;
 
 public interface ICallLiftButton {
 

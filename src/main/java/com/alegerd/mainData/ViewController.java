@@ -1,4 +1,4 @@
-package com.alegerd;
+package com.alegerd.mainData;
 
 public class ViewController {
 
@@ -55,18 +55,26 @@ public class ViewController {
         return numberOfPeopleInSection;
     }
 
-    public static Integer getSizeOfSection() {
-        return sizeOfSection;
-    }
-
+    /**
+     *
+     * @return How many sections on this floor
+     */
     public static Integer getNumberOfSections(){
         return numberOfLifts;
     }
 
+    /**
+     *
+     * @return How many floors in this house
+     */
     public static Integer getNumberOfFloors() {
         return numberOfFloors;
     }
 
+    /**
+     *
+     * @param numberOfFloors Number of floors in house
+     */
     public static void setNumberOfFloors(Integer numberOfFloors) {
         ViewController.numberOfFloors = numberOfFloors;
     }

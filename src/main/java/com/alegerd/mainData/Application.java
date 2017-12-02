@@ -1,5 +1,6 @@
-package com.alegerd;
+package com.alegerd.mainData;
 
+import com.alegerd.commands.interfaces.CommandReceiver;
 import com.alegerd.commands.interfaces.ICommand;
 import com.alegerd.commands.interfaces.PersonCallsLiftCommand;
 import com.alegerd.model.buttons.CallLiftButton;
@@ -33,6 +34,11 @@ public class Application {
 
     }
 
+    /**
+     * Main method of the program
+     * @param input Path to the input file ( if null - uses default
+     *              input file from the resources folder)
+     */
     public void start(String input){
         parser = new Parser();
         view = new Renderer();
@@ -67,7 +73,7 @@ public class Application {
     /**
      * Updates the view
      */
-    public void updateView(){
+    private void updateView(){
         try{
             floorsToDraw = makeDrawableModel();
             liftsToDraw = makeDrawableLiftModel();

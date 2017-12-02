@@ -1,24 +1,20 @@
 package com.alegerd.view;
 
-import com.alegerd.ViewController;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import com.alegerd.mainData.ViewController;
 
 /**
  * Builds House in console out of JSON
  */
 public class Renderer {
 
-
+    Integer sectionSize = 10;
     /**
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
     public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections) throws Exception{
 
-        Integer sectionSize = 10;
+        Integer additionalCells = countAdditionalCells(floorsToDraw);
 
         if(floorsToDraw == null)
             throw new IllegalArgumentException("floors array is null");
@@ -29,7 +25,7 @@ public class Renderer {
 
                     System.out.print("   ");
 
-                    for (int j = 0; j < sectionSize; j++) {
+                    for (int j = 0; j < (sectionSize + additionalCells); j++) {
                         System.out.print("=");
                     }
                 }
@@ -62,7 +58,7 @@ public class Renderer {
                                 System.out.print(Integer.parseInt(line[1]) + 1);
                             }
                         }
-                        Integer count = sectionSize - peopleCount;
+                        Integer count = sectionSize + additionalCells - peopleCount;
                         for (int i = 0; i < count; i++){
                             System.out.print(" ");
                         }
@@ -82,26 +78,16 @@ public class Renderer {
     public void writeMessage(String message){
         System.out.println(message);
     }
-    /**
-     * Prints floors array to the console
-     */
-    public void outputData(String[][] floorsToDraw, String[][] liftsToDraw){
-        if(floorsToDraw == null || liftsToDraw == null)
-            throw new IllegalArgumentException("argument is null");
-        else {
-            for (int row = 0; row < floorsToDraw.length; row++) {
-                System.out.print(row + " floor: ");
-                for (String col : floorsToDraw[row])
-                    System.out.print(col.toString() + ", ");
-                System.out.println();
-            }
 
-            for (int row = 0; row < liftsToDraw.length; row++) {
-                System.out.print(row + " lift: ");
-                for (String col : liftsToDraw[row])
-                    System.out.print(col.toString() + ", ");
-                System.out.println();
+    private Integer countAdditionalCells(String[][] floors){
+        Integer maxValue = sectionSize;
+        for (String[] floor : floors) {
+            Integer value = 0;
+            for(int i = 0; i < floor.length; i++){
+                value ++;
             }
+            if(maxValue < value) maxValue = value;
         }
+        return (maxValue - sectionSize) > 0?maxValue-sectionSize:0;
     }
 }
