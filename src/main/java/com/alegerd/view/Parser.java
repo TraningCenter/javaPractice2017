@@ -13,6 +13,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +42,17 @@ public class Parser {
         try{
             String data;
             StringBuilder sb = new StringBuilder();
-            InputStream file = ClassLoader.getSystemResourceAsStream("input");
-            InputStreamReader isr = new InputStreamReader(file);
-            BufferedReader br = new BufferedReader(isr);
-            data = br.lines().collect(Collectors.joining("\n"));
+
+            if(pathToInputFile == null) {
+                InputStream file = ClassLoader.getSystemResourceAsStream("input");
+                InputStreamReader isr = new InputStreamReader(file);
+                BufferedReader br = new BufferedReader(isr);
+                data = br.lines().collect(Collectors.joining("\n"));
+            }
+            else {
+                Files.lines(Paths.get(pathToInputFile), StandardCharsets.UTF_8).forEach(sb::append);
+                data = sb.toString();
+            }
 
             String[] inputList = data.split(";");
 

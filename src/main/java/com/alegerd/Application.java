@@ -33,13 +33,13 @@ public class Application {
 
     }
 
-    public void start(){
+    public void start(String input){
         parser = new Parser();
         view = new Renderer();
         commandQueue = new LinkedList<>();
 
         try {
-            model = parser.parseInputFile("input");
+            model = parser.parseInputFile(input);
 
             people = getListOfPeople();
             floors = getListOfFloors();
