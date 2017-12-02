@@ -1,13 +1,12 @@
-package logic.interfaces;
+package com.netcracker.unc.logic.interfaces;
 
 
-import logic.Floor;
-import logic.State;
-import logic.interfaces.buttons.IElevatorButton;
+import com.netcracker.unc.logic.Floor;
+import com.netcracker.unc.logic.State;
 
 import java.util.List;
 
-public interface IElevator extends IElevatorButton {
+public interface IElevator {
     List<IPassenger> getPassengers();
 
     void addPassenger(IPassenger passenger);

@@ -1,4 +1,4 @@
-package logic;
+package com.netcracker.unc.logic;
 
 
 public enum State {

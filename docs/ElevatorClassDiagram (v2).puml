@@ -1,23 +1,23 @@
 @startuml
-ApplicationManager *-up- Building
-ApplicationManager *-right- BuildingVisualizer
-ApplicationManager *-left- CommandManager
+com.netcracker.unc.ApplicationManager *-up- Building
+com.netcracker.unc.ApplicationManager *-right- BuildingVisualizer
+com.netcracker.unc.ApplicationManager *-left- CommandManager
 
-Building "1" *-up- "N" logic.Floor
+Building "1" *-up- "N" com.netcracker.unc.logic.Floor
 Building "1" *-up- "N" Shaft
 Shaft *-left- IElevator
-Shaft "1" o-right- "N" logic.Floor
-logic.Floor "1" o-right- "N" IPassenger
-logic.Floor <|-up- logic.interfaces.buttons.IFloorButton
+Shaft "1" o-right- "N" com.netcracker.unc.logic.Floor
+com.netcracker.unc.logic.Floor "1" o-right- "N" IPassenger
+com.netcracker.unc.logic.Floor <|-up- com.netcracker.unc.logic.interfaces.buttons.IFloorButton
 IElevator "1" o-right- "N" IPassenger
-IElevator "1" o-- "N" logic.Floor
+IElevator "1" o-- "N" com.netcracker.unc.logic.Floor
 IElevator .right.> State
 IPassenger .up.> State
 IPassenger <|-down- Passenger
 IElevator <|-left- Elevator
-logic.interfaces.buttons.IButton <|-- logic.interfaces.buttons.IFloorButton
-logic.interfaces.buttons.IButton <|-down- logic.interfaces.buttons.IElevatorButton
-IElevator <|-up- logic.interfaces.buttons.IElevatorButton
+com.netcracker.unc.logic.interfaces.buttons.IButton <|-- com.netcracker.unc.logic.interfaces.buttons.IFloorButton
+com.netcracker.unc.logic.interfaces.buttons.IButton <|-down- com.netcracker.unc.logic.interfaces.buttons.IElevatorButton
+IElevator <|-up- com.netcracker.unc.logic.interfaces.buttons.IElevatorButton
 
 BuildingVisualizer .right.> VisualizerConfig
 BuildingVisualizer "1" *-- "N" ElevatorPicture
@@ -62,7 +62,7 @@ Class Passenger {
 }
 
 
-Class logic.Floor {
+Class com.netcracker.unc.logic.Floor {
 - id
 - listOfPassengers
 + int getId()
@@ -76,7 +76,7 @@ Class logic.Floor {
 Class Building {
 - listOfShafts
 - listOfFloors
-+ void addFloor(logic.Floor floor)
++ void addFloor(com.netcracker.unc.logic.Floor floor)
 + void addShaft(Shaft shaft)
 }
 
@@ -91,7 +91,7 @@ Interface IElevator {
 + void deleteFloorFromQueue(IFloor floor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(logic.Floor floor)
++ void goToFloor(com.netcracker.unc.logic.Floor floor)
 }
 
 Class Elevator {
@@ -113,30 +113,30 @@ Class Elevator {
 + void deleteFloorFromQueue(IFloor floor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(logic.Floor floor)
++ void goToFloor(com.netcracker.unc.logic.Floor floor)
 }
 
 class Shaft{
 - id
 - elevator
 - listOfFloors
-+ void setFloors(List<logic.Floor> floors)
++ void setFloors(List<com.netcracker.unc.logic.Floor> floors)
 + void setElevator(IElevator elevator) 
 }
 
-interface logic.interfaces.buttons.IButton {
+interface com.netcracker.unc.logic.interfaces.buttons.IButton {
 }
 
-interface logic.interfaces.buttons.IFloorButton {
+interface com.netcracker.unc.logic.interfaces.buttons.IFloorButton {
 + void callElevatorToDown()
 + void callElevatorToUp()
 }
 
-interface logic.interfaces.buttons.IElevatorButton {
-+ void goToFloor(logic.Floor floor)
+interface com.netcracker.unc.logic.interfaces.buttons.IElevatorButton {
++ void goToFloor(com.netcracker.unc.logic.Floor floor)
 }
 
-Class ApplicationManager {
+Class com.netcracker.unc.ApplicationManager {
 - building
 - buildingVisualizer
 - commandManager

@@ -1,3 +1,10 @@
+package com.netcracker.unc;
+
+import com.netcracker.unc.logic.Elevator;
+import com.netcracker.unc.logic.Floor;
+import com.netcracker.unc.logic.State;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ApplicationManager {
@@ -7,9 +14,18 @@ public class ApplicationManager {
     private static final int maxCountOfElevators = 6;
 
     public static void main(String[] args) {
-        inputConfiguration();
-        System.out.println(countFloors);
-        System.out.println(countElevators);
+        //inputConfiguration();
+        Elevator elevator = new Elevator(1, new Floor(4), new ArrayList<Floor>(), 10);
+        elevator.setState(State.UP);
+        elevator.addFloorInQueue(new Floor(1));
+        elevator.addFloorInQueue(new Floor(6));
+        elevator.addFloorInQueue(new Floor(7));
+        elevator.addFloorInQueue(new Floor(3));
+        elevator.addFloorInQueue(new Floor(8));
+        elevator.addFloorInQueue(new Floor(5));
+        System.out.println(elevator.getFloorsToVisit().toString());
+        //System.out.println(countFloors);
+        //System.out.println(countElevators);
     }
 
     private static void inputConfiguration() {
@@ -33,6 +49,7 @@ public class ApplicationManager {
             } catch (NumberFormatException nfe) {
                 System.out.println("Ошибка! Введите число! ");
             }
+
         }
         return i;
     }

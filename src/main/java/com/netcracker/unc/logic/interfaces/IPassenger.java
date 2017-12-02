@@ -1,6 +1,6 @@
-package logic.interfaces;
+package com.netcracker.unc.logic.interfaces;
 
-import logic.State;
+import com.netcracker.unc.logic.State;
 
 public interface IPassenger {
     int getStartFloor();
