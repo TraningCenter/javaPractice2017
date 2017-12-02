@@ -89,8 +89,6 @@ public class ViewController {
     private static void countNumberOfPeopleInSection() throws IllegalArgumentException{
         if(sizeOfSection < 1) throw new IllegalArgumentException("Not enough space on the floor");
         else {
-            //Double d = sizeOfSection / (1 + SPACE_BETWEEN_PEOPLE + 0.5);
-            //numberOfPeopleInSection = d.intValue();
             numberOfPeopleInSection = sizeOfSection;
         }
     }

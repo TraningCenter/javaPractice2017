@@ -39,7 +39,7 @@ public class Application {
         commandQueue = new LinkedList<>();
 
         try {
-            model = parser.parseInputFile("src/main/resources/input");
+            model = parser.parseInputFile("input");
 
             people = getListOfPeople();
             floors = getListOfFloors();
@@ -71,7 +71,7 @@ public class Application {
         try{
             floorsToDraw = makeDrawableModel();
             liftsToDraw = makeDrawableLiftModel();
-            view.drawHouse(floorsToDraw, liftsToDraw);
+            view.drawHouse(floorsToDraw, liftsToDraw, lifts.size());
         }
         catch (Exception e){
             System.out.println(e.getMessage());

@@ -114,6 +114,7 @@ public class Lift implements ILift{
 
         List<IPerson> newPeople = floor.getWaitingPeople();
         injectFloorButtonsToPeople(newPeople);
+        setNewLiftToPeople(newPeople);
         addNewPeople(newPeople);
 
     }
@@ -451,6 +452,13 @@ public class Lift implements ILift{
         for (IFloor floor:
              floors) {
             buttons.add(new LiftButton(this, floor.getNumber()));
+        }
+    }
+
+    private void setNewLiftToPeople(List<IPerson> people){
+        for (IPerson person :
+             people) {
+            person.setWaitsForLiftNumber(number);
         }
     }
 }

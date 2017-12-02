@@ -1,6 +1,6 @@
 package com.alegerd;
 
-public class Main {
+public class Main{
 
     static Application application;
 

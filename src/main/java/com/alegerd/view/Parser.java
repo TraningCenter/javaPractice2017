@@ -9,11 +9,15 @@ import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
 
+import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.ClassLoader;
+import java.util.stream.Collectors;
 
 /**
  * Reads input file and constructs House object out of it
@@ -37,8 +41,11 @@ public class Parser {
         try{
             String data;
             StringBuilder sb = new StringBuilder();
-            Files.lines(Paths.get(pathToInputFile), StandardCharsets.UTF_8).forEach(sb::append);
-            data = sb.toString();
+            InputStream file = ClassLoader.getSystemResourceAsStream("input");
+            InputStreamReader isr = new InputStreamReader(file);
+            BufferedReader br = new BufferedReader(isr);
+            data = br.lines().collect(Collectors.joining("\n"));
+
             String[] inputList = data.split(";");
 
             List<IFloor> floors = new ArrayList<>();

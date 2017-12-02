@@ -3,6 +3,7 @@ package com.alegerd.view;
 import com.alegerd.ViewController;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,12 +16,9 @@ public class Renderer {
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw) throws Exception{
+    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections) throws Exception{
 
-        Integer numberOfLifts = ViewController.getNumberOfLifts();
-        Integer numberOfSections = ViewController.getNumberOfSections();
-        Integer sectionSize = ViewController.getSizeOfSection();
-        Integer maxPeople = ViewController.getNumberOfPeopleInSection();
+        Integer sectionSize = 10;
 
         if(floorsToDraw == null)
             throw new IllegalArgumentException("floors array is null");
@@ -29,15 +27,7 @@ public class Renderer {
 
                 for(int section = 0; section < numberOfSections; section++) {
 
-                    Integer lift = null;
-
-                    for (String s :
-                            liftsToDraw[row]) {
-                        String[] line = s.split(":");
-                        Integer sect = Integer.parseInt(line[0]);
-                        if(sect == section) lift = Integer.parseInt(line[1]);
-                    }
-                        System.out.print("   ");
+                    System.out.print("   ");
 
                     for (int j = 0; j < sectionSize; j++) {
                         System.out.print("=");
@@ -69,7 +59,6 @@ public class Renderer {
                             Integer sect = Integer.parseInt(line[0]);
                             if(sect == section){
                                 peopleCount++;
-                                if(peopleCount > maxPeople) throw new Exception("Too many people in one section");
                                 System.out.print(Integer.parseInt(line[1]) + 1);
                             }
                         }
