@@ -35,11 +35,17 @@ public class GoToElevatorDoorPersonState extends AbstractPersonState {
 
     private void pressButtonAndWait(ElevatorDoor elevatorDoor) {
         if (elevatorDoor.getConfig().getMinLevel() <= getPerson().getTargetLocation().getLevel() &&
-                elevatorDoor.getConfig().getMaxLevel() >= getPerson().getTargetLocation().getLevel()) {
+                elevatorDoor.getConfig().getMaxLevel() >= getPerson().getTargetLocation().getLevel() &&
+                elevatorDoor.getConfig().getMinLevel() <= getPerson().getCurrentLocation().getLevel() &&
+                elevatorDoor.getConfig().getMaxLevel() >= getPerson().getCurrentLocation().getLevel()) {
             WaitForElevatorPersonState nextState = new WaitForElevatorPersonState(getPerson());
             elevatorDoor.pushButton();
             elevatorDoor.addObserver(nextState);
             getPerson().changeState(nextState);
+        }
+        else {
+            targetPosition = getNearestNotVisitedPosition();
+            moveToTarget();
         }
     }
 

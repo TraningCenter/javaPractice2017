@@ -14,6 +14,7 @@ import tadite.javase.elevatorSimulator.model.passenger.Person;
 
 import java.util.*;
 
+
 public class BuildingConfiguratorTests {
 
     @Test

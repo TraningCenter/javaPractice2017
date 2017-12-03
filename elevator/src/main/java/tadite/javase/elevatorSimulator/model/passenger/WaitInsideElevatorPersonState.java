@@ -20,9 +20,9 @@ public class WaitInsideElevatorPersonState extends AbstractPersonState implement
     @Override
     public void update() {
        if (getPerson().getCurrentLocation().getLevel() == getPerson().getTargetLocation().getLevel()){
-           getPerson().goOut();
-           elevator.removeObserver(this);
            getPerson().changeState(new GoToTargetPositionPersonState(getPerson()));
+           elevator.removeObserver(this);
+           getPerson().goOut();
        }
     }
 }

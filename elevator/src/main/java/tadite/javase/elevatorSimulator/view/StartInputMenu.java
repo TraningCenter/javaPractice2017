@@ -3,12 +3,20 @@ package tadite.javase.elevatorSimulator.view;
 import tadite.javase.elevatorSimulator.controller.BuildingConfigurator;
 import tadite.javase.elevatorSimulator.controller.ElevatorCreateConfig;
 import tadite.javase.elevatorSimulator.controller.PersonCreateConfig;
+import tadite.javase.elevatorSimulator.model.elevator.ElevatorConfig;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class StartInputMenu implements InputMenu {
+
+    private static final int MAX_FLOOR_COUNT = 10;
+    private static final int MIN_FLOOR_COUNT = 3;
+    private static final int MAX_SLOT_COUNT = 20;
+    private static final int MIN_SLOT_COUNT = 5;
+    private static final int MAX_ELEVATOR_COUNT = 10;
+    private static final int MIN_ELEVATOR_COUNT = 3;
+    private static final int MAX_PASSENGER_COUNT = 20;
+    private static final int MIN_PASSENGER_COUNT = 5;
 
     Map<String, Action> actionMap;
 
@@ -16,8 +24,36 @@ public class StartInputMenu implements InputMenu {
         actionMap=new HashMap<>();
         actionMap.put("1",(inputController -> inputController.changeMenu(new ConfigInputMenu(inputController.getBuildingConfigurator()))));
         actionMap.put("2",(inputController -> showConfig(inputController)));
-        actionMap.put("3",(inputController -> inputController.startSimulation()));
-        actionMap.put("4",(inputController -> System.exit(1)));
+        actionMap.put("3",(inputController -> createDefaultConfig(inputController)));
+        actionMap.put("4",(inputController -> inputController.startSimulation()));
+        actionMap.put("5",(inputController -> System.exit(1)));
+    }
+
+    private void createDefaultConfig(UserInputController inputController) {
+        BuildingConfigurator configurator = inputController.getBuildingConfigurator();
+        configurator.clear();
+
+        int floorCount = 5;
+        int slotCount = 12;
+
+        configurator.setFloorCount(floorCount);
+        configurator.setSlotCount(slotCount);
+
+        configurator.addElevatorCreateConfig(new ElevatorCreateConfig(1,5,1,1));
+        configurator.addElevatorCreateConfig(new ElevatorCreateConfig(2,4,3,2));
+        configurator.addElevatorCreateConfig(new ElevatorCreateConfig(3,5,6,4));
+        configurator.addElevatorCreateConfig(new ElevatorCreateConfig(1,3,8,3));
+        configurator.addElevatorCreateConfig(new ElevatorCreateConfig(1,5,10,5));
+
+        configurator.addPersonCreateConfig(new PersonCreateConfig(1,5,5,11));
+        configurator.addPersonCreateConfig(new PersonCreateConfig(2,4,3,0));
+        configurator.addPersonCreateConfig(new PersonCreateConfig(3,7,5,0));
+        configurator.addPersonCreateConfig(new PersonCreateConfig(4,2,3,0));
+        configurator.addPersonCreateConfig(new PersonCreateConfig(5,11,1,11));
+    }
+
+    private int getRandomInRange(Random random,int min,int max) {
+        return min + random.nextInt(max-min);
     }
 
     private void showConfig(UserInputController inputController) {
@@ -47,7 +83,7 @@ public class StartInputMenu implements InputMenu {
 
     @Override
     public String getCommandsLine() {
-        return "[1] Open config\n[2] Show config\n[3] Run simulation \n[4] Exit \n";
+        return "[1] Open config\n[2] Show config\n[3] Set default config\n[4] Run simulation \n[5] Exit \n";
     }
 
     @Override

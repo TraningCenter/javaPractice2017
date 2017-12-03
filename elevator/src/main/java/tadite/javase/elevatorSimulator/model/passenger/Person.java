@@ -59,9 +59,11 @@ public class Person implements Passenger, TransportClient{
 
     @Override
     public void goOut() {
-        keeper.removeClient(this);
-        keeper=null;
-        currentFloor=floorGetter.getCurrentFloor(this);
+        if (keeper != null) {
+            keeper.removeClient(this);
+            keeper = null;
+            currentFloor = floorGetter.getCurrentFloor(this);
+        }
     }
 
     @Override

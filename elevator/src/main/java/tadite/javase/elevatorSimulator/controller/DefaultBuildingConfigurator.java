@@ -74,6 +74,14 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
     }
 
     @Override
+    public void clear() {
+        elevatorCreateConfigs.clear();
+        personCreateConfigs.clear();
+        floorCount=0;
+        slotCount=0;
+    }
+
+    @Override
     public Building createBuilding() {
         List<Floor> floors = new ArrayList<>();
         List<Passenger> passengers = new ArrayList<>();
@@ -122,7 +130,7 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
 
     private Map<Integer, ElevatorDoorMechanism> createIntegerElevatorDoorMechanismMap(List<List<Slot>> slotsLists, ElevatorConfig config, DefaultRequestManager requestManager, DefaultElevator defaultElevator) {
         Map<Integer, ElevatorDoorMechanism> doorMechanismMap = new HashMap<>();
-        for (int level = 1; level < floorCount + 1; level++) {
+        for (int level = config.getMinLevel(); level < config.getMaxLevel()+1; level++) {
             int elevatorPosition = config.getPosition();
 
             DefaultElevatorDoor defaultElevatorDoor = new DefaultElevatorDoor(

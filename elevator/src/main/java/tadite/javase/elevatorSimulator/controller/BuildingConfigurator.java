@@ -15,5 +15,6 @@ public interface BuildingConfigurator {
     int getSlotCount();
     void removeElevatorCreateConfig(int index);
     void removePersonCreateConfig(int index);
+    void clear();
     Building createBuilding();
 }
