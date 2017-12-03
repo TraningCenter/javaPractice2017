@@ -1,4 +1,3 @@
-package com.alegerd.tests;
 
 import com.alegerd.mainData.Application;
 import com.alegerd.model.Direction;

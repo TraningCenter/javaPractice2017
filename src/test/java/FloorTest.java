@@ -1,4 +1,3 @@
-package com.alegerd.tests;
 
 import com.alegerd.exceptions.LiftWeightException;
 import com.alegerd.model.Floor;

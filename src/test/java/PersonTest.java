@@ -1,4 +1,3 @@
-package com.alegerd.tests;
 
 import com.alegerd.model.Person;
 import com.alegerd.model.interfaces.IPerson;

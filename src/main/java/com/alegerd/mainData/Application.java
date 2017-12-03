@@ -9,11 +9,8 @@ import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IHouse;
 import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
-import com.alegerd.tests.FloorTest;
 import com.alegerd.view.Parser;
 import com.alegerd.view.Renderer;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
 
 import java.util.*;
 

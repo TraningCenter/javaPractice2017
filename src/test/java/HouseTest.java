@@ -1,4 +1,3 @@
-package com.alegerd.tests;
 
 import com.alegerd.model.Floor;
 import com.alegerd.model.House;
