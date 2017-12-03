@@ -29,7 +29,7 @@ public class Floor implements IFloor{
      * @return String information about class
      */
     @Override
-    public String toString() {
+    public String toString(){
         String result;
         result = "Floor number: " + number +
                     "\n Amount of people: " + peopleOn.size() +
@@ -70,19 +70,6 @@ public class Floor implements IFloor{
         }
     }
 
-    /**
-     * Gives waiting people
-     * @return list with waiting people
-     */
-    public List<IPerson> getWaitingPeople(){
-        List<IPerson> people = new ArrayList<>();
-        for (IPerson p :
-                waitingPeople) {
-            people.add(p);
-        }
-        removeWaitingPeople();
-        return people;
-    }
 
     public IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws LiftWeightException{
         IPerson person = waitingPeople.get(0);
@@ -139,17 +126,6 @@ public class Floor implements IFloor{
                 return next;
             }
         };
-    }
-
-    /**
-     *
-     * @param action What to do for each person on the floor
-     */
-    public void forEach(Consumer<? super IPerson> action){
-        for (IPerson p :
-                peopleOn) {
-            action.accept(p);
-        }
     }
 
     /**

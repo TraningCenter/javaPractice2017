@@ -7,5 +7,4 @@ import com.alegerd.model.interfaces.IPerson;
  * Interface for LiftCommand
  */
 public interface ILiftCommand extends ICommand {
-    void setLift(ILift lift);
 }

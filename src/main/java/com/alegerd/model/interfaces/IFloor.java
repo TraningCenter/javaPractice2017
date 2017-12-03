@@ -28,17 +28,9 @@ public interface IFloor {
      */
      void takePeople(List<IPerson> people) throws IllegalArgumentException;
 
-    /**
-     * Gives waiting people
-     * @return list with waiting people
-     */
-     List<IPerson> getWaitingPeople();
-
      Integer getNumber();
 
      Iterator<IPerson> getPersonIterator();
-
-     void forEach(Consumer<? super IPerson> action);
 
      void acceptLiftButtons(List<ICallLiftButton> buttons);
 

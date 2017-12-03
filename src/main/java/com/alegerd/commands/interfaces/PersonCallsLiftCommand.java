@@ -12,13 +12,7 @@ public class PersonCallsLiftCommand implements IPersonCommand{
     }
 
     @Override
-    public void setPerson(IPerson person) {
-        this.person = person;
-    }
-
-    @Override
     public void execute() {
-        System.out.println("человек вызывает лифт");
         person.callLift();
     }
 }

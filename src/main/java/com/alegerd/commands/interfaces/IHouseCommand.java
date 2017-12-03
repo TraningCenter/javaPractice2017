@@ -6,5 +6,4 @@ import com.alegerd.model.interfaces.IHouse;
  * Interface for HouseCommand
  */
 public interface IHouseCommand extends ICommand {
-    void setHouse(IHouse house);
 }

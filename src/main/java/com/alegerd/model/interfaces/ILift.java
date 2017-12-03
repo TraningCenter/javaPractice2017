@@ -10,12 +10,6 @@ public interface ILift {
     public String toString();
 
     /**
-     * Takes people from chosen floor
-     * @param floor chosen floor
-     */
-     void takePeopleFromFloor(IFloor floor);
-
-    /**
      * Moves lift on floor
      */
      void moveOneFloor();
@@ -40,7 +34,7 @@ public interface ILift {
      */
      void callingButtonPushed(Integer floorNumber, Direction direction);
 
-     Iterator<IPerson> getPeopleIterator();
+     Direction getCurrentDirection();
 
-     void forEachPerson(Consumer<? super IPerson> action);
+     Iterator<IPerson> getPeopleIterator();
 }

@@ -47,7 +47,7 @@ public class Lift implements ILift{
 
     public Integer number;
 
-    private Integer floorNumber;
+    private Integer floorNumber = 0;
     private Integer weight = 0;
     private Integer maxWeight;
     private Integer maxFloor;
@@ -89,18 +89,6 @@ public class Lift implements ILift{
         return result;
     }
 
-    /**
-     * Takes people from chosen floor
-     * @param floor chosen floor
-     */
-    public void takePeopleFromFloor(IFloor floor){
-        List<IPerson> newPeople = floor.getWaitingPeople();
-        injectFloorButtonsToPeople(newPeople);
-        setNewLiftToPeople(newPeople);
-
-        addNewPeople(newPeople);
-    }
-
     public void takePeopleFromFloorOneByOne(IFloor floor) throws LiftWeightException{
             int count = floor.howManyPeopleWaiting();
             for(int i = 0; i < count; i++){
@@ -119,11 +107,13 @@ public class Lift implements ILift{
         try {
             IFloor floor = floors.get(floorNumber);
 
+            takePeopleFromFloorOneByOne(floor);
+
             List<IPerson> whoWantsToLeave = whoWantsToLeave(floor.getNumber());
             floor.takePeople(whoWantsToLeave);
             removeLeavedPeople(whoWantsToLeave);
 
-            takePeopleFromFloorOneByOne(floor);
+
 
             deleteFloorFromLists(floorNumber);
         }catch (LiftWeightException ex){
@@ -221,20 +211,12 @@ public class Lift implements ILift{
         };
     }
 
-    /**
-     *
-     * @param action What to do for each person in lift
-     */
-    @Override
-    public void forEachPerson(Consumer<? super IPerson> action) {
-        for (IPerson p :
-                peopleIn) {
-            action.accept(p);
-        }
-    }
-
     public Integer getNumber() {
         return number;
+    }
+
+    public Direction getCurrentDirection() {
+        return currentDirection;
     }
 
     private boolean bypassFromLiftCalls(){
@@ -278,6 +260,17 @@ public class Lift implements ILift{
                 }
             }
         }
+        else if(currentDirection == null) {
+
+            //есть люди в лифте, которые хотят ехать вверх
+            for (Integer floor : fromLift) {
+                if (floor > getFloorLiftOn()){
+                    currentDirection = Direction.UP;
+                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -309,6 +302,15 @@ public class Lift implements ILift{
                 }
             }
 
+            for (FloorDTO floor : fromFloors) {
+                if (floor.getNumber() > getFloorLiftOn()){
+                    currentDirection = Direction.UP;
+                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));
+                    return true;
+                }
+            }
+        }
+        else if(currentDirection == null){
             for (FloorDTO floor : fromFloors) {
                 if (floor.getNumber() > getFloorLiftOn()){
                     currentDirection = Direction.UP;

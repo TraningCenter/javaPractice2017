@@ -6,5 +6,4 @@ import com.alegerd.model.interfaces.IPerson;
  * Interface for PersonCommand
  */
 public interface IPersonCommand extends ICommand {
-    void setPerson(IPerson person);
 }

@@ -101,16 +101,6 @@ public class House implements IHouse{
 
     /**
      *
-     * @param action What to do for all floors in the house
-     */
-    public void forEachFloor(Consumer<? super IFloor> action) {
-        for (IFloor floor : floors){
-            action.accept(floor);
-        }
-    }
-
-    /**
-     *
      * @return Iterator for all lifts in the house
      */
     public Iterator<ILift> liftIterator() {
@@ -129,16 +119,6 @@ public class House implements IHouse{
                 return next;
             }
         };
-    }
-
-    /**
-     *
-     * @param action What to do for all lifts in the house
-     */
-    public void forEachLift(Consumer<? super ILift> action) {
-        for (ILift lift : lifts){
-            action.accept(lift);
-        }
     }
 
 }

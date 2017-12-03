@@ -40,21 +40,9 @@ public class Application {
      *              input file from the resources folder)
      */
     public void start(String input){
-        parser = new Parser();
-        view = new Renderer();
-        commandQueue = new LinkedList<>();
 
         try {
-            model = parser.parseInputFile(input);
-
-            people = getListOfPeople();
-            floors = getListOfFloors();
-            lifts = getListOfLifts();
-
-            injectLiftButtonsToFloors();
-            injectLiftButtonsToPeople();
-            createCommandReceiver();
-            pushFirstCommands();
+            buildModel(input);
 
             while (!commandQueue.isEmpty()){
                 ICommand command = commandQueue.poll();
@@ -67,6 +55,30 @@ public class Application {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void buildModel(String input){
+        parser = new Parser();
+        view = new Renderer();
+        commandQueue = new LinkedList<>();
+
+        model = parser.parseInputFile(input);
+
+        people = getListOfPeople();
+        floors = getListOfFloors();
+        lifts = getListOfLifts();
+
+        injectLiftButtonsToFloors();
+        injectLiftButtonsToPeople();
+        createCommandReceiver();
+        pushFirstCommands();
+    }
+
+    public void testApp(){
+        while (!commandQueue.isEmpty()){
+            ICommand command = commandQueue.poll();
+            command.execute();
         }
     }
 
@@ -99,7 +111,7 @@ public class Application {
         String[][] floorsToDraw;
 
         if(model == null)
-            throw new NullPointerException("The model is null");
+            throw new NullPointerException("Input exception");
         else{
             Integer numberOfFloors = model.getNumberOfFloors();
             floorsToDraw = new String[numberOfFloors][];
@@ -134,7 +146,7 @@ public class Application {
         String[][] liftsToDraw;
 
         if(model == null)
-            throw new NullPointerException("The model is null");
+            throw new NullPointerException("Input exception");
         else{
             Integer modelNumberOfFloors = model.getNumberOfFloors();
             liftsToDraw = new String[modelNumberOfFloors][];
@@ -236,14 +248,5 @@ public class Application {
 
     private void createCommandReceiver(){
         CommandReceiver.addModel(this);
-    }
-
-    private void test(){
-        JUnitCore runner = new JUnitCore();
-        Result result = runner.run(FloorTest.class);
-        System.out.println("run tests:" + result.getRunCount());
-        System.out.println("failed:" + result.getFailureCount());
-        System.out.println("ignored:" + result.getIgnoreCount());
-        System.out.println("success:" + result.wasSuccessful());
     }
 }

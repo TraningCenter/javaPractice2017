@@ -11,13 +11,7 @@ public class LiftWereToGoCommand implements ILiftCommand{
     }
 
     @Override
-    public void setLift(ILift lift) {
-
-    }
-
-    @Override
     public void execute() {
-        System.out.println("лифт думает");
         lift.thinkWhereToGo();
     }
 }

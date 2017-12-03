@@ -65,8 +65,7 @@ public class Person implements IPerson{
      * It depends on the floor they wants to go to.
      */
     public void chooseDestinationFloor(){
-        for (IButton button:
-             buttonsInLift) {
+        for (IButton button : buttonsInLift) {
             if(button.getFloorNumber().equals(destinationFloor)){
                 button.push();
                 return;

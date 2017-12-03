@@ -59,6 +59,8 @@ public class Parser {
 
             Integer amountOfLifts = Integer.parseInt(inputList[0].split(" ")[1]);
             Integer liftMaxWaight = Integer.parseInt(inputList[0].split(" ")[2]);
+            if(liftMaxWaight<0) throw new IllegalArgumentException("Wrong lift max weight");
+
             //заполнение списка этажей
             Integer amountOfFloors = Integer.parseInt(inputList[1].split(" ")[1]);
 
@@ -72,7 +74,7 @@ public class Parser {
             ViewController.setFloorLength(amountOfLifts * 12);
 
             ViewController.setNumberOfLifts(amountOfLifts);
-            maxPeopleInSection = ViewController.getNumberOfPeopleInSection();
+
             Integer size = ViewController.getNumberOfSections();
             sections = new ArrayList<>(size);
 
@@ -115,6 +117,8 @@ public class Parser {
     private void addPersonToFloor(IPerson person, List<IFloor> floors) throws Exception{
 
         boolean personAdded = false;
+        if(person.getDestinationFloor() >= floors.size()) throw new Exception("Wrong destination floor");
+        if(person.getWeight() < 0) throw new Exception("Wrong weight");
 
         for (IFloor floor :
                 floors) {
