@@ -1,5 +1,8 @@
 package com.netcracker.unc;
 
+import com.netcracker.unc.commands.CommandManager;
+import com.netcracker.unc.commands.building.CallElevatorBuildingCommand;
+import com.netcracker.unc.commands.floor.AddNewPassengerFloorCommand;
 import com.netcracker.unc.logic.Building;
 import com.netcracker.unc.logic.Elevator;
 import com.netcracker.unc.logic.Floor;
@@ -18,12 +21,20 @@ public class ApplicationManager {
     private static final int maxCountOfElevators = 6;
 
     private static Building building;
+    private static CommandManager commandManager;
 
 
     public static void main(String[] args) {
         building = new Building();
+        commandManager = new CommandManager();
         inputConfiguration();
-        System.out.println("ldsfk");
+        while (true) {
+            while (!commandManager.isEpmty()) {
+                commandManager.executeNextCommand();
+            }
+        }
+
+        //System.out.println("ldsfk");
     }
 
     private static void inputConfiguration() {
@@ -39,11 +50,14 @@ public class ApplicationManager {
         }
         // добавляем пассажиров
         String line;
+        IPassenger passenger;
         while (true) {
             System.out.println("Добавить пассажира? (Y/N)");
             line = scanner.nextLine();
             if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
-                inputPassengerInfo(scanner);//сделать создание команды на добавление на этаж
+                passenger = inputPassengerInfo(scanner);
+                commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, passenger.getStartFloor()));
+                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), passenger.getDestinationFloor(), passenger.getDirection()));
             } else
                 break;
         }

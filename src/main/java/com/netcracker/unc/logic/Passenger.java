@@ -60,4 +60,5 @@ public class Passenger implements IPassenger {
     public void setProbabilityOfChoice(int probabilityOfChoice) {
         this.probabilityOfChoice = probabilityOfChoice;
     }
+
 }

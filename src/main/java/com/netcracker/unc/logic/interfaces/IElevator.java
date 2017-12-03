@@ -25,13 +25,21 @@ public interface IElevator {
 
     void deleteFloorFromQueue();
 
+    List<Floor> getFloorsToVisit();
+
+    State getState();
+
     void setState(State state);
 
     boolean setCurrentFloor(Floor floor);
 
     void setCapacity(int capacity);
 
+    Floor getCurrentFloor();
+
     int getId();
 
     int getCapacity();
+
+    int getRemainingCapacity();
 }

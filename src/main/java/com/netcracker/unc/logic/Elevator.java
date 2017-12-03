@@ -68,6 +68,8 @@ public class Elevator implements IElevator {
         int n = floorsToVisit.size();
         if (floorsToVisit.contains(floor))
             return;
+        if (!availableFloors.contains(floor))
+            return;
         switch (state) {
             case UP:
                 // по всем этажам в списке посещений
@@ -132,6 +134,10 @@ public class Elevator implements IElevator {
 
     public void deleteFloorFromQueue() {
         floorsToVisit.remove(0);
+        if (floorsToVisit.isEmpty())
+            state = State.STOPPED;
+        else
+            state = (getNextDestinationFloor().compareTo(currentFloor) < 0) ? State.DOWN : State.UP;
     }
 
     public void setState(State state) {
@@ -189,4 +195,5 @@ public class Elevator implements IElevator {
     public void setRemainingCapacity(int remainingCapacity) {
         this.remainingCapacity = remainingCapacity;
     }
+
 }

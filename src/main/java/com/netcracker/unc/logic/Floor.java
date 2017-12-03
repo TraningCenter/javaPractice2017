@@ -8,22 +8,26 @@ import java.util.List;
 public class Floor implements Comparable<Floor> {
     private int id;
     private List<IPassenger> passengers;
+    private boolean isPushedButtonUp;
+    private boolean isPushedButtonDown;
 
     public Floor(int id) {
         this.id = id;
         passengers = new ArrayList<IPassenger>();
+        isPushedButtonDown = isPushedButtonUp = false;
     }
 
     public Floor(int id, List<IPassenger> passengers) {
         this.id = id;
         this.passengers = passengers;
+        isPushedButtonDown = isPushedButtonUp = false;
     }
 
     public int getId() {
         return id;
     }
 
-    public List<IPassenger> passengers() {
+    public List<IPassenger> getPassengers() {
         return passengers;
     }
 
@@ -50,6 +54,22 @@ public class Floor implements Comparable<Floor> {
 
     public int compareTo(Floor floor) {
         return id - floor.id;
+    }
+
+    public boolean isPushedButtonUp() {
+        return isPushedButtonUp;
+    }
+
+    public void setPushedButtonUp(boolean pushedButtonUp) {
+        isPushedButtonUp = pushedButtonUp;
+    }
+
+    public boolean isPushedButtonDown() {
+        return isPushedButtonDown;
+    }
+
+    public void setPushedButtonDown(boolean pushedButtonDown) {
+        isPushedButtonDown = pushedButtonDown;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.netcracker.unc.interfaces;
+package com.netcracker.unc.commands.interfaces;
 
 
 public interface IFloorCommand extends ICommand {
