@@ -14,29 +14,29 @@ public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
     private static final int SLOTSIZE = 4;
     private static final char WHITESPACE = ' ';
     private static final char[][] FLOOR_NORMAL={
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'}};
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '}};
     private static final char[][] FLOOR_LEFT= {
             {'|','|','|','|'},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'}};
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '}};
     private static final char[][] FLOOR_RIGHT= {
-            {' ',' ',' ',' '},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'},
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '},
+            {'-',' ',' ',' '},
             {'|','|','|','|'}};
     private static final char[][] ELEVATOR_SHAFT= {
             {'|','|','|','|'},
-            {' ',' ',' ','_'},
-            {' ',' ',' ','_'},
+            {' ',' ',' ',' '},
+            {' ',' ',' ',' '},
             {'|','|','|','|'}};
     private static final char[][] ELEVATOR= {
             {'|','|','|','|'},
-            {'#','#','#','#'},
-            {'#','#','#','#'},
+            {' ','#','#','#'},
+            {' ','#','#','#'},
             {'|','|','|','|'}};
     private static final char[][] PERSON= {
             {'\0','\0','\0','\0'},
@@ -80,12 +80,11 @@ public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
     private void printInConsole() {
         for (int j = 0; j < grid.getHeight(); j++) {
             for (int i = 0; i < grid.getWidth(); i++) {
-                stream.print(grid.getCharGrid()[i][j]);
+                stream.print(grid.getCharGrid()[i][grid.getHeight()-j-1]);
             }
             stream.print("\n");
         }
     }
-
 
     private void clearOrCreateGrid(Building building) {
         if (grid==null)

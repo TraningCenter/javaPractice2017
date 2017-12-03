@@ -5,13 +5,16 @@ import tadite.javase.elevatorSimulator.model.building.Building;
 public class BuildingSimulationRunner implements SimulationRunner {
     private Building building;
     private BuildingPrintStrategy printStrategy;
+    private int sleepMillis;
 
-    public BuildingSimulationRunner(Building building, BuildingPrintStrategy printStrategy) {
+    public BuildingSimulationRunner(Building building, BuildingPrintStrategy printStrategy, int sleepMillis) {
         this.building = building;
         this.printStrategy = printStrategy;
+        this.sleepMillis = sleepMillis;
     }
 
     public void startSimulation() {
+        clearConsole();
         do {
             printBuilding();
             updateBuilding();
@@ -23,13 +26,17 @@ public class BuildingSimulationRunner implements SimulationRunner {
     }
 
     private void printBuilding() {
-        System.out.print("\033[H\033[2J");
+        clearConsole();
         printStrategy.print(building);
+    }
+
+    private void clearConsole() {
+        System.out.print("\033[H\033[2J");
     }
 
     private void threadSleep(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(sleepMillis);
         } catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
         }

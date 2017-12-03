@@ -52,7 +52,7 @@ public class ElevatorController implements IndoorTransport{
     }
 
     private void tryGetTargetRequest() {
-        targetRequest = targetCalculationStrategy.calculateTargetLevel(requestManager.getRequests());
+        targetRequest = targetCalculationStrategy.calculateTargetLevel(requestManager.getRequests(),getLocation().getLevel());
     }
 
     private void openDoorAndCompleteRequest() {

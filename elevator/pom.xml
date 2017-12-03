@@ -22,12 +22,12 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>java</goal>
+                            <goal>exec</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>tadite.javase.elevatorSimTest.Main</mainClass>
+                    <mainClass>tadite.javase.elevatorSimulator.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>

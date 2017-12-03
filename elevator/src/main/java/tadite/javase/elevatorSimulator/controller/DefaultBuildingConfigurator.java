@@ -114,7 +114,7 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         ElevatorConfig config = createElevatorConfig(elevatorCreateConfig);
         DefaultRequestManager requestManager = new DefaultRequestManager();
         DefaultElevator defaultElevator = createElevator(elevatorCreateConfig, requestManager);
-        ElevatorTargetCalculationStrategy targetCalculationStrategy = new LastJobFirstElevatorTargetCalculationStrategy();
+        ElevatorTargetCalculationStrategy targetCalculationStrategy = new ShortestJobFirstElevatorTargetCalculationStrategy();
         Map<Integer, ElevatorDoorMechanism> doorMechanismMap = createIntegerElevatorDoorMechanismMap(slotsLists, config, requestManager, defaultElevator);
 
         return new ElevatorController(config, defaultElevator, targetCalculationStrategy, doorMechanismMap, requestManager);

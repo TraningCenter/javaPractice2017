@@ -23,7 +23,7 @@ public class BuildingSimulationRunnerTests {
 
         BuildingPrintStrategy printStrategy = blding -> {};
 
-        BuildingSimulationRunner buildingSimulationRunner = new BuildingSimulationRunner(building, printStrategy);
+        BuildingSimulationRunner buildingSimulationRunner = new BuildingSimulationRunner(building, printStrategy,1);
         //Act
         buildingSimulationRunner.startSimulation();
 
@@ -61,9 +61,9 @@ public class BuildingSimulationRunnerTests {
         Iterator<Passenger> passengerIterator = building.getPassengerIterator();
         Iterator<IndoorTransport> transportIterator = building.getTransportIterator();
 
-        BuildingPrintStrategy printStrategy = new StreamBuildingPrintStrategy(System.out);
+        BuildingPrintStrategy printStrategy = blding -> {};
 
-        BuildingSimulationRunner buildingSimulationRunner = new BuildingSimulationRunner(building, printStrategy);
+        BuildingSimulationRunner buildingSimulationRunner = new BuildingSimulationRunner(building, printStrategy,1);
 
         //Assert building elements start locations
         Passenger passenger1start = passengerIterator.next();

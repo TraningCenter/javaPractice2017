@@ -49,6 +49,6 @@ public class UserInputController {
     }
 
     private void createSimulationRunner() {
-        simulationRunner=new BuildingSimulationRunner(buildingConfigurator.createBuilding(),new StreamBuildingPrintStrategy(System.out));
+        simulationRunner=new BuildingSimulationRunner(buildingConfigurator.createBuilding(),new StreamBuildingPrintStrategy(System.out),1000);
     }
 }

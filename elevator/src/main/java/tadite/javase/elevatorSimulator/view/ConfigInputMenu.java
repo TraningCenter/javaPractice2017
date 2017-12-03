@@ -2,14 +2,12 @@ package tadite.javase.elevatorSimulator.view;
 
 import tadite.javase.elevatorSimulator.controller.BuildingConfigurator;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class ConfigInputMenu implements InputMenu {
 
-    List<ParseCommand> commandList;
+    private List<ParseCommand> commandList;
 
     public ConfigInputMenu(BuildingConfigurator buildingConfigurator){
         commandList = new LinkedList<>();

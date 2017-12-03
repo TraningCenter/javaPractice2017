@@ -43,7 +43,6 @@ public class StartInputMenu implements InputMenu {
             System.out.print("MIN LEVEL : " + next.getMinLevel()+"   ");
             System.out.println("MAX LEVEL : " + next.getMaxLevel()+"   ");
         }
-        System.out.println("***************************************");
     }
 
     @Override

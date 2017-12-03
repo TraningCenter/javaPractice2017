@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LastJobFirstElevatorTargetCalculationStrategy implements ElevatorTargetCalculationStrategy {
     @Override
-    public ElevatorRequest calculateTargetLevel(List<ElevatorRequest> requests) {
+    public ElevatorRequest calculateTargetLevel(List<ElevatorRequest> requests, int currentLevel) {
         return requests.size()>0?requests.get(requests.size()-1):null;
     }
 }
