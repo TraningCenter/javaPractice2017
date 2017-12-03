@@ -18,7 +18,7 @@ public class ConfigInputTests {
     @Before
     public void init(){
         configurator = new DefaultBuildingConfigurator();
-        configInputMenu = new ConfigInputMenu(configurator);
+        configInputMenu = new ConfigInputMenu();
         userInputController = new UserInputController(configInputMenu,configurator);
     }
 

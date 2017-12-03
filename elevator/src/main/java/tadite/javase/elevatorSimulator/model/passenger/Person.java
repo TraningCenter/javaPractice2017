@@ -5,6 +5,10 @@ import tadite.javase.elevatorSimulator.model.misc.Location;
 import tadite.javase.elevatorSimulator.model.floor.Slot;
 import tadite.javase.elevatorSimulator.model.elevator.TransportClientKeeper;
 
+/**
+ * Implements person passenger login, can update his state, can go inside/outside of TransportKeeper
+ * can move left/right, contains PersonState instance for behavior
+ */
 public class Person implements Passenger, TransportClient{
     private Location currentLocation;
     private PersonState state;

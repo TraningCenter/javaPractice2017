@@ -1,5 +1,9 @@
 package tadite.javase.elevatorSimulator.model.passenger;
 
+/**
+ * State class for going to target position on target floor
+ * when reached target change state to StopAtPositionPersonState
+ */
 public class GoToTargetPositionPersonState extends AbstractPersonState {
     public GoToTargetPositionPersonState(Person person) {
         super(person);

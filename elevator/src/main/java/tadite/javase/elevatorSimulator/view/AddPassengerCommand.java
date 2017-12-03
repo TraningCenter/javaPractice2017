@@ -2,6 +2,9 @@ package tadite.javase.elevatorSimulator.view;
 
 import tadite.javase.elevatorSimulator.controller.PersonCreateConfig;
 
+/**
+ * Command For Adding Passenger to config
+ */
 public class AddPassengerCommand implements ParseCommand {
     //"add passenger -pos <startPosition> -level <startLevel> -tPos <targetPosition> -tLevel <targetLevel>\n"+
 

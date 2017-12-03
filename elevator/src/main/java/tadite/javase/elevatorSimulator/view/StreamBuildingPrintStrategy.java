@@ -11,6 +11,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Printing building state in stream
+ */
 public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
 
     private static final int SLOTSIZE = 4;
@@ -48,8 +51,6 @@ public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
     private BuildingPrintGrid grid;
     private PrintStream stream;
 
-    private List<Integer> passengersAtSlots = new LinkedList<>();
-
     public StreamBuildingPrintStrategy(PrintStream stream) {
         this.stream = stream;
     }
@@ -60,8 +61,6 @@ public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
         addFloorsOnGrid(building.getFloorIterator());
         addTransportOnGrid(building.getTransportIterator());
         addPersonsOnGrid(building.getPassengerIterator());
-
-
 
         printInConsole();
     }
@@ -89,11 +88,6 @@ public class StreamBuildingPrintStrategy implements BuildingPrintStrategy {
                 stream.print(grid.getCharGrid()[i][grid.getHeight()-j-1]);
             }
             stream.print("\n");
-        }
-
-        for (int i=0;i<grid.getWidth();i+=SLOTSIZE){
-            int count=0;
-
         }
     }
 

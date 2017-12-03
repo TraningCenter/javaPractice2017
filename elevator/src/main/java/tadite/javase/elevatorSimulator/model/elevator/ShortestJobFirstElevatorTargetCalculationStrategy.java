@@ -2,6 +2,9 @@ package tadite.javase.elevatorSimulator.model.elevator;
 
 import java.util.List;
 
+/**
+ * Shortest job target evaluation strategy
+ */
 public class ShortestJobFirstElevatorTargetCalculationStrategy implements ElevatorTargetCalculationStrategy {
 
     @Override

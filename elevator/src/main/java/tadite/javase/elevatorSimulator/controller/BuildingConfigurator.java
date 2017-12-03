@@ -3,7 +3,9 @@ package tadite.javase.elevatorSimulator.controller;
 import tadite.javase.elevatorSimulator.model.building.Building;
 
 import java.util.Iterator;
-
+/**
+ * Builder interface for building, takes start configurations and return instance of Building
+ */
 public interface BuildingConfigurator {
     void setFloorCount(int floorCount);
     void setSlotCount(int slotCount);

@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.controller;
 
+/**
+ * POJO for person create config
+ */
 public class PersonCreateConfig {
     private int startLevel;
     private int startPosition;

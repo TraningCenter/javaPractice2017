@@ -9,6 +9,10 @@ import tadite.javase.elevatorSimulator.model.floor.SlotType;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Implements elevator door logic, can close/open
+ * can be observable and notify observers on doors opening
+ */
 public class DefaultElevatorDoor implements Slot,ElevatorDoorMechanism,ElevatorDoor {
     private Location location;
     private ElevatorConfig config;

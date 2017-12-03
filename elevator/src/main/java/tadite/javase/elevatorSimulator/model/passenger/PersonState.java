@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.model.passenger;
 
+/**
+ * State pattern interface
+ */
 public interface PersonState {
-    public void action();
+    void action();
 }

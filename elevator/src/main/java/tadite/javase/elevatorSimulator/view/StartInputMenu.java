@@ -7,22 +7,17 @@ import tadite.javase.elevatorSimulator.model.elevator.ElevatorConfig;
 
 import java.util.*;
 
-public class StartInputMenu implements InputMenu {
 
-    private static final int MAX_FLOOR_COUNT = 10;
-    private static final int MIN_FLOOR_COUNT = 3;
-    private static final int MAX_SLOT_COUNT = 20;
-    private static final int MIN_SLOT_COUNT = 5;
-    private static final int MAX_ELEVATOR_COUNT = 10;
-    private static final int MIN_ELEVATOR_COUNT = 3;
-    private static final int MAX_PASSENGER_COUNT = 20;
-    private static final int MIN_PASSENGER_COUNT = 5;
+/**
+ * Get user input and execure start menu
+ */
+public class StartInputMenu implements InputMenu {
 
     Map<String, Action> actionMap;
 
     public StartInputMenu(){
         actionMap=new HashMap<>();
-        actionMap.put("1",(inputController -> inputController.changeMenu(new ConfigInputMenu(inputController.getBuildingConfigurator()))));
+        actionMap.put("1",(inputController -> inputController.changeMenu(new ConfigInputMenu())));
         actionMap.put("2",(inputController -> showConfig(inputController)));
         actionMap.put("3",(inputController -> createDefaultConfig(inputController)));
         actionMap.put("4",(inputController -> inputController.startSimulation()));
@@ -50,10 +45,6 @@ public class StartInputMenu implements InputMenu {
         configurator.addPersonCreateConfig(new PersonCreateConfig(3,7,5,0));
         configurator.addPersonCreateConfig(new PersonCreateConfig(4,2,3,0));
         configurator.addPersonCreateConfig(new PersonCreateConfig(5,11,1,11));
-    }
-
-    private int getRandomInRange(Random random,int min,int max) {
-        return min + random.nextInt(max-min);
     }
 
     private void showConfig(UserInputController inputController) {

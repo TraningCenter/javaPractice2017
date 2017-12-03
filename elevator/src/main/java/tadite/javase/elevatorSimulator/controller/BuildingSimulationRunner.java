@@ -2,6 +2,9 @@ package tadite.javase.elevatorSimulator.controller;
 
 import tadite.javase.elevatorSimulator.model.building.Building;
 
+/**
+ * Building simulation starter
+ */
 public class BuildingSimulationRunner implements SimulationRunner {
     private Building building;
     private BuildingPrintStrategy printStrategy;

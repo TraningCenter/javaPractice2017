@@ -15,6 +15,9 @@ import tadite.javase.elevatorSimulator.model.passenger.*;
 
 import java.util.*;
 
+/**
+ * Builder class for building, takes start configurations and return instance of Building
+ */
 public class DefaultBuildingConfigurator implements BuildingConfigurator {
     private List<ElevatorCreateConfig> elevatorCreateConfigs = new LinkedList<>();
     private List<PersonCreateConfig> personCreateConfigs = new LinkedList<>();
@@ -80,7 +83,9 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         floorCount=0;
         slotCount=0;
     }
-
+    /**
+     * Creating Building class instance from added configs
+     */
     @Override
     public Building createBuilding() {
         List<Floor> floors = new ArrayList<>();
@@ -91,7 +96,6 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
 
         for (ElevatorCreateConfig elevatorCreateConfig : elevatorCreateConfigs) {
             ElevatorController elevatorController = createElevatorController(slotsLists, elevatorCreateConfig);
-
             indoorTransports.add(elevatorController);
         }
 
@@ -100,7 +104,6 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         }
 
         FloorGetter floorGetter = new DefaultFloorGetter(floors);
-
         for (PersonCreateConfig personCreateConfig : personCreateConfigs) {
             Person person = createPerson(floors, floorGetter, personCreateConfig);
             passengers.add(person);
@@ -109,6 +112,9 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         return new DefaultBuilding(floors,passengers,indoorTransports);
     }
 
+    /**
+     * Create person and give him his dependencies
+     */
     private Person createPerson(List<Floor> floors, FloorGetter floorGetter, PersonCreateConfig personCreateConfig) {
         Person person = new Person(new Location(personCreateConfig.getStartPosition(), personCreateConfig.getStartLevel()),
                 floors.get(personCreateConfig.getStartLevel() - 1),
@@ -118,6 +124,9 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         return person;
     }
 
+    /**
+     * Create ElevatorController, give him his dependencies
+     */
     private ElevatorController createElevatorController(List<List<Slot>> slotsLists, ElevatorCreateConfig elevatorCreateConfig) {
         ElevatorConfig config = createElevatorConfig(elevatorCreateConfig);
         DefaultRequestManager requestManager = new DefaultRequestManager();
@@ -128,6 +137,9 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         return new ElevatorController(config, defaultElevator, targetCalculationStrategy, doorMechanismMap, requestManager);
     }
 
+    /**
+     * Create ElevatorDoorMechanism instances for elevator, give him his dependencies, and put it in floors
+     */
     private Map<Integer, ElevatorDoorMechanism> createIntegerElevatorDoorMechanismMap(List<List<Slot>> slotsLists, ElevatorConfig config, DefaultRequestManager requestManager, DefaultElevator defaultElevator) {
         Map<Integer, ElevatorDoorMechanism> doorMechanismMap = new HashMap<>();
         for (int level = config.getMinLevel(); level < config.getMaxLevel()+1; level++) {

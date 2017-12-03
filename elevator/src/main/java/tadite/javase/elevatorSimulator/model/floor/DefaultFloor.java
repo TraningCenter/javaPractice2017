@@ -2,6 +2,9 @@ package tadite.javase.elevatorSimulator.model.floor;
 
 import java.util.List;
 
+/**
+ * Implements floor logic, have list of slots and level
+ */
 public class DefaultFloor implements Floor{
     private int level;
     private List<Slot> slots;

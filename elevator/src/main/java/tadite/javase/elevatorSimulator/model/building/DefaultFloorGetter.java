@@ -7,6 +7,9 @@ import tadite.javase.elevatorSimulator.model.passenger.Passenger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Give Floor instance for given level number
+ */
 public class DefaultFloorGetter implements FloorGetter {
     private List<Floor> floors;
 

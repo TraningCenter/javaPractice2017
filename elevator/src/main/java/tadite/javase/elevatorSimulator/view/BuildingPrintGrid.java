@@ -4,6 +4,9 @@ package tadite.javase.elevatorSimulator.view;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Contains grid of chars for building state
+ */
 public class BuildingPrintGrid {
 
     private char[][] grid;

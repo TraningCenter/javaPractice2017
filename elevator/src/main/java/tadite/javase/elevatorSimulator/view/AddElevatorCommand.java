@@ -2,6 +2,9 @@ package tadite.javase.elevatorSimulator.view;
 
 import tadite.javase.elevatorSimulator.controller.ElevatorCreateConfig;
 
+/**
+ * Command For Adding Elevator to config
+ */
 public class AddElevatorCommand implements ParseCommand {
     //add elevator -pos <position> -start <startLevel> -range <minLevel>,<maxLevel>
 

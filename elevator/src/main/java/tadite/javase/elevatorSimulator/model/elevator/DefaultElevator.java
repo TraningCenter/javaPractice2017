@@ -9,6 +9,10 @@ import tadite.javase.elevatorSimulator.model.passenger.TransportClient;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Implements elevator logic, takes TransportClients and update their positions
+ * can move up and down, be observable and notify observers on doors opening
+ */
 public class DefaultElevator implements Elevator, ElevatorMechanism, Observable {
     private int level;
     private int position;

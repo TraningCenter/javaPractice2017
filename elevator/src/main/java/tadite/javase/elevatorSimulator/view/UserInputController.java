@@ -6,6 +6,9 @@ import tadite.javase.elevatorSimulator.controller.SimulationRunner;
 
 import java.util.Scanner;
 
+/**
+ * Can start program, read user input and give to InputMenu interface
+ */
 public class UserInputController {
 
     private InputMenu inputMenu;

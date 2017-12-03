@@ -7,6 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implements elevator controller login, can update his state, can open doors when target level achieved
+ * contains target level, ElevatorMechanism, strategy for calculating target
+ * contains used location(like elevator shaft)
+ */
 public class ElevatorController implements IndoorTransport{
 
     private ElevatorRequest targetRequest;

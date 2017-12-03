@@ -1,7 +1,8 @@
 package tadite.javase.elevatorSimulator.view;
 
-import tadite.javase.elevatorSimulator.controller.PersonCreateConfig;
-
+/**
+ * Command Setting floors count in building
+ */
 public class SetFloorCountCommand implements ParseCommand {
 
     //set floor count <count>

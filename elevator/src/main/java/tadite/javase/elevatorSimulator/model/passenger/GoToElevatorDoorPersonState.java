@@ -6,6 +6,10 @@ import tadite.javase.elevatorSimulator.model.floor.Slot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * State class for finding elevator door on current floor
+ * when reached elevator door, press button and change state to WaitForElevatorPersonState
+ */
 public class GoToElevatorDoorPersonState extends AbstractPersonState {
     private List<Boolean> visitedSlots = new ArrayList<>();
     private int targetPosition=-1;

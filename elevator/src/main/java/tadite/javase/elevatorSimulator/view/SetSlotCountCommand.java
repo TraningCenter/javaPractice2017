@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.view;
 
+/**
+ * Command Setting slots count in building
+ */
 public class SetSlotCountCommand implements ParseCommand {
     @Override
     public boolean parseAndExecute(String str, UserInputController inputController) {

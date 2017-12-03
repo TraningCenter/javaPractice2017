@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.model.passenger;
 
+/**
+ * Abstract class for person state pattern implementation
+ */
 public abstract class AbstractPersonState implements PersonState{
     private Person person;
 

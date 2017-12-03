@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.model.elevator;
 
+/**
+ * POJO for elevator config
+ */
 public class ElevatorConfig {
     private int minLevel;
     private int maxLevel;

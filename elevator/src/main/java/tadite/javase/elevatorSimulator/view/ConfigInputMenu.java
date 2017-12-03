@@ -1,15 +1,16 @@
 package tadite.javase.elevatorSimulator.view;
 
-import tadite.javase.elevatorSimulator.controller.BuildingConfigurator;
-
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Menu for making start config of building
+ */
 public class ConfigInputMenu implements InputMenu {
 
     private List<ParseCommand> commandList;
 
-    public ConfigInputMenu(BuildingConfigurator buildingConfigurator){
+    public ConfigInputMenu(){
         commandList = new LinkedList<>();
         commandList.add(new AddElevatorCommand());
         commandList.add(new AddPassengerCommand());

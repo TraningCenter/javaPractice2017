@@ -5,6 +5,10 @@ import tadite.javase.elevatorSimulator.model.elevator.ElevatorDoor;
 import tadite.javase.elevatorSimulator.model.misc.Observer;
 import tadite.javase.elevatorSimulator.model.floor.Slot;
 
+/**
+ * State class to wait for doors open,
+ * when notified by elevator go inside and change person state to WaitInsideElevatorPersonState
+ */
 public class WaitForElevatorPersonState extends AbstractPersonState implements Observer {
     public WaitForElevatorPersonState(Person person) {
         super(person);

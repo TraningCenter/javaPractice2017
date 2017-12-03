@@ -7,6 +7,9 @@ import tadite.javase.elevatorSimulator.model.passenger.Passenger;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Contains all building items, can check for simulation end
+ */
 public class DefaultBuilding implements Building {
     private List<Floor> floors;
     private List<Passenger> passengers;

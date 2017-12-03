@@ -1,5 +1,8 @@
 package tadite.javase.elevatorSimulator.model.elevator;
 
+/**
+ * POJO for elevator request
+ */
 public class ElevatorRequest {
     private Integer level;
 
