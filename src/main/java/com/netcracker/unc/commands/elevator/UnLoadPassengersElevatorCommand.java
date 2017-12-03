@@ -8,10 +8,10 @@ import com.netcracker.unc.logic.interfaces.IPassenger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnLoadElevatorCommand implements IElevatorCommand {
+public class UnLoadPassengersElevatorCommand implements IElevatorCommand {
     private IElevator elevator;
 
-    public UnLoadElevatorCommand(IElevator elevator) {
+    public UnLoadPassengersElevatorCommand(IElevator elevator) {
         this.elevator = elevator;
     }
 
@@ -22,5 +22,6 @@ public class UnLoadElevatorCommand implements IElevatorCommand {
                 elevator.deletePassenger(passenger);
             }
         }
+        elevator.setUnLoaded(true);
     }
 }

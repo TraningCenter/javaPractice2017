@@ -76,7 +76,7 @@ Class com.netcracker.unc.logic.Floor {
 Class Building {
 - listOfShafts
 - listOfFloors
-+ void addFloor(com.netcracker.unc.logic.Floor floor)
++ void addFloor(com.netcracker.unc.logic.Floor startFloor)
 + void addShaft(Shaft shaft)
 }
 
@@ -86,12 +86,12 @@ Interface IElevator {
 + void setAvailableFloors(List<IFloor> floors)
 + void addPassenger(IPassenger passenger)
 + void deletePassenger(IPassenger passenger)
-+ void addFloorInQueue(IFloor floor)
++ void addFloorInQueue(IFloor startFloor)
 + IFloor getNextDestinationFloor()
-+ void deleteFloorFromQueue(IFloor floor)
++ void deleteFloorFromQueue(IFloor startFloor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(com.netcracker.unc.logic.Floor floor)
++ void goToFloor(com.netcracker.unc.logic.Floor startFloor)
 }
 
 Class Elevator {
@@ -108,12 +108,12 @@ Class Elevator {
 + void setAvailableFloors(List<IFloor> floors)
 + void addPassenger(IPassenger passenger)
 + void deletePassenger(IPassenger passenger)
-+ void addFloorInQueue(IFloor floor)
++ void addFloorInQueue(IFloor startFloor)
 + IFloor getNextDestinationFloor()
-+ void deleteFloorFromQueue(IFloor floor)
++ void deleteFloorFromQueue(IFloor startFloor)
 + void countRemainingCapacity(int currentWeight)
 + void setState(State state)
-+ void goToFloor(com.netcracker.unc.logic.Floor floor)
++ void goToFloor(com.netcracker.unc.logic.Floor startFloor)
 }
 
 class Shaft{
@@ -133,7 +133,7 @@ interface com.netcracker.unc.logic.interfaces.buttons.IFloorButton {
 }
 
 interface com.netcracker.unc.logic.interfaces.buttons.IElevatorButton {
-+ void goToFloor(com.netcracker.unc.logic.Floor floor)
++ void goToFloor(com.netcracker.unc.logic.Floor startFloor)
 }
 
 Class com.netcracker.unc.ApplicationManager {
@@ -168,19 +168,19 @@ interface IFloorCommand {
 
 class AddNewPassengerFloorCommand {
 - passenger
-- floor
+- startFloor
 + void execute()
 }
 
 class DeletePassengerFloorCommand {
 - passenger
-- floor
+- startFloor
 + void execute()
 }
 
 class MoveElevatorCommand {
 - elevator
-- floor
+- startFloor
 + void execute()
 }
 
@@ -213,13 +213,13 @@ class StopElevatorCommand {
 }
 
 class CallElevatorPassengerCommand {
-- floor
+- startFloor
 + void execute()
 }
 
 class ChooseFloorPassengerCommand {
 - elevator
-- floor
+- startFloor
 + void execute()
 }
 

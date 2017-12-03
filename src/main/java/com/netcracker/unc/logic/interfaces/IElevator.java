@@ -42,4 +42,12 @@ public interface IElevator {
     int getCapacity();
 
     int getRemainingCapacity();
+
+    boolean isUnLoaded();
+
+    void setUnLoaded(boolean unLoaded);
+
+    boolean isLoaded();
+
+    void setLoaded(boolean loaded);
 }

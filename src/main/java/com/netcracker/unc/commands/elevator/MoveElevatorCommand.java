@@ -14,6 +14,8 @@ public class MoveElevatorCommand implements IElevatorCommand {
     }
 
     public void execute() {
+        elevator.setLoaded(false);
+        elevator.setUnLoaded(false);
         Floor floor = elevator.getCurrentFloor();
         Floor nextFloor;
         if (elevator.getState() == State.STOPPED)
@@ -24,7 +26,7 @@ public class MoveElevatorCommand implements IElevatorCommand {
             nextFloor = elevator.getAvailableFloors().get(floor.getId() - 2);
         if (elevator.getAvailableFloors().contains(nextFloor))
             elevator.setCurrentFloor(nextFloor);
-        if (elevator.getNextDestinationFloor() == elevator.getCurrentFloor())
-            new StopElevatorCommand(elevator).execute();
+        if (elevator.getNextDestinationFloor() == elevator.getCurrentFloor() && elevator.getFloorsToVisit().size() == 1)
+            elevator.setState(State.STOPPED);
     }
 }

@@ -2,17 +2,15 @@ package com.netcracker.unc;
 
 import com.netcracker.unc.commands.CommandManager;
 import com.netcracker.unc.commands.building.CallElevatorBuildingCommand;
+import com.netcracker.unc.commands.elevator.LoadPassengersElevatorCommand;
+import com.netcracker.unc.commands.elevator.MoveElevatorCommand;
+import com.netcracker.unc.commands.elevator.UnLoadPassengersElevatorCommand;
 import com.netcracker.unc.commands.floor.AddNewPassengerFloorCommand;
-import com.netcracker.unc.logic.Building;
-import com.netcracker.unc.logic.Elevator;
-import com.netcracker.unc.logic.Floor;
-import com.netcracker.unc.logic.Passenger;
+import com.netcracker.unc.logic.*;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class ApplicationManager {
     private static int countFloors;
@@ -22,19 +20,40 @@ public class ApplicationManager {
 
     private static Building building;
     private static CommandManager commandManager;
+    private static Queue<WaitingCall> waitingCalls;
 
 
     public static void main(String[] args) {
         building = new Building();
         commandManager = new CommandManager();
+        waitingCalls = new LinkedList<WaitingCall>();
         inputConfiguration();
-        while (true) {
+        List<IElevator> elevators = building.getElevators();
+        while (!commandManager.isEpmty()) {
             while (!commandManager.isEpmty()) {
                 commandManager.executeNextCommand();
             }
+            for (IElevator elevator : elevators) {
+                if (elevator.getFloorsToVisit().isEmpty()) {
+                    continue;
+                }
+                if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor() && !elevator.isUnLoaded() && !elevator.getPassengers().isEmpty()) {
+                    commandManager.addCommand(new UnLoadPassengersElevatorCommand(elevator));
+                    continue;
+                }
+                if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor() && !elevator.isLoaded()) {
+                    commandManager.addCommand(new LoadPassengersElevatorCommand(elevator, waitingCalls));
+                    continue;
+                }
+                commandManager.addCommand(new MoveElevatorCommand(elevator));
+            }
+            List<WaitingCall> wc = new ArrayList<WaitingCall>(waitingCalls);
+            for (WaitingCall waitingCall : wc) {
+                waitingCalls.remove(waitingCall);
+                commandManager.addCommand(new CallElevatorBuildingCommand(elevators, waitingCall.getStartFloor(), waitingCall.getDestFloor(), waitingCall.getDirection(), waitingCalls));
+            }
         }
-
-        //System.out.println("ldsfk");
+        System.out.println();
     }
 
     private static void inputConfiguration() {
@@ -57,7 +76,7 @@ public class ApplicationManager {
             if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
                 passenger = inputPassengerInfo(scanner);
                 commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, passenger.getStartFloor()));
-                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), passenger.getDestinationFloor(), passenger.getDirection()));
+                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), passenger.getStartFloor(), passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
             } else
                 break;
         }
@@ -115,7 +134,7 @@ public class ApplicationManager {
             currentFloor = minFloor + rnd.nextInt(maxFloor - minFloor + 1);
             elevator.setCurrentFloor(floors.get(currentFloor - 1));
             elevator.setCapacity(100 + rnd.nextInt(501));
-            System.out.println(String.format("INFO: Лифт #%d. Мин. этаж: %d, макс. этаж: %d, тек. этаж: %d, грузопод.: %d", id, minFloor, maxFloor, currentFloor, elevator.getCapacity()));
+            System.out.println(String.format("INFO: Лифт #%d. Мин. этаж: %d, макс. этаж: %d, тек. этаж: %d, грузопод. : %d", id, minFloor, maxFloor, currentFloor, elevator.getCapacity()));
         }
         return elevator;
     }

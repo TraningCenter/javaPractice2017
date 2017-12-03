@@ -4,7 +4,9 @@ package com.netcracker.unc.logic;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Elevator implements IElevator {
     private int id;
@@ -15,6 +17,8 @@ public class Elevator implements IElevator {
     private List<Floor> floorsToVisit;
     private int capacity;
     private int remainingCapacity;
+    private boolean isUnLoaded = false;
+    private boolean isLoaded = false;
 
     public Elevator(int id) {
         this.id = id;
@@ -123,7 +127,10 @@ public class Elevator implements IElevator {
                 break;
             case STOPPED:
                 floorsToVisit.add(floor);
-                state = (floor.compareTo(currentFloor) < 0) ? State.DOWN : State.UP;
+                if (floor.compareTo(currentFloor) < 0)
+                    state = State.DOWN;
+                else if (floor.compareTo(currentFloor) > 0)
+                    state = State.UP;
                 break;
         }
     }
@@ -196,4 +203,19 @@ public class Elevator implements IElevator {
         this.remainingCapacity = remainingCapacity;
     }
 
+    public boolean isUnLoaded() {
+        return isUnLoaded;
+    }
+
+    public void setUnLoaded(boolean unLoaded) {
+        isUnLoaded = unLoaded;
+    }
+
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        isLoaded = loaded;
+    }
 }
