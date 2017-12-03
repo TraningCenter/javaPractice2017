@@ -37,4 +37,16 @@ public class DefaultBuilding implements Building {
     public boolean isActive() {
         return passengers.stream().anyMatch(passenger -> passenger.isActive());
     }
+
+    @Override
+    public int getFloorsCount() {
+        return floors.size();
+    }
+
+    @Override
+    public int getSlotsCount() {
+        return floors.stream()
+                .max((o1, o2) -> o1.getSlotsCount()>o2.getSlotsCount()?1:o1.getSlotsCount()<o2.getSlotsCount()?-1:0)
+                .get().getSlotsCount();
+    }
 }

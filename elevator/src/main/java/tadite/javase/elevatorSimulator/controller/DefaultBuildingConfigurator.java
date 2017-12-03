@@ -52,6 +52,16 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
     }
 
     @Override
+    public int getFloorCount() {
+        return floorCount;
+    }
+
+    @Override
+    public int getSlotCount() {
+        return slotCount;
+    }
+
+    @Override
     public void removeElevatorCreateConfig(int index) {
         if (index<elevatorCreateConfigs.size())
             elevatorCreateConfigs.remove(index);
@@ -69,33 +79,12 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         List<Passenger> passengers = new ArrayList<>();
         List<IndoorTransport> indoorTransports = new ArrayList<>();
 
-        List<List<Slot>> slotsLists = new ArrayList<>();
-        for (int level = 1; level < floorCount+1; level++) {
-            List<Slot> slots = new ArrayList<>();
-            for (int position = 0; position < slotCount; position++) {
-                slots.add(new EmptySlot(new Location(position, level)));
-            }
-            slotsLists.add(slots);
-        }
+        List<List<Slot>> slotsLists = createEmptySlotsForAllBuilding();
 
         for (ElevatorCreateConfig elevatorCreateConfig : elevatorCreateConfigs) {
-            ElevatorConfig config = new ElevatorConfig(elevatorCreateConfig.getMinLevel(),elevatorCreateConfig.getMaxLevel(),elevatorCreateConfig.getPosition());
+            ElevatorController elevatorController = createElevatorController(slotsLists, elevatorCreateConfig);
 
-            DefaultRequestManager requestManager = new DefaultRequestManager();
-            Button button = new DefaultButton(requestManager);
-            DefaultElevator defaultElevator = new DefaultElevator(new Location(elevatorCreateConfig.getPosition(),elevatorCreateConfig.getElevatorStartLevel()), button);
-
-            ElevatorTargetCalculationStrategy targetCalculationStrategy = new LastJobFirstElevatorTargetCalculationStrategy();
-
-            Map<Integer, ElevatorDoorMechanism> doorMechanismMap = new HashMap<>();
-            for (int level = 1; level < floorCount + 1; level++) {
-                DefaultElevatorDoor defaultElevatorDoor = new DefaultElevatorDoor(
-                        new Location(elevatorCreateConfig.getPosition(),level), config, new DefaultButton(requestManager),defaultElevator);
-                slotsLists.get(level-1).set(elevatorCreateConfig.getPosition(),defaultElevatorDoor);
-                doorMechanismMap.put(level,defaultElevatorDoor);
-            }
-
-            indoorTransports.add(new ElevatorController(config,defaultElevator,targetCalculationStrategy,doorMechanismMap,requestManager));
+            indoorTransports.add(elevatorController);
         }
 
         for (int level = 1; level < floorCount+1; level++) {
@@ -105,14 +94,69 @@ public class DefaultBuildingConfigurator implements BuildingConfigurator {
         FloorGetter floorGetter = new DefaultFloorGetter(floors);
 
         for (PersonCreateConfig personCreateConfig : personCreateConfigs) {
-            Person person = new Person(new Location(personCreateConfig.getStartPosition(), personCreateConfig.getStartLevel()),
-                    floors.get(personCreateConfig.getStartLevel() - 1),
-                    new Location(personCreateConfig.getTargetPosition(), personCreateConfig.getTargetLevel()),
-                    floorGetter);
-            person.changeState(new GoToElevatorDoorPersonState(person));
+            Person person = createPerson(floors, floorGetter, personCreateConfig);
             passengers.add(person);
         }
 
         return new DefaultBuilding(floors,passengers,indoorTransports);
+    }
+
+    private Person createPerson(List<Floor> floors, FloorGetter floorGetter, PersonCreateConfig personCreateConfig) {
+        Person person = new Person(new Location(personCreateConfig.getStartPosition(), personCreateConfig.getStartLevel()),
+                floors.get(personCreateConfig.getStartLevel() - 1),
+                new Location(personCreateConfig.getTargetPosition(), personCreateConfig.getTargetLevel()),
+                floorGetter);
+        person.changeState(new GoToElevatorDoorPersonState(person));
+        return person;
+    }
+
+    private ElevatorController createElevatorController(List<List<Slot>> slotsLists, ElevatorCreateConfig elevatorCreateConfig) {
+        ElevatorConfig config = createElevatorConfig(elevatorCreateConfig);
+        DefaultRequestManager requestManager = new DefaultRequestManager();
+        DefaultElevator defaultElevator = createElevator(elevatorCreateConfig, requestManager);
+        ElevatorTargetCalculationStrategy targetCalculationStrategy = new LastJobFirstElevatorTargetCalculationStrategy();
+        Map<Integer, ElevatorDoorMechanism> doorMechanismMap = createIntegerElevatorDoorMechanismMap(slotsLists, config, requestManager, defaultElevator);
+
+        return new ElevatorController(config, defaultElevator, targetCalculationStrategy, doorMechanismMap, requestManager);
+    }
+
+    private Map<Integer, ElevatorDoorMechanism> createIntegerElevatorDoorMechanismMap(List<List<Slot>> slotsLists, ElevatorConfig config, DefaultRequestManager requestManager, DefaultElevator defaultElevator) {
+        Map<Integer, ElevatorDoorMechanism> doorMechanismMap = new HashMap<>();
+        for (int level = 1; level < floorCount + 1; level++) {
+            int elevatorPosition = config.getPosition();
+
+            DefaultElevatorDoor defaultElevatorDoor = new DefaultElevatorDoor(
+                    new Location(elevatorPosition,level), config, new DefaultButton(requestManager),defaultElevator);
+
+            slotsLists.get(level-1).set(elevatorPosition,defaultElevatorDoor);
+
+            doorMechanismMap.put(level,defaultElevatorDoor);
+        }
+        return doorMechanismMap;
+    }
+
+    private DefaultElevator createElevator(ElevatorCreateConfig elevatorCreateConfig, DefaultRequestManager requestManager) {
+        Button button = new DefaultButton(requestManager);
+        return new DefaultElevator(new Location(elevatorCreateConfig.getPosition(),elevatorCreateConfig.getElevatorStartLevel()), button);
+    }
+
+    private ElevatorConfig createElevatorConfig(ElevatorCreateConfig elevatorCreateConfig) {
+        return new ElevatorConfig(elevatorCreateConfig.getMinLevel(),elevatorCreateConfig.getMaxLevel(),elevatorCreateConfig.getPosition());
+    }
+
+    private List<List<Slot>> createEmptySlotsForAllBuilding() {
+        List<List<Slot>> slotsLists = new ArrayList<>();
+        for (int level = 1; level < floorCount+1; level++) {
+            slotsLists.add(createEmptySlots(level));
+        }
+        return slotsLists;
+    }
+
+    private List<Slot> createEmptySlots(int level) {
+        List<Slot> slots = new ArrayList<>();
+        for (int position = 0; position < slotCount; position++) {
+            slots.add(new EmptySlot(new Location(position, level)));
+        }
+        return slots;
     }
 }

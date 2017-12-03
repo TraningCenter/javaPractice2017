@@ -11,6 +11,8 @@ public interface BuildingConfigurator {
     void addPersonCreateConfig(PersonCreateConfig personConfig);
     Iterator<ElevatorCreateConfig> getElevatorCreateConfigs();
     Iterator<PersonCreateConfig> getPersonCreateConfigs();
+    int getFloorCount();
+    int getSlotCount();
     void removeElevatorCreateConfig(int index);
     void removePersonCreateConfig(int index);
     Building createBuilding();

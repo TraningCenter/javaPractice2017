@@ -1,24 +1,30 @@
 package tadite.javase.elevatorSimulator.view;
 
-import java.io.IOException;
+import tadite.javase.elevatorSimulator.controller.BuildingConfigurator;
+import tadite.javase.elevatorSimulator.controller.BuildingSimulationRunner;
+import tadite.javase.elevatorSimulator.controller.SimulationRunner;
+
+import java.util.Scanner;
 
 public class UserInputController {
 
     private InputMenu inputMenu;
+    private BuildingConfigurator buildingConfigurator;
+    private Scanner scanner;
 
-    public UserInputController(InputMenu inputMenu) {
+    private SimulationRunner simulationRunner;
+
+    public UserInputController(InputMenu inputMenu, BuildingConfigurator buildingConfigurator) {
         this.inputMenu = inputMenu;
+        this.buildingConfigurator = buildingConfigurator;
+        scanner = new Scanner(System.in);
     }
 
     public void start() {
         while(true) {
             showMenu();
-            try {
-                char ch = (char) System.in.read();
-                inputMenu.execute(ch, this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String str = scanner.nextLine();
+            inputMenu.execute(str, this);
         }
     }
 
@@ -26,10 +32,23 @@ public class UserInputController {
         this.inputMenu=inputMenu;
     }
 
+    public BuildingConfigurator getBuildingConfigurator(){
+        return buildingConfigurator;
+    }
+
     private void showMenu() {
         System.out.println("****************MENU*****************");
         System.out.println(inputMenu.getCommandsLine());
         System.out.println("**************************************");
         System.out.println("Selection: ");
+    }
+
+    public void startSimulation() {
+        createSimulationRunner();
+        simulationRunner.startSimulation();
+    }
+
+    private void createSimulationRunner() {
+        simulationRunner=new BuildingSimulationRunner(buildingConfigurator.createBuilding(),new StreamBuildingPrintStrategy(System.out));
     }
 }

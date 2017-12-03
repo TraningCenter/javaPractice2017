@@ -5,6 +5,7 @@ import tadite.javase.elevatorSimulator.model.building.Building;
 import tadite.javase.elevatorSimulator.model.elevator.IndoorTransport;
 import tadite.javase.elevatorSimulator.model.passenger.Passenger;
 import tadite.javase.elevatorSimulator.model.passenger.Person;
+import tadite.javase.elevatorSimulator.view.StreamBuildingPrintStrategy;
 
 import java.util.Iterator;
 
@@ -60,7 +61,7 @@ public class BuildingSimulationRunnerTests {
         Iterator<Passenger> passengerIterator = building.getPassengerIterator();
         Iterator<IndoorTransport> transportIterator = building.getTransportIterator();
 
-        BuildingPrintStrategy printStrategy = blding -> {};
+        BuildingPrintStrategy printStrategy = new StreamBuildingPrintStrategy(System.out);
 
         BuildingSimulationRunner buildingSimulationRunner = new BuildingSimulationRunner(building, printStrategy);
 

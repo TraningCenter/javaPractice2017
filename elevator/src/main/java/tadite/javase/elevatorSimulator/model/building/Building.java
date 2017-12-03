@@ -11,4 +11,6 @@ public interface Building{
     Iterator<Passenger> getPassengerIterator();
     Iterator<IndoorTransport> getTransportIterator();
     boolean isActive();
+    int getFloorsCount();
+    int getSlotsCount();
 }

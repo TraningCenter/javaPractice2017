@@ -1,7 +1,5 @@
 package tadite.javase.elevatorSimulator.model.misc;
 
-import com.sun.deploy.model.LocalApplicationProperties;
-
 public class Location {
     private int position;
     private int level;

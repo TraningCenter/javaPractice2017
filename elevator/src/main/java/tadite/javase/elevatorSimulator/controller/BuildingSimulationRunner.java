@@ -2,7 +2,7 @@ package tadite.javase.elevatorSimulator.controller;
 
 import tadite.javase.elevatorSimulator.model.building.Building;
 
-public class BuildingSimulationRunner {
+public class BuildingSimulationRunner implements SimulationRunner {
     private Building building;
     private BuildingPrintStrategy printStrategy;
 
@@ -12,9 +12,26 @@ public class BuildingSimulationRunner {
     }
 
     public void startSimulation() {
-        while (building.isActive()) {
+        do {
+            printBuilding();
             updateBuilding();
-            printStrategy.print(building);
+            threadSleep();
+        }
+        while (building.isActive());
+        printBuilding();
+        threadSleep();
+    }
+
+    private void printBuilding() {
+        System.out.print("\033[H\033[2J");
+        printStrategy.print(building);
+    }
+
+    private void threadSleep(){
+        try {
+            Thread.sleep(1000);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
     }
 
