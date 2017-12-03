@@ -15,6 +15,8 @@
 4. set slot count <count>
 5. back - возврат в начальное меню
 
+Описание графики
 
+![alt text](http://i97.fastpic.ru/big/2017/1203/41/bfef6b947e9e77f084dda9395f9e6741.png)
 
 
