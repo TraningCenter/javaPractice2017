@@ -1,3 +1,5 @@
+package tadite.javase.elevatorSimulator;
+
 import junit.framework.Assert;
 import org.junit.Test;
 import tadite.javase.elevatorSimulator.controller.*;

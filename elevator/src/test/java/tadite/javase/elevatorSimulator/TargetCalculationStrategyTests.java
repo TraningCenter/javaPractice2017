@@ -1,3 +1,5 @@
+package tadite.javase.elevatorSimulator;
+
 import org.junit.Assert;
 import org.junit.Test;
 import tadite.javase.elevatorSimulator.model.elevator.ElevatorRequest;
@@ -9,7 +11,7 @@ import java.util.List;
 public class TargetCalculationStrategyTests {
 
     @Test
-    public void canCalcShortestJobStrategy(){
+    public void canCalcShortestJobStrategy() {
         //Array
         ShortestJobFirstElevatorTargetCalculationStrategy shortestJobFirstElevatorTargetCalculationStrategy = new ShortestJobFirstElevatorTargetCalculationStrategy();
         List<ElevatorRequest> elevatorRequestList = new LinkedList<>();
@@ -25,6 +27,6 @@ public class TargetCalculationStrategyTests {
         ElevatorRequest elevatorRequest = shortestJobFirstElevatorTargetCalculationStrategy.calculateTargetLevel(elevatorRequestList, 4);
 
         //Assert
-        Assert.assertEquals(4,elevatorRequest.getLevel());
+        Assert.assertEquals(4L, elevatorRequest.getLevel().longValue());
     }
 }
