@@ -4,6 +4,7 @@ package com.netcracker.unc.commands.elevator;
 import com.netcracker.unc.commands.interfaces.IElevatorCommand;
 import com.netcracker.unc.commands.passenger.ChooseFloorPassengerCommand;
 import com.netcracker.unc.logic.Floor;
+import com.netcracker.unc.logic.State;
 import com.netcracker.unc.logic.WaitingCall;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
@@ -30,15 +31,27 @@ public class LoadPassengersElevatorCommand implements IElevatorCommand {
         int prob;
         for (IPassenger passenger : passengers) {
             prob = rnd.nextInt(101);
-            if (prob < passenger.getProbabilityOfChoice() || !elevator.addPassenger(passenger))
-                waiting.add(new WaitingCall(floor, passenger.getDestinationFloor()));
-            else {
-                floor.deletePassenger(passenger);
-                new ChooseFloorPassengerCommand(elevator, passenger.getDestinationFloor()).execute();
+            System.out.println(prob);
+            if (elevator.getState() == passenger.getDirection() || elevator.getState() == State.STOPPED) {
+                if (!elevator.getAvailableFloors().contains(passenger.getDestinationFloor()) || prob <= passenger.getProbabilityOfChoice() || !elevator.addPassenger(passenger))
+                    waiting.add(new WaitingCall(floor, passenger.getDestinationFloor()));
+                else {
+                    floor.deletePassenger(passenger);
+                    new ChooseFloorPassengerCommand(elevator, passenger.getDestinationFloor()).execute();
+                }
             }
         }
-        if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor())
+        if (elevator.getState() == State.STOPPED) {
+            floor.setPushedButtonUp(false);
+            floor.setPushedButtonDown(false);
+        }
+        if (elevator.getState() == State.DOWN && floor.isPushedButtonDown())
+            floor.setPushedButtonDown(false);
+        else if (elevator.getState() == State.UP && floor.isPushedButtonUp())
+            floor.setPushedButtonUp(false);
+        if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor()) {
             elevator.deleteFloorFromQueue();
+        }
         if (!elevator.getFloorsToVisit().isEmpty())
             elevator.setLoaded(true);
     }

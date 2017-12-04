@@ -34,7 +34,6 @@ public class Passenger implements IPassenger {
 
     public void setStartFloor(Floor startFloor) {
         this.startFloor = startFloor;
-        //startFloor.addPassenger(this);
     }
 
     public Floor getDestinationFloor() {

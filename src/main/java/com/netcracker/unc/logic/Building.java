@@ -12,8 +12,8 @@ public class Building {
     private List<Floor> floors;
 
     public Building() {
-        elevators = new ArrayList<IElevator>();
-        floors = new ArrayList<Floor>();
+        elevators = new ArrayList<>();
+        floors = new ArrayList<>();
     }
 
     public Building(List<IElevator> elevators, List<Floor> floors) {

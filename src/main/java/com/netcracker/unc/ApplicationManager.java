@@ -33,6 +33,7 @@ public class ApplicationManager {
             while (!commandManager.isEpmty()) {
                 commandManager.executeNextCommand();
             }
+            //draw()
             for (IElevator elevator : elevators) {
                 if (elevator.getFloorsToVisit().isEmpty()) {
                     continue;
@@ -45,12 +46,14 @@ public class ApplicationManager {
                     commandManager.addCommand(new LoadPassengersElevatorCommand(elevator, waitingCalls));
                     continue;
                 }
-                commandManager.addCommand(new MoveElevatorCommand(elevator));
+                commandManager.addCommand(new MoveElevatorCommand(elevator, building.getFloors()));
             }
-            List<WaitingCall> wc = new ArrayList<WaitingCall>(waitingCalls);
-            for (WaitingCall waitingCall : wc) {
-                waitingCalls.remove(waitingCall);
-                commandManager.addCommand(new CallElevatorBuildingCommand(elevators, waitingCall.getStartFloor(), waitingCall.getDestFloor(), waitingCall.getDirection(), waitingCalls));
+            if (!waitingCalls.isEmpty()) {
+                List<WaitingCall> wc = new ArrayList<WaitingCall>(waitingCalls);
+                for (WaitingCall waitingCall : wc) {
+                    waitingCalls.remove(waitingCall);
+                    commandManager.addCommand(new CallElevatorBuildingCommand(elevators, waitingCall.getStartFloor(), waitingCall.getDestFloor(), waitingCall.getDirection(), waitingCalls));
+                }
             }
         }
         System.out.println();
@@ -71,7 +74,7 @@ public class ApplicationManager {
         String line;
         IPassenger passenger;
         while (true) {
-            System.out.println("Добавить пассажира? (Y/N)");
+            System.out.print("Добавить пассажира? (Y/N) ");
             line = scanner.nextLine();
             if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
                 passenger = inputPassengerInfo(scanner);
@@ -80,7 +83,6 @@ public class ApplicationManager {
             } else
                 break;
         }
-
     }
 
     private static int inputInt(Scanner scanner, String msg, int min, int max) {

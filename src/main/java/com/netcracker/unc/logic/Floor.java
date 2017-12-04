@@ -13,7 +13,7 @@ public class Floor implements Comparable<Floor> {
 
     public Floor(int id) {
         this.id = id;
-        passengers = new ArrayList<IPassenger>();
+        passengers = new ArrayList<>();
         isPushedButtonDown = isPushedButtonUp = false;
     }
 
@@ -50,7 +50,6 @@ public class Floor implements Comparable<Floor> {
     public void deletePassengers(List<IPassenger> passengers) {
         this.passengers.removeAll(passengers);
     }
-
 
     public int compareTo(Floor floor) {
         return id - floor.id;

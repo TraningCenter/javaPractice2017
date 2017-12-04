@@ -2,6 +2,7 @@ import com.netcracker.unc.commands.building.CallElevatorBuildingCommand;
 import com.netcracker.unc.commands.elevator.LoadPassengersElevatorCommand;
 import com.netcracker.unc.commands.elevator.MoveElevatorCommand;
 import com.netcracker.unc.commands.elevator.UnLoadPassengersElevatorCommand;
+import com.netcracker.unc.commands.floor.AddNewPassengerFloorCommand;
 import com.netcracker.unc.logic.*;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
@@ -66,12 +67,12 @@ public class CommandsTests {
     @Test
     public void MoveElevatorCommand() {
         elevator.addFloorInQueue(floors.get(4));
-        new MoveElevatorCommand(elevator).execute();
+        new MoveElevatorCommand(elevator, floors).execute();
         Assert.assertEquals(floors.get(4), elevator.getCurrentFloor());
         elevator.addFloorInQueue(floors.get(1));
         new UnLoadPassengersElevatorCommand(elevator).execute();
         new LoadPassengersElevatorCommand(elevator, new LinkedList<WaitingCall>()).execute();
-        new MoveElevatorCommand(elevator).execute();
+        new MoveElevatorCommand(elevator, floors).execute();
         Assert.assertEquals(floors.get(3), elevator.getCurrentFloor());
         Assert.assertEquals(State.DOWN, elevator.getState());
     }
@@ -122,7 +123,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void LoadPassengersElevatorCommandWithProbabilityOfChoice(){
+    public void LoadPassengersElevatorCommandWithProbabilityOfChoice() {
         Floor floor = floors.get(3);
         Queue<WaitingCall> waitingCalls = new LinkedList<WaitingCall>();
         floor.addPassenger(new Passenger(floors.get(3), floors.get(6), 30, 0));
@@ -131,5 +132,12 @@ public class CommandsTests {
         Assert.assertEquals(1, elevator.getPassengers().size());
         Assert.assertEquals(1, floor.getPassengers().size());
         Assert.assertEquals(1, waitingCalls.size());
+    }
+
+    @Test
+    public void AddNewPassengerFloorCommand() {
+        Floor floor = floors.get(0);
+        new AddNewPassengerFloorCommand(new Passenger(floors.get(0), floors.get(5)), floor).execute();
+        Assert.assertEquals(1, floor.getPassengers().size());
     }
 }

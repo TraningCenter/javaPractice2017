@@ -29,14 +29,15 @@ public class CallElevatorBuildingCommand implements IBuildingCommand {
         IElevator nearestElevator = null;
         int distanceNE; //nearestElevator
         int distanceE; //elevator
-        boolean allFree = true;
+        boolean allUnavailable = true;
+
         // поиск близжайшего лифта или который уже едет (в ту же сторону)
         for (IElevator elevator : elevators) {
-            if (!elevator.getFloorsToVisit().isEmpty())
-                allFree = false;
             // если этаж для лифта недоступен
             if (!elevator.getAvailableFloors().contains(floor) || !elevator.getAvailableFloors().contains(destFloor))
                 continue;
+            else
+                allUnavailable = false;
             // если лифт едет в противоположное направление
             if (elevator.getState() != State.STOPPED && elevator.getState() != direction)
                 continue;
@@ -50,9 +51,19 @@ public class CallElevatorBuildingCommand implements IBuildingCommand {
                 nearestElevator = elevator;
         }
         if (nearestElevator == null) {
-            if (!allFree)
+            if (!allUnavailable)
                 waiting.add(new WaitingCall(floor, destFloor));
-        } else
+        } else {
+            // если на этот этаж лифт уже вызвали
+            if (direction == State.DOWN && floor.isPushedButtonDown())
+                return;
+            else if (direction == State.UP && floor.isPushedButtonUp())
+                return;
             nearestElevator.addFloorInQueue(floor);
+            if (direction == State.UP)
+                floor.setPushedButtonUp(true);
+            else
+                floor.setPushedButtonDown(true);
+        }
     }
 }
