@@ -1,0 +1,199 @@
+@startuml
+Main..MainController
+
+ConcreteController<|..ButtonController
+ConcreteController<|..PersonController
+ConcreteController<|..ElevatorController
+Configurator<|..BuildingConfigurator
+Configurator<|..PersonsConfigurator
+Configurator<|..ElevatorsConfigurator
+Configurator<|..FloorConfigurator
+Configurator<|..ShaftConfigurator
+Drawable<|..Person
+Drawable<|..Building
+Drawable<|..Elevator
+Drawable<|..Shaft
+Drawable<|..Floor
+Drawable<|.. Logger
+Actionable<|..Elevator
+Actionable<|..Person
+Floor o-- Person
+Floor o-- Elevator
+Person-->Direction
+Elevator-->Direction
+Elevator o--Person
+ElementConsoleDrawer --o Drawer
+ElementConsoleDrawer <|..BuildingDrawer
+ElementConsoleDrawer <|..ElevatorDrawer
+ElementConsoleDrawer <|..FloorDrawer
+ElementConsoleDrawer <|..ShaftDrawer
+ElementConsoleDrawer <|..LogDrawer
+Drawer<|..StandartConsoleDrawer
+BuildingConfigurator-->Building
+ElevatorConfigurator o--Shaft
+@startuml
+Main..MainController
+
+ActionController<|..ButtonController
+ActionController<|..PersonController
+ActionController<|..ElevatorController
+Configurator<|..BuildingConfigurator
+Configurator<|..PersonsConfigurator
+Configurator<|..ElevatorsConfigurator
+Configurator<|..FloorConfigurator
+Configurator<|..ShaftConfigurator
+Drawable<|..Person
+Drawable<|..Building
+Drawable<|..Elevator
+Drawable<|..Shaft
+Drawable<|..Floor
+Drawable<|.. Logger
+Actionable<|..Elevator
+Actionable<|..Person
+Floor o-- Person
+Floor o-- Elevator
+Person-->Direction
+Elevator-->Direction
+Elevator o--Person
+ElementConsoleDrawer --o Drawer
+ElementConsoleDrawer <|..BuildingDrawer
+ElementConsoleDrawer <|..ElevatorDrawer
+ElementConsoleDrawer <|..FloorDrawer
+ElementConsoleDrawer <|..ShaftDrawer
+ElementConsoleDrawer <|.. LogDrawer
+Drawer<|..StandartConsoleDrawer
+BuildingConfigurator-->Building
+ElevatorConfigurator o--Shaft
+ElevatorConfigurator o--Elevator
+FloorConfigurator o--Floor
+FloorConfigurator -->Building
+PersonsConfigurator --> Building
+PersonsConfigurator o-- Building
+ShaftConfigurator -->Building
+ShaftConfigurator -->Shaft
+ButtonController o-- Person
+ButtonController o-- Elevator
+ElevatorController o-- Elevator
+ElevatorController o-- Floor
+PersonController o-- Person
+PersonController o-- Floor
+PersonController o-- Elevator
+ConfigurationController -->Configurator
+MainController--> ActionController
+MainController--> Drawer
+MainController--> Logger
+MainController-->ConfigurationController
+
+interface ElementConsoleDrawer{
+void draw(char[][] image)
+}
+
+class ShaftDrawer{
+void draw(char[][] image)
+}
+class BuildingDrawer{
+void draw(char[][] image)
+}
+class FloorDrawer{
+void draw(char[][] image)
+}
+class ElevatorDrawer{
+void draw(char[][] image)
+}
+class LogDrawer{
+void draw(char[][] image)
+}
+class StandartConsoleDrawer{
+char[][] createImage()
+void drawAll()
+}
+
+interface Drawer{
+void drawAll()
+}
+
+class MainController{
+void start()
+void action()
+}
+class ConfigurationController{
+void configureAll()
+}
+interface Configurator{
+configure()
+}
+class FloorConfigurator{
+configure()
+}
+class ElevatorConfigurator{
+configure()
+}
+class ShaftConfigurator{
+configure()
+}
+class PersonsConfigurator{
+configure()
+}
+class BuildingConfigurator{
+configure()
+}
+interface ActionController{
+void action()
+}
+class ElevatorController{
+void action()
+}
+class ButtonController{
+void action()
+}
+class PersonController{
+void action()
+}
+interface Drawable{
+}
+interface Actionable{
+}
+class Logger{
+void printLog(Building building,List<Person> persons,List<Elevator> elevators)
+void printLogBuilding()
+void printLogPersons()
+void printLogElevators()
+}
+class Building{
+int floorCount;
+int elevatorCount;
+int shaftCount;
+int width;
+int height;
+}
+class Person{
+int target floor;
+int current floor;
+void call()
+void enter()
+void goOut()
+}
+class Elevator{
+int target floor;
+int current floor;
+void move()
+void stay()
+}
+class Floor{
+List <Elevator> elevators
+List <Person> persons
+}
+class Shaft{
+int coord;
+Elevator elevator;
+}
+class ElevatorConfigurator{
+configure()
+}
+enum Direction{
+up
+down
+none
+}
+@enduml
+@enduml
