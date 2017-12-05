@@ -62,23 +62,6 @@ public class House implements IHouse{
 
     /**
      *
-     * @return String information about class
-     */
-    @Override
-    public String toString(){
-        String result = "House \n Number of floors " + getNumberOfFloors() + "\n";
-        for (IFloor floor : floors ) {
-            result += "   " + floor.toString() + "\n";
-        }
-        result += "Number of Lifts " + getNumberOfLifts() + "\n";
-        for (ILift lift : lifts ) {
-            result += "   " + lift.toString() + "\n";
-        }
-        return result;
-    }
-
-    /**
-     *
      * @return Iterator for floors in the house
      */
     public Iterator<IFloor> floorIterator() {

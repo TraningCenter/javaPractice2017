@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Lift.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LiftApp</a> &gt; <a href="index.source.html" class="el_package">com.alegerd.model</a> &gt; <span class="el_source">Lift.java</span></div><h1>Lift.java</h1><pre class="source lang-java linenums">package com.alegerd.model;
+
+import com.alegerd.commands.interfaces.CommandReceiver;
+import com.alegerd.commands.interfaces.*;
+import com.alegerd.exceptions.LiftWeightException;
+import com.alegerd.model.buttons.IButton;
+import com.alegerd.model.buttons.LiftButton;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.ILift;
+import com.alegerd.model.interfaces.IPerson;
+
+import java.util.*;
+import java.util.function.Consumer;
+/**
+ * Lift
+ */
+public class Lift implements ILift{
+
+    class FloorDTO{
+        Integer number;
+        Direction dir;
+
+<span class="fc" id="L23">        public FloorDTO(Integer number, Direction dir) {</span>
+<span class="fc" id="L24">            this.number = number;</span>
+<span class="fc" id="L25">            this.dir = dir;</span>
+<span class="fc" id="L26">        }</span>
+
+        public Integer getNumber() {
+<span class="fc" id="L29">            return number;</span>
+        }
+
+        public void setNumber(Integer number) {
+<span class="nc" id="L33">            this.number = number;</span>
+<span class="nc" id="L34">        }</span>
+
+        public Direction getDir() {
+<span class="fc" id="L37">            return dir;</span>
+        }
+
+        public void setDir(Direction dir) {
+<span class="nc" id="L41">            this.dir = dir;</span>
+<span class="nc" id="L42">        }</span>
+
+        public boolean equals(FloorDTO other){
+<span class="pc bpc" id="L45" title="3 of 4 branches missed.">            return number.equals(other.getNumber())&amp;&amp;dir.equals(other.dir);</span>
+        }
+    }
+
+    public Integer number;
+<span class="fc" id="L50">    private Integer floorNumber = 0;</span>
+<span class="fc" id="L51">    private Integer weight = 0;</span>
+    private Integer maxWeight;
+    private Integer maxFloor;
+
+<span class="fc" id="L55">    private Direction currentDirection = null;</span>
+<span class="fc" id="L56">    private List&lt;Integer&gt; fromLift = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L57">    private List&lt;FloorDTO&gt; fromFloors = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L59">    private List&lt;IPerson&gt; peopleIn = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L60">    private List&lt;IFloor&gt; floors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L61">    private List&lt;IButton&gt; buttons = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L63">    public Lift(Integer number, Integer floorNumber){</span>
+<span class="fc" id="L64">        this.number = number;</span>
+<span class="fc" id="L65">        this.floorNumber = floorNumber;</span>
+<span class="fc" id="L66">        makeButtons();</span>
+<span class="fc" id="L67">    }</span>
+
+<span class="fc" id="L69">    public Lift(Integer number, List&lt;IFloor&gt; floors, Integer maxWeight, Integer floorNumber){</span>
+<span class="fc" id="L70">        this.number = number;</span>
+<span class="fc" id="L71">        this.floorNumber = 0;</span>
+<span class="fc" id="L72">        this.floors = floors;</span>
+<span class="fc" id="L73">        this.maxWeight = maxWeight;</span>
+<span class="fc" id="L74">        this.floorNumber = floorNumber;</span>
+<span class="fc" id="L75">        makeButtons();</span>
+<span class="fc" id="L76">    }</span>
+
+<span class="fc" id="L78">    public Lift(Integer number, List&lt;IFloor&gt; floors, Integer maxWeight){</span>
+<span class="fc" id="L79">        this.number = number;</span>
+<span class="fc" id="L80">        this.floorNumber = 0;</span>
+<span class="fc" id="L81">        this.floors = floors;</span>
+<span class="fc" id="L82">        this.maxWeight = maxWeight;</span>
+<span class="fc" id="L83">        makeButtons();</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     *
+     * @return string information about class
+     */
+    @Override
+    public String toString() {
+        String result;
+<span class="fc" id="L93">        result = &quot;Lift number: &quot; + number + &quot;, number of people: &quot; + peopleIn.size() + &quot;\n&quot;;</span>
+        for (IPerson p :
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                peopleIn) {</span>
+<span class="nc" id="L96">            result += &quot;   &quot; + p.toString() + &quot;\n&quot;;</span>
+<span class="nc" id="L97">        }</span>
+<span class="fc" id="L98">        return result;</span>
+    }
+
+    private void takePeopleFromFloorOneByOne(IFloor floor){
+<span class="fc" id="L102">            int count = floor.howManyPeopleWaiting();</span>
+            try {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">                for (int i = 0; i &lt; count; i++) {</span>
+                    try {
+<span class="fc" id="L106">                        IPerson newPerson = floor.getWaitingPerson(weight, maxWeight);</span>
+<span class="fc" id="L107">                        weight += newPerson.getWeight();</span>
+<span class="fc" id="L108">                        injectFloorButtonsToPeople(newPerson);</span>
+<span class="fc" id="L109">                        setNewLiftToPeople(newPerson);</span>
+<span class="fc" id="L110">                        addNewPeople(newPerson);</span>
+<span class="fc" id="L111">                    }catch (LiftWeightException e){}</span>
+                }
+<span class="pc" id="L113">            }catch (NullPointerException e){}</span>
+<span class="fc" id="L114">    }</span>
+
+    /**
+     * Executes when lift comes to the target floor
+     */
+    public void arrived(){
+<span class="fc" id="L120">            IFloor floor = floors.get(floorNumber);</span>
+
+<span class="fc" id="L122">            takePeopleFromFloorOneByOne(floor);</span>
+
+<span class="fc" id="L124">            List&lt;IPerson&gt; whoWantsToLeave = whoWantsToLeave(floor.getNumber());</span>
+<span class="fc" id="L125">            floor.takePeople(whoWantsToLeave);</span>
+<span class="fc" id="L126">            removeLeavedPeople(whoWantsToLeave);</span>
+
+<span class="fc" id="L128">            deleteFloorFromLists(floorNumber);</span>
+
+<span class="fc" id="L130">    }</span>
+
+    /**
+     * Moves lift towards the next floor
+     */
+    public void moveOneFloor(){
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if(currentDirection == Direction.UP){</span>
+<span class="fc" id="L137">            floorNumber++;</span>
+<span class="fc" id="L138">            CommandReceiver.addNewCommand(new LiftWereToGoCommand(this));</span>
+        }
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">        else if(currentDirection == Direction.DOWN){</span>
+<span class="fc" id="L141">            floorNumber--;</span>
+<span class="fc" id="L142">            CommandReceiver.addNewCommand(new LiftWereToGoCommand(this));</span>
+        }
+<span class="fc" id="L144">    }</span>
+
+    /**
+     * Lift chooses the direction (Up / Down)
+     */
+    public void thinkWhereToGo(){
+<span class="fc" id="L150">        checkFloor(floorNumber);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if(!bypassFromLiftCalls()){</span>
+<span class="fc" id="L152">            bypassFromFloorsCalls();</span>
+        }
+<span class="fc" id="L154">    }</span>
+
+    /**
+     *
+     * @return number of people in lift
+     */
+    @Override
+    public Integer getNumberOfPeople() {
+<span class="fc" id="L162">        return peopleIn.size();</span>
+    }
+
+    /**
+     *
+     * @return number of lift lift is on
+     */
+    @Override
+    public Integer getFloorLiftOn() {
+<span class="fc" id="L171">        return floorNumber;</span>
+    }
+
+    /**
+     * Invokes when person pushes a floor-number-button
+     * in lift to choose the floor he wants to go to
+     */
+    public void liftButtonPushed(Integer floorNumber){
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if(isNotAlreadyInList(floorNumber)) {</span>
+<span class="fc" id="L180">            addFloorToFromLiftList(floorNumber);</span>
+        }
+<span class="fc" id="L182">    }</span>
+
+    /**
+     * Invokes when person calls the lift from floor
+     */
+    public void callingButtonPushed(Integer floorNumber, Direction direction){
+<span class="fc" id="L188">        FloorDTO dto = new FloorDTO(floorNumber, direction);</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if(isNotAlreadyInList(dto)) {</span>
+<span class="fc" id="L190">            addFloorToFromFloorsList(dto);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            if(currentDirection == null){</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">                currentDirection = (floorNumber &gt;= this.floorNumber)? Direction.UP : Direction.DOWN;</span>
+<span class="fc" id="L193">                thinkWhereToGo();</span>
+            }
+        }
+<span class="fc" id="L196">    }</span>
+
+    public Integer getNumber() {
+<span class="fc" id="L199">        return number;</span>
+    }
+
+    public Direction getCurrentDirection() {
+<span class="nc" id="L203">        return currentDirection;</span>
+    }
+
+    private boolean bypassFromLiftCalls(){
+
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        if(currentDirection == Direction.UP) {</span>
+
+            //есть люди в лифте, которые хотят ехать вверх
+<span class="fc bfc" id="L211" title="All 2 branches covered.">            for (Integer floor : fromLift) {</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">                if (floor &gt; getFloorLiftOn()){</span>
+<span class="fc" id="L213">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L214">                    return true;</span>
+                }
+<span class="fc" id="L216">            }</span>
+
+            //есть люди в лифте, которые хотят ехать вниз
+<span class="fc bfc" id="L219" title="All 2 branches covered.">            for (Integer floor : fromLift) {</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">                if (floor &lt; getFloorLiftOn()){</span>
+<span class="fc" id="L221">                    currentDirection = Direction.DOWN;</span>
+<span class="fc" id="L222">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L223">                    return true;</span>
+                }
+<span class="pc" id="L225">            }</span>
+
+        }
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">        else if(currentDirection == Direction.DOWN) {</span>
+
+            //есть люди в лифте, которые хотят ехать вниз
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            for (Integer floor : fromLift) {</span>
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">                if (floor &lt; getFloorLiftOn()){</span>
+<span class="fc" id="L233">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L234">                    return true;</span>
+                }
+<span class="nc" id="L236">            }</span>
+
+            //есть люди в лифте, которые хотят ехать вверх
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">            for (Integer floor : fromLift) {</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">                if (floor &gt; getFloorLiftOn()){</span>
+<span class="nc" id="L241">                    currentDirection = Direction.UP;</span>
+<span class="nc" id="L242">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="nc" id="L243">                    return true;</span>
+                }
+<span class="pc" id="L245">            }</span>
+        }
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        else if(currentDirection == null) {</span>
+
+            //есть люди в лифте, которые хотят ехать вверх
+<span class="nc bnc" id="L250" title="All 2 branches missed.">            for (Integer floor : fromLift) {</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">                if (floor &gt; getFloorLiftOn()){</span>
+<span class="nc" id="L252">                    currentDirection = Direction.UP;</span>
+<span class="nc" id="L253">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="nc" id="L254">                    return true;</span>
+                }
+<span class="nc" id="L256">            }</span>
+        }
+<span class="fc" id="L258">        return false;</span>
+    }
+
+    private boolean bypassFromFloorsCalls(){
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        if(currentDirection == Direction.UP) {</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">                if (floor.getNumber() &gt; getFloorLiftOn()){</span>
+<span class="fc" id="L266">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L267">                    return true;</span>
+                }
+<span class="fc" id="L269">            }</span>
+
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">                if (floor.getNumber() &lt; getFloorLiftOn()){</span>
+<span class="fc" id="L273">                    currentDirection = Direction.DOWN;</span>
+<span class="fc" id="L274">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L275">                    return true;</span>
+                }
+<span class="pc" id="L277">            }</span>
+
+        }
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">        else if(currentDirection == Direction.DOWN) {</span>
+
+<span class="fc bfc" id="L282" title="All 2 branches covered.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="pc bpc" id="L283" title="1 of 2 branches missed.">                if (floor.getNumber() &lt; getFloorLiftOn()){</span>
+<span class="fc" id="L284">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="fc" id="L285">                    return true;</span>
+                }
+<span class="nc" id="L287">            }</span>
+
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">                if (floor.getNumber() &gt; getFloorLiftOn()){</span>
+<span class="nc" id="L291">                    currentDirection = Direction.UP;</span>
+<span class="nc" id="L292">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="nc" id="L293">                    return true;</span>
+                }
+<span class="pc" id="L295">            }</span>
+        }
+<span class="nc bnc" id="L297" title="All 2 branches missed.">        else if(currentDirection == null){</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">                if (floor.getNumber() &gt; getFloorLiftOn()){</span>
+<span class="nc" id="L300">                    currentDirection = Direction.UP;</span>
+<span class="nc" id="L301">                    CommandReceiver.addNewCommand(new MoveLiftCommand(this));</span>
+<span class="nc" id="L302">                    return true;</span>
+                }
+<span class="nc" id="L304">            }</span>
+        }
+<span class="fc" id="L306">        return false;</span>
+    }
+
+    private void injectFloorButtonsToPeople(IPerson person){
+<span class="fc" id="L310">        person.acceptFloorButtons(buttons);</span>
+<span class="fc" id="L311">    }</span>
+
+    private List&lt;IPerson&gt; whoWantsToLeave(Integer floorNumber){
+<span class="fc" id="L314">        List&lt;IPerson&gt; people = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L315">        peopleIn.forEach(person -&gt; {</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">            if(person.getDestinationFloor() == floorNumber) people.add(person);</span>
+<span class="fc" id="L317">        });</span>
+
+<span class="fc" id="L319">        return people;</span>
+    }
+
+    private void removeLeavedPeople(List&lt;IPerson&gt; leaved){
+        for (IPerson person :
+<span class="fc bfc" id="L324" title="All 2 branches covered.">                leaved) {</span>
+<span class="fc" id="L325">            weight -= person.getWeight();</span>
+<span class="fc" id="L326">        }</span>
+<span class="fc" id="L327">        peopleIn.removeAll(leaved);</span>
+<span class="fc" id="L328">    }</span>
+
+    private void addNewPeople(IPerson person){
+<span class="fc" id="L331">            peopleIn.add(person);</span>
+<span class="fc" id="L332">            person.chooseDestinationFloor();</span>
+<span class="fc" id="L333">    }</span>
+
+    public void addFloorToFromLiftList(Integer floor) {
+<span class="fc bfc" id="L336" title="All 2 branches covered.">        for (int i = 0; i &lt; fromLift.size(); i++){</span>
+<span class="fc" id="L337">            Integer num = fromLift.get(i);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">            if(num &gt; floor){</span>
+<span class="fc" id="L339">                fromLift.add(i, floor);</span>
+<span class="fc" id="L340">                return;</span>
+            }
+        }
+
+<span class="fc" id="L344">        fromLift.add(floor);</span>
+<span class="fc" id="L345">    }</span>
+
+    private boolean isNotAlreadyInList(FloorDTO dto){
+<span class="fc bfc" id="L348" title="All 2 branches covered.">        for (FloorDTO d: fromFloors) {</span>
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">            if(d.equals(dto)){</span>
+<span class="nc" id="L350">                return false;</span>
+            }
+<span class="fc" id="L352">        }</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">        for (Integer d: fromLift) {</span>
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">            if(d.equals(dto.getNumber())){</span>
+<span class="nc" id="L355">                return false;</span>
+            }
+<span class="fc" id="L357">        }</span>
+<span class="fc" id="L358">        return true;</span>
+    }
+
+    private boolean isNotAlreadyInList(Integer floorNumber){
+<span class="fc bfc" id="L362" title="All 2 branches covered.">        for (FloorDTO d: fromFloors) {</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">            if(d.getNumber().equals(floorNumber)){</span>
+<span class="fc" id="L364">                return false;</span>
+            }
+<span class="fc" id="L366">        }</span>
+<span class="fc bfc" id="L367" title="All 2 branches covered.">        for (Integer d: fromLift) {</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">            if(d.equals(floorNumber)){</span>
+<span class="fc" id="L369">                return false;</span>
+            }
+<span class="fc" id="L371">        }</span>
+<span class="fc" id="L372">        return true;</span>
+    }
+
+    private void deleteFloorFromLists(Integer number){
+<span class="fc" id="L376">        fromLift.remove(number);</span>
+<span class="fc" id="L377">        FloorDTO del = null;</span>
+<span class="fc bfc" id="L378" title="All 2 branches covered.">        for (FloorDTO floor : fromFloors) {</span>
+<span class="fc bfc" id="L379" title="All 2 branches covered.">            if(floor.getNumber() == number){</span>
+<span class="fc" id="L380">                del = floor;</span>
+            }
+<span class="fc" id="L382">        }</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">        if(del != null)</span>
+<span class="fc" id="L384">            fromFloors.remove(del);</span>
+<span class="fc" id="L385">    }</span>
+
+    private void addFloorToFromFloorsList(FloorDTO dto) {
+<span class="fc bfc" id="L388" title="All 2 branches covered.">        for (int i = 0; i &lt; fromFloors.size(); i++){</span>
+<span class="fc" id="L389">            Integer num = fromFloors.get(i).getNumber();</span>
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">            if(num &gt; dto.getNumber()){</span>
+<span class="nc" id="L391">                fromFloors.add(i, dto);</span>
+<span class="nc" id="L392">                return;</span>
+            }
+        }
+
+<span class="fc" id="L396">        fromFloors.add(dto);</span>
+<span class="fc" id="L397">    }</span>
+
+    private void checkFloor(Integer number){
+<span class="fc bfc" id="L400" title="All 2 branches covered.">        for (Integer floor : fromLift) {</span>
+<span class="fc bfc" id="L401" title="All 2 branches covered.">            if(floor == number) {</span>
+<span class="fc" id="L402">                arrived();</span>
+<span class="fc" id="L403">                return;</span>
+            }
+<span class="fc" id="L405">        }</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">        for (FloorDTO dto : fromFloors) {</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">            if(dto.getNumber() == number){</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">                if(dto.getDir() == currentDirection) {</span>
+<span class="fc" id="L409">                    arrived();</span>
+<span class="fc" id="L410">                    return;</span>
+                }
+<span class="fc bfc" id="L412" title="All 2 branches covered.">                else if(changeDirection(currentDirection)){</span>
+<span class="fc" id="L413">                    arrived();</span>
+<span class="fc" id="L414">                    return;</span>
+                }
+            }
+<span class="fc" id="L417">        }</span>
+
+<span class="fc" id="L419">    }</span>
+
+    /**
+     * Checks maybe lift needs to change direction
+     * @param direction
+     * @return
+     */
+    private boolean changeDirection(Direction direction){
+<span class="fc bfc" id="L427" title="All 2 branches covered.">        if(currentDirection == Direction.UP) {</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">            for (Integer floor : fromLift) {</span>
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">                if (floor &gt; getFloorLiftOn()) {</span>
+<span class="fc" id="L430">                    return false;</span>
+                }
+<span class="nc" id="L432">            }</span>
+
+<span class="fc bfc" id="L434" title="All 2 branches covered.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">                if (floor.getNumber() &gt; getFloorLiftOn()) {</span>
+<span class="fc" id="L436">                    return false;</span>
+                }
+<span class="fc" id="L438">            }</span>
+<span class="fc" id="L439">            currentDirection = Direction.DOWN;</span>
+<span class="fc" id="L440">            return true;</span>
+        }
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">        if(currentDirection == Direction.DOWN) {</span>
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">            for (Integer floor : fromLift) {</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">                if (floor &lt; getFloorLiftOn()) {</span>
+<span class="nc" id="L445">                    return false;</span>
+                }
+<span class="nc" id="L447">            }</span>
+
+<span class="fc bfc" id="L449" title="All 2 branches covered.">            for (FloorDTO floor : fromFloors) {</span>
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">                if (floor.getNumber() &lt; getFloorLiftOn()) {</span>
+<span class="nc" id="L451">                    return false;</span>
+                }
+<span class="fc" id="L453">            }</span>
+<span class="fc" id="L454">            currentDirection = Direction.UP;</span>
+<span class="fc" id="L455">            return true;</span>
+        }
+<span class="nc" id="L457">        return false;</span>
+    }
+
+    private void makeButtons(){
+        for (IFloor floor:
+<span class="fc bfc" id="L462" title="All 2 branches covered.">             floors) {</span>
+<span class="fc" id="L463">            buttons.add(new LiftButton(this, floor.getNumber()));</span>
+<span class="fc" id="L464">        }</span>
+<span class="fc" id="L465">    }</span>
+
+    private void setNewLiftToPeople(IPerson person){
+<span class="fc" id="L468">        person.setWaitsForLiftNumber(number);</span>
+<span class="fc" id="L469">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

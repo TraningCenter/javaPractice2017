@@ -2,6 +2,9 @@ package com.alegerd.mainData;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main{
 
     static Application application;
@@ -13,7 +16,11 @@ public class Main{
     public static void main(String[] args) {
         String fileName = null;
         if(args.length > 0) fileName = args[0];
-        application = new Application();
-        application.start(fileName);
+        try {
+            application = new Application(fileName);
+            application.start();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

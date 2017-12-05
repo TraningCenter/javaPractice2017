@@ -43,6 +43,6 @@ public interface IPerson {
 
       void acceptLiftButtons(List<ICallLiftButton> buttons);
 
-      void acceptFloorButtons(List<LiftButton> buttons);
+      void acceptFloorButtons(List<IButton> buttons);
 
 }

@@ -1,6 +1,12 @@
 package com.alegerd.view;
 
 import com.alegerd.mainData.ViewController;
+import com.alegerd.utils.Config;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 /**
  * Builds House in console out of JSON
@@ -14,69 +20,75 @@ public class Renderer {
      */
     public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections) throws Exception{
 
-        Integer additionalCells = countAdditionalCells(floorsToDraw);
+        if(!Config.isStopDrawing()) {
+            Integer additionalCells = countAdditionalCells(floorsToDraw);
 
-        if(floorsToDraw == null)
-            throw new IllegalArgumentException("floors array is null");
-        else {
-            for(int row = floorsToDraw.length-1; row >= 0; row--){
+            if (floorsToDraw == null)
+                throw new IllegalArgumentException("floors array is null");
+            else {
+                for (int row = floorsToDraw.length - 1; row >= 0; row--) {
 
-                for(int section = 0; section < numberOfSections; section++) {
+                    for (int section = 0; section < numberOfSections; section++) {
 
-                    System.out.print("   ");
-
-                    for (int j = 0; j < (sectionSize + additionalCells); j++) {
-                        System.out.print("=");
-                    }
-                }
-
-                System.out.println();
-
-                for(int section = 0; section < numberOfSections; section++) {
-
-                    Integer lift = null;
-
-                    for (String s :
-                            liftsToDraw[row]) {
-                        String[] line = s.split(":");
-                        Integer sect = Integer.parseInt(line[0]);
-                        if(sect == section) lift = Integer.parseInt(line[1]);
-                    }
-
-                    if(lift == null)
                         System.out.print("   ");
-                    else
-                        System.out.print("|" + lift + "|");
+
+                        for (int j = 0; j < (sectionSize + additionalCells); j++) {
+                            System.out.print("=");
+                        }
+                    }
+
+                    System.out.println();
+
+                    for (int section = 0; section < numberOfSections; section++) {
+
+                        Integer lift = null;
+
+                        for (String s :
+                                liftsToDraw[row]) {
+                            String[] line = s.split(":");
+                            Integer sect = Integer.parseInt(line[0]);
+                            if (sect == section) lift = Integer.parseInt(line[1]);
+                        }
+
+                        if (lift == null)
+                            System.out.print("   ");
+                        else
+                            System.out.print("|" + lift + "|");
 
                         Integer peopleCount = 0;
                         for (String col :
                                 floorsToDraw[row]) {
                             String[] line = col.split(":");
                             Integer sect = Integer.parseInt(line[0]);
-                            if(sect == section){
+                            if (sect == section) {
                                 peopleCount++;
                                 System.out.print(Integer.parseInt(line[1]) + 1);
                             }
                         }
                         Integer count = sectionSize + additionalCells - peopleCount;
-                        for (int i = 0; i < count; i++){
+                        for (int i = 0; i < count; i++) {
                             System.out.print(" ");
                         }
+                    }
+                    System.out.println();
                 }
-                System.out.println();
             }
         }
     }
 
     public void clear(){
-        Integer num = ViewController.getNumberOfFloors()*2 + 10;
-        for (int i = 0; i < num; i++){
-            System.out.println();
+        if(!Config.isStopDrawing()) {
+            Integer num = ViewController.getNumberOfFloors() * 2 + 10;
+            for (int i = 0; i < num; i++) {
+                System.out.println();
+            }
         }
     }
 
     public void writeMessage(String message){
-        System.out.println(message);
+        if(!Config.isStopDrawing()) {
+            System.out.println(message);
+        }
     }
 
     private Integer countAdditionalCells(String[][] floors){

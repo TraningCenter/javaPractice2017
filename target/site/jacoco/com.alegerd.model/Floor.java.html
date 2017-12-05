@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Floor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LiftApp</a> &gt; <a href="index.source.html" class="el_package">com.alegerd.model</a> &gt; <span class="el_source">Floor.java</span></div><h1>Floor.java</h1><pre class="source lang-java linenums">package com.alegerd.model;
+
+import com.alegerd.exceptions.LiftWeightException;
+import com.alegerd.model.buttons.ICallLiftButton;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.IPerson;
+
+import java.util.*;
+import java.util.function.Consumer;
+
+/**
+ * Floor
+ */
+public class Floor implements IFloor{
+
+    private Integer number;
+<span class="fc" id="L17">    private List&lt;IPerson&gt; peopleOn = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L18">    private List&lt;IPerson&gt; arrivedPeople = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L19">    private List&lt;IPerson&gt; waitingPeople = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L21">    private List&lt;ICallLiftButton&gt; liftButtons = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L23">    public Floor(Integer number){</span>
+<span class="fc" id="L24">        this.number = number;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Adds person to &quot;waiting&quot; list
+     * @param newPerson person
+     */
+    public void addWaitingPerson(IPerson newPerson){
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if(newPerson == null)</span>
+<span class="fc" id="L33">            throw new IllegalArgumentException(&quot;argument newPerson can't be null&quot;);</span>
+        else {
+<span class="fc" id="L35">            peopleOn.add(newPerson);</span>
+<span class="fc" id="L36">            waitingPeople.add(newPerson);</span>
+        }
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Takes people from lift
+     * @param people people from lift
+     * @throws IllegalArgumentException if some people are nulls or already on the floor
+     */
+    public void takePeople(List&lt;IPerson&gt; people){
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (IPerson person : people) {</span>
+<span class="fc" id="L47">            addArrivedPerson(person);</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">    }</span>
+
+    public IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws NullPointerException, LiftWeightException{
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if(waitingPeople.size() == 0) throw new NullPointerException(&quot;There is no waiting people on that floor&quot;);</span>
+        else {
+<span class="fc" id="L54">            IPerson person = waitingPeople.get(0);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if ((liftCurrentWeight + person.getWeight()) &lt;= liftMaxWeight) {</span>
+<span class="fc" id="L56">                removeWaitingPerson(person);</span>
+<span class="fc" id="L57">                return person;</span>
+<span class="fc" id="L58">            } else throw new LiftWeightException(&quot;Lift overweight&quot;);</span>
+        }
+    }
+
+    public Integer howManyPeopleWaiting(){
+<span class="fc" id="L63">        return waitingPeople.size();</span>
+    }
+    /**
+     *
+     * @return Floor's number
+     */
+    public Integer getNumber() {
+<span class="fc" id="L70">        return number;</span>
+    }
+
+    /**
+     *
+     * @return How many people are on this floor
+     */
+    public Integer getNumberOfPeople(){
+<span class="fc" id="L78">        return peopleOn.size();</span>
+    }
+
+    /**
+     *
+     * @param number Floor's number
+     */
+    public void setNumber(Integer number) {
+<span class="fc" id="L86">        this.number = number;</span>
+<span class="fc" id="L87">    }</span>
+
+    /**
+     *
+     * @return Iterator for people on the floor
+     */
+    public Iterator&lt;IPerson&gt; getPersonIterator(){
+<span class="fc" id="L94">        return new Iterator&lt;IPerson&gt;() {</span>
+<span class="fc" id="L95">            int i = 0;</span>
+            
+            @Override
+            public boolean hasNext() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">                return i &lt; peopleOn.size();</span>
+            }
+
+            @Override
+            public IPerson next() {
+<span class="fc" id="L104">                IPerson next = peopleOn.get(i);</span>
+<span class="fc" id="L105">                i++;</span>
+<span class="fc" id="L106">                return next;</span>
+            }
+        };
+    }
+
+    /**
+     *
+     * @param buttons Calling lift buttons
+     */
+    @Override
+    public void acceptLiftButtons(List&lt;ICallLiftButton&gt; buttons) {
+<span class="fc" id="L117">        this.liftButtons = buttons;</span>
+<span class="fc" id="L118">    }</span>
+
+    /**
+     * Injects buttons to people
+     */
+    @Override
+    public void injectLiftButtonsToPeople() {
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        if(liftButtons == null) throw new NullPointerException(&quot;There no lift buttons on the floor&quot;);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        for (IPerson person : peopleOn) {</span>
+<span class="fc" id="L127">            person.acceptLiftButtons(liftButtons);</span>
+<span class="fc" id="L128">        }</span>
+<span class="fc" id="L129">    }</span>
+
+    /**
+     *
+     * @return String information about class
+     */
+    @Override
+    public String toString(){
+        String result;
+<span class="fc" id="L138">        result = &quot;Floor number: &quot; + number +</span>
+<span class="fc" id="L139">                &quot;\n Amount of people: &quot; + peopleOn.size() +</span>
+<span class="fc" id="L140">                &quot;\n Amount of arrived people: &quot; + arrivedPeople.size() +</span>
+<span class="fc" id="L141">                &quot;\n Amount of waiting people: &quot; + waitingPeople.size() +</span>
+                &quot;\n People: &quot;;
+        for (IPerson person :
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">                peopleOn) {</span>
+<span class="nc" id="L145">            result += &quot;   &quot; + person.toString() + &quot;\n&quot;;</span>
+<span class="nc" id="L146">        }</span>
+<span class="fc" id="L147">        return result;</span>
+    }
+
+    private void removeWaitingPeople(){
+<span class="nc" id="L151">        peopleOn.removeAll(waitingPeople);</span>
+<span class="nc" id="L152">    }</span>
+
+    private void addArrivedPerson(IPerson newPerson){
+<span class="fc" id="L155">        peopleOn.add(newPerson);</span>
+<span class="fc" id="L156">        arrivedPeople.add(newPerson);</span>
+<span class="fc" id="L157">        newPerson.setFloorNumber(number);</span>
+<span class="fc" id="L158">        newPerson.acceptLiftButtons(liftButtons);</span>
+<span class="fc" id="L159">    }</span>
+
+    private void removeWaitingPerson(IPerson person){
+<span class="fc" id="L162">        waitingPeople.remove(person);</span>
+<span class="fc" id="L163">        peopleOn.remove(person);</span>
+<span class="fc" id="L164">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

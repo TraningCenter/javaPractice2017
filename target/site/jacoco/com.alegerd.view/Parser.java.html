@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Parser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LiftApp</a> &gt; <a href="index.source.html" class="el_package">com.alegerd.view</a> &gt; <span class="el_source">Parser.java</span></div><h1>Parser.java</h1><pre class="source lang-java linenums">package com.alegerd.view;
+
+import com.alegerd.mainData.ViewController;
+import com.alegerd.model.Floor;
+import com.alegerd.model.House;
+import com.alegerd.model.Lift;
+import com.alegerd.model.Person;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.ILift;
+import com.alegerd.model.interfaces.IPerson;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.ClassLoader;
+import java.util.stream.Collectors;
+
+/**
+ * Reads input file and constructs House object out of it
+ */
+public class Parser {
+
+<span class="fc" id="L26">    public Parser(){</span>
+
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Parses input file data and builds the house
+     * @param pathToInputFile path to input file
+     * @return new House
+     */
+    public House parseInputFile(String pathToInputFile) throws IllegalArgumentException{
+<span class="fc" id="L36">        House newHouse = null;</span>
+        List&lt;Integer&gt; sections;
+
+        try{
+            String data;
+<span class="fc" id="L41">            StringBuilder sb = new StringBuilder();</span>
+
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">            if(pathToInputFile == null) {</span>
+<span class="fc" id="L44">                InputStream file = ClassLoader.getSystemResourceAsStream(&quot;input&quot;);</span>
+<span class="fc" id="L45">                InputStreamReader isr = new InputStreamReader(file);</span>
+<span class="fc" id="L46">                BufferedReader br = new BufferedReader(isr);</span>
+<span class="fc" id="L47">                data = br.lines().collect(Collectors.joining(&quot;\n&quot;));</span>
+<span class="fc" id="L48">            }</span>
+            else {
+<span class="nc" id="L50">                Files.lines(Paths.get(pathToInputFile), StandardCharsets.UTF_8).forEach(sb::append);</span>
+<span class="nc" id="L51">                data = sb.toString();</span>
+            }
+
+<span class="fc" id="L54">            String[] inputList = data.split(&quot;;&quot;);</span>
+
+<span class="fc" id="L56">            List&lt;IFloor&gt; floors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">            List&lt;ILift&gt; lifts = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L59">            Integer amountOfLifts = Integer.parseInt(inputList[0].split(&quot; &quot;)[1]);</span>
+<span class="fc" id="L60">            Integer liftMaxWaight = Integer.parseInt(inputList[0].split(&quot; &quot;)[2]);</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            if(liftMaxWaight&lt;0) throw new IllegalArgumentException(&quot;Wrong lift max weight&quot;);</span>
+
+            //заполнение списка этажей
+<span class="fc" id="L64">            Integer amountOfFloors = Integer.parseInt(inputList[1].split(&quot; &quot;)[1]);</span>
+
+<span class="fc" id="L66">            ViewController.setNumberOfFloors(amountOfFloors);</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            for (int i = 0; i &lt; amountOfFloors; i++){</span>
+<span class="fc" id="L69">                Floor newFloor = new Floor(i);</span>
+<span class="fc" id="L70">                floors.add(newFloor);</span>
+            }
+
+<span class="fc" id="L73">            ViewController.setFloorLength(amountOfLifts * 12);</span>
+
+<span class="fc" id="L75">            ViewController.setNumberOfLifts(amountOfLifts);</span>
+
+<span class="fc" id="L77">            Integer size = ViewController.getNumberOfSections();</span>
+<span class="fc" id="L78">            sections = new ArrayList&lt;&gt;(size);</span>
+
+            //заполняем секции нулями
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            for (int i = 0; i &lt; size; i++){</span>
+<span class="fc" id="L82">                sections.add(i, 0);</span>
+            }
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            for (int i = 0; i &lt; amountOfLifts; i++){</span>
+<span class="fc" id="L86">                Lift newLift = new Lift(i, floors, liftMaxWaight);</span>
+<span class="fc" id="L87">                lifts.add(newLift);</span>
+            }
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            for(int i = 2; i &lt; inputList.length; i++){</span>
+
+<span class="fc" id="L92">                String[] line = inputList[i].split(&quot; &quot;);</span>
+<span class="fc" id="L93">                Integer num = Integer.parseInt(line[4]);</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                if(num &gt; sections.size()) throw new IllegalArgumentException(&quot;Person waits for not existing lift&quot;);</span>
+<span class="fc" id="L95">                Integer newNum = sections.get(num)+1;</span>
+<span class="fc" id="L96">                sections.add(num, newNum);</span>
+
+<span class="fc" id="L98">                Person newPerson = new Person(i,</span>
+<span class="fc" id="L99">                        Integer.parseInt(line[1]),</span>
+<span class="fc" id="L100">                        Integer.parseInt(line[2]) - 1,</span>
+<span class="fc" id="L101">                        Integer.parseInt(line[3]) - 1,</span>
+                        num);
+
+<span class="fc" id="L104">                addPersonToFloor(newPerson, floors);</span>
+            }
+
+<span class="fc" id="L107">            newHouse = new House(floors, lifts); //создание дома</span>
+
+<span class="nc" id="L109">        }catch (Exception ex){</span>
+<span class="nc" id="L110">            System.out.println(ex.getMessage());</span>
+<span class="fc" id="L111">        }</span>
+
+<span class="fc" id="L113">        return newHouse;</span>
+    }
+
+    private void addPersonToFloor(IPerson person, List&lt;IFloor&gt; floors) throws Exception{
+
+<span class="fc" id="L118">        boolean personAdded = false;</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">        if(person.getDestinationFloor() &gt;= floors.size()) throw new Exception(&quot;Wrong destination floor&quot;);</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if(person.getWeight() &lt; 0) throw new Exception(&quot;Wrong weight&quot;);</span>
+
+        for (IFloor floor :
+<span class="fc bfc" id="L123" title="All 2 branches covered.">                floors) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            if(floor.getNumber().equals(person.getFloorNumber())){</span>
+<span class="fc" id="L125">                floor.addWaitingPerson(person);</span>
+<span class="fc" id="L126">                personAdded = true;</span>
+            }
+<span class="fc" id="L128">        }</span>
+
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if(!personAdded){</span>
+<span class="nc" id="L131">            throw new Exception(&quot;There is no &quot; + person.getFloorNumber() + &quot; floor in this House.&quot; +</span>
+<span class="nc" id="L132">                    &quot;But person with id &quot; + person.getId() + &quot; is on it.&quot;);</span>
+        }
+<span class="fc" id="L134">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

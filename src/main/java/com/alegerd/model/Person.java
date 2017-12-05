@@ -20,8 +20,6 @@ public class Person implements IPerson{
 
     private Integer destinationFloor;
 
-    public boolean inLift = false;
-
     private Integer weight;
 
     public Person(Integer id, Integer weight, Integer floorNumber,
@@ -43,7 +41,7 @@ public class Person implements IPerson{
     }
 
     private List<ICallLiftButton> buttonsToCallLift = new ArrayList<>();
-    private List<LiftButton> buttonsInLift = new ArrayList<>();
+    private List<IButton> buttonsInLift = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -167,7 +165,7 @@ public class Person implements IPerson{
      * @param buttons Person accepts buttons in lift
      */
     @Override
-    public void acceptFloorButtons(List<LiftButton> buttons) {
+    public void acceptFloorButtons(List<IButton> buttons) {
         this.buttonsInLift = buttons;
     }
 }

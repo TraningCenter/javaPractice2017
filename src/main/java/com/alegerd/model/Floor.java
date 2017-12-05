@@ -25,33 +25,12 @@ public class Floor implements IFloor{
     }
 
     /**
-     *
-     * @return String information about class
-     */
-    @Override
-    public String toString(){
-        String result;
-        result = "Floor number: " + number +
-                    "\n Amount of people: " + peopleOn.size() +
-                    "\n Amount of arrived people: " + arrivedPeople.size() +
-                    "\n Amount of waiting people: " + waitingPeople.size() +
-                    "\n People: ";
-        for (IPerson person :
-                peopleOn) {
-            result += "   " + person.toString() + "\n";
-        }
-        return result;
-    }
-
-    /**
      * Adds person to "waiting" list
      * @param newPerson person
      */
     public void addWaitingPerson(IPerson newPerson){
         if(newPerson == null)
             throw new IllegalArgumentException("argument newPerson can't be null");
-        if(personIsAlreadyOnFloor(newPerson))
-            throw new IllegalArgumentException("Person you want to add is already on the floor");
         else {
             peopleOn.add(newPerson);
             waitingPeople.add(newPerson);
@@ -63,20 +42,21 @@ public class Floor implements IFloor{
      * @param people people from lift
      * @throws IllegalArgumentException if some people are nulls or already on the floor
      */
-    public void takePeople(List<IPerson> people) throws IllegalArgumentException{
-        for (IPerson person :
-                people) {
+    public void takePeople(List<IPerson> people){
+        for (IPerson person : people) {
             addArrivedPerson(person);
         }
     }
 
-
-    public IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws LiftWeightException{
-        IPerson person = waitingPeople.get(0);
-            if((liftCurrentWeight + person.getWeight()) <= liftMaxWeight){
+    public IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws NullPointerException, LiftWeightException{
+        if(waitingPeople.size() == 0) throw new NullPointerException("There is no waiting people on that floor");
+        else {
+            IPerson person = waitingPeople.get(0);
+            if ((liftCurrentWeight + person.getWeight()) <= liftMaxWeight) {
                 removeWaitingPerson(person);
                 return person;
-            }else throw new LiftWeightException("Lift overweight");
+            } else throw new LiftWeightException("Lift overweight");
+        }
     }
 
     public Integer howManyPeopleWaiting(){
@@ -148,33 +128,34 @@ public class Floor implements IFloor{
         }
     }
 
-    private void removeWaitingPeople(){
-        for (IPerson person : waitingPeople) {
-            peopleOn.remove(person);
+    /**
+     *
+     * @return String information about class
+     */
+    @Override
+    public String toString(){
+        String result;
+        result = "Floor number: " + number +
+                "\n Amount of people: " + peopleOn.size() +
+                "\n Amount of arrived people: " + arrivedPeople.size() +
+                "\n Amount of waiting people: " + waitingPeople.size() +
+                "\n People: ";
+        for (IPerson person :
+                peopleOn) {
+            result += "   " + person.toString() + "\n";
         }
-        waitingPeople.clear();
+        return result;
+    }
+
+    private void removeWaitingPeople(){
+        peopleOn.removeAll(waitingPeople);
     }
 
     private void addArrivedPerson(IPerson newPerson){
-        if(newPerson == null)
-            throw new IllegalArgumentException("Argument newPerson can't be null");
-        if(personIsAlreadyOnFloor(newPerson))
-            throw new IllegalArgumentException("Person you want to add is already on the floor");
-        else {
-            peopleOn.add(newPerson);
-            arrivedPeople.add(newPerson);
-            newPerson.setFloorNumber(number);
-        }
-    }
-
-    private boolean personIsAlreadyOnFloor(IPerson person){
-        boolean result = false;
-        for (IPerson p :
-                peopleOn) {
-            if(p == person)result = true;
-            return result;
-        }
-        return result;
+        peopleOn.add(newPerson);
+        arrivedPeople.add(newPerson);
+        newPerson.setFloorNumber(number);
+        newPerson.acceptLiftButtons(liftButtons);
     }
 
     private void removeWaitingPerson(IPerson person){

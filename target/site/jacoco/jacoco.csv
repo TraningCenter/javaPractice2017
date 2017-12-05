@@ -1,0 +1,25 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+LiftApp,com.alegerd.mainData,ViewController,37,70,6,6,5,23,11,8,5,8
+LiftApp,com.alegerd.mainData,Main,26,0,2,0,9,0,3,0,2,0
+LiftApp,com.alegerd.mainData,Application,85,522,9,39,15,133,9,31,0,16
+LiftApp,com.alegerd.model.buttons,CallLiftButton,0,16,0,0,0,6,0,2,0,2
+LiftApp,com.alegerd.model.buttons,LiftButton,0,18,0,0,0,7,0,3,0,3
+LiftApp,com.alegerd.exceptions,ParserException,9,0,0,0,4,0,2,0,2,0
+LiftApp,com.alegerd.exceptions,LiftWeightException,0,9,0,0,0,4,0,2,0,2
+LiftApp,com.alegerd.commands.interfaces,PersonCallsLiftCommand,0,10,0,0,0,5,0,2,0,2
+LiftApp,com.alegerd.commands.interfaces,CommandReceiver,8,9,1,1,2,5,2,2,1,2
+LiftApp,com.alegerd.commands.interfaces,LiftArrivedCommand,10,0,0,0,5,0,2,0,2,0
+LiftApp,com.alegerd.commands.interfaces,MoveLiftCommand,0,10,0,0,0,5,0,2,0,2
+LiftApp,com.alegerd.commands.interfaces,LiftWereToGoCommand,0,10,0,0,0,5,0,2,0,2
+LiftApp,com.alegerd.model,House.new Iterator() {...},0,36,0,2,0,6,0,4,0,3
+LiftApp,com.alegerd.model,Floor,36,203,3,11,4,49,4,18,1,14
+LiftApp,com.alegerd.model,House.new Iterator() {...},0,36,0,2,0,6,0,4,0,3
+LiftApp,com.alegerd.model,Lift.FloorDTO,16,26,3,1,4,7,4,4,2,4
+LiftApp,com.alegerd.model,Direction,9,29,0,0,0,3,2,2,2,2
+LiftApp,com.alegerd.model,Person,1,164,1,5,1,44,1,19,0,17
+LiftApp,com.alegerd.model,Floor.new Iterator() {...},0,36,0,2,0,6,0,4,0,3
+LiftApp,com.alegerd.model,House,0,65,0,4,0,18,0,9,0,7
+LiftApp,com.alegerd.model,Lift,161,948,36,102,37,202,28,71,1,29
+LiftApp,com.alegerd.utils,Config,6,20,0,0,3,10,2,6,2,6
+LiftApp,com.alegerd.view,Renderer,280,16,35,3,40,8,20,4,1,4
+LiftApp,com.alegerd.view,Parser,60,262,6,18,6,54,6,9,0,3

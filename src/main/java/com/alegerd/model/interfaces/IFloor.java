@@ -38,5 +38,5 @@ public interface IFloor {
 
      Integer howManyPeopleWaiting();
 
-     IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws LiftWeightException;
+     IPerson getWaitingPerson(Integer liftCurrentWeight, Integer liftMaxWeight) throws NullPointerException, LiftWeightException;
 }

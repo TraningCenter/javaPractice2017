@@ -36,5 +36,4 @@ public interface ILift {
 
      Direction getCurrentDirection();
 
-     Iterator<IPerson> getPeopleIterator();
 }

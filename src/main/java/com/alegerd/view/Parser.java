@@ -34,7 +34,6 @@ public class Parser {
      */
     public House parseInputFile(String pathToInputFile) throws IllegalArgumentException{
         House newHouse = null;
-        Integer maxPeopleInSection;
         List<Integer> sections;
 
         try{

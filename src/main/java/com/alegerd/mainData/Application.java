@@ -3,12 +3,15 @@ package com.alegerd.mainData;
 import com.alegerd.commands.interfaces.CommandReceiver;
 import com.alegerd.commands.interfaces.ICommand;
 import com.alegerd.commands.interfaces.PersonCallsLiftCommand;
+import com.alegerd.exceptions.ParserException;
+import com.alegerd.model.House;
 import com.alegerd.model.buttons.CallLiftButton;
 import com.alegerd.model.buttons.ICallLiftButton;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.IHouse;
 import com.alegerd.model.interfaces.ILift;
 import com.alegerd.model.interfaces.IPerson;
+import com.alegerd.utils.Config;
 import com.alegerd.view.Parser;
 import com.alegerd.view.Renderer;
 
@@ -16,6 +19,7 @@ import java.util.*;
 
 public class Application {
 
+    private boolean modelIsBuilt = false;
     private IHouse model;
     private Renderer view;
     private Parser parser;
@@ -27,56 +31,90 @@ public class Application {
     private String[][] floorsToDraw;
     private String[][] liftsToDraw;
 
-    public Application(){
+    public Application(String input) throws Exception{
+        view = new Renderer();
+        try {
+            buildModel(input);
+        }
+        catch (ParserException e){
+            view.writeMessage("Error with parsing input file, system will be using local one.");
+            model = parser.parseInputFile(null);
+        }
+        catch (Exception e){
+            view.writeMessage(e.getMessage());
+            throw e;
+        }
+    }
 
+    public Application(House input) throws Exception{
+        view = new Renderer();
+        try {
+            buildModel(input);
+        }catch (Exception e){
+            view.writeMessage(e.getMessage());
+            throw e;
+        }
     }
 
     /**
      * Main method of the program
-     * @param input Path to the input file ( if null - uses default
-     *              input file from the resources folder)
      */
-    public void start(String input){
-
+    public void start(){
+        if(!modelIsBuilt) throw new NullPointerException("System is not set up");
         try {
-            buildModel(input);
-
             while (!commandQueue.isEmpty()){
                 ICommand command = commandQueue.poll();
                 command.execute();
                 updateView();
-                Thread.sleep(1000);
+                Thread.sleep(Config.getTimeInterval());
                 view.clear();
             }
-            view.writeMessage("FIN.");
+            view.writeMessage(Config.getFinalMessage());
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            view.writeMessage(e.getMessage());
         }
     }
 
-    public void buildModel(String input){
+    /**
+     * Builds system from input file or from resource file
+     * @param input path to input file
+     */
+    private void buildModel(String input) throws Exception{
         parser = new Parser();
-        view = new Renderer();
         commandQueue = new LinkedList<>();
-
         model = parser.parseInputFile(input);
 
-        people = getListOfPeople();
-        floors = getListOfFloors();
-        lifts = getListOfLifts();
+        if(model == null) throw new Exception("Model is not set");
+        people = getListOfPeople(model);
+        floors = getListOfFloors(model);
+        lifts = getListOfLifts(model);
 
-        injectLiftButtonsToFloors();
-        injectLiftButtonsToPeople();
+        injectLiftButtonsToFloors(floors, lifts);
+        injectLiftButtonsToPeople(floors);
         createCommandReceiver();
         pushFirstCommands();
+        modelIsBuilt = true;
     }
 
-    public void testApp(){
-        while (!commandQueue.isEmpty()){
-            ICommand command = commandQueue.poll();
-            command.execute();
-        }
+    /**
+     * Builds system from house
+     * @param house house to build system from
+     */
+    private void buildModel(House house) throws Exception{
+        commandQueue = new LinkedList<>();
+
+        model = house;
+        if(model == null) throw new Exception("Model is not set");
+        people = getListOfPeople(model);
+        floors = getListOfFloors(model);
+        lifts = getListOfLifts(model);
+
+        injectLiftButtonsToFloors(floors, lifts);
+        injectLiftButtonsToPeople(floors);
+        createCommandReceiver();
+        pushFirstCommands();
+        modelIsBuilt = true;
     }
 
     /**
@@ -89,7 +127,7 @@ public class Application {
             view.drawHouse(floorsToDraw, liftsToDraw, lifts.size());
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            view.writeMessage(e.getMessage());
         }
     }
     /**
@@ -97,7 +135,10 @@ public class Application {
      * @param newCommand new command to push
      */
     public void addNewCommand(ICommand newCommand){
-        this.commandQueue.add(newCommand);
+        if(commandQueue==null) throw new NullPointerException("Command queue is not set");
+        else {
+            this.commandQueue.add(newCommand);
+        }
     }
     /**
      * Creates twodimensional array of floors and people on them
@@ -173,7 +214,7 @@ public class Application {
         return liftsToDraw;
     }
 
-    private List<IPerson> getListOfPeople(){
+    private List<IPerson> getListOfPeople(IHouse model){
         if(model == null) throw new NullPointerException("Model is null");
         else {
             List<IPerson> people = new ArrayList<>();
@@ -190,7 +231,7 @@ public class Application {
         }
     }
 
-    private List<ILift> getListOfLifts(){
+    private List<ILift> getListOfLifts(IHouse model){
         if(model == null) throw new NullPointerException("Model is null");
         else {
             List<ILift> lifts = new ArrayList<>();
@@ -203,7 +244,7 @@ public class Application {
         }
     }
 
-    private List<IFloor> getListOfFloors(){
+    private List<IFloor> getListOfFloors(IHouse model){
         if(model == null) throw new NullPointerException("Model is null");
         else {
             List<IFloor> floors = new ArrayList<>();
@@ -216,7 +257,7 @@ public class Application {
         }
     }
 
-    private void injectLiftButtonsToFloors(){
+    private void injectLiftButtonsToFloors(List<IFloor> floors, List<ILift> lifts){
 
         for (IFloor floor : floors) {
             ArrayList<ICallLiftButton> buttons = new ArrayList<>();
@@ -228,7 +269,7 @@ public class Application {
         }
     }
 
-    private void injectLiftButtonsToPeople(){
+    private void injectLiftButtonsToPeople(List<IFloor> floors){
         for (IFloor floor :
                 floors) {
             floor.injectLiftButtonsToPeople();

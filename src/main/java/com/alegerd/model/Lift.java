@@ -3,6 +3,7 @@ package com.alegerd.model;
 import com.alegerd.commands.interfaces.CommandReceiver;
 import com.alegerd.commands.interfaces.*;
 import com.alegerd.exceptions.LiftWeightException;
+import com.alegerd.model.buttons.IButton;
 import com.alegerd.model.buttons.LiftButton;
 import com.alegerd.model.interfaces.IFloor;
 import com.alegerd.model.interfaces.ILift;
@@ -46,7 +47,6 @@ public class Lift implements ILift{
     }
 
     public Integer number;
-
     private Integer floorNumber = 0;
     private Integer weight = 0;
     private Integer maxWeight;
@@ -58,10 +58,19 @@ public class Lift implements ILift{
 
     private List<IPerson> peopleIn = new ArrayList<>();
     private List<IFloor> floors = new ArrayList<>();
-    private List<LiftButton> buttons = new ArrayList<>();
+    private List<IButton> buttons = new ArrayList<>();
 
     public Lift(Integer number, Integer floorNumber){
         this.number = number;
+        this.floorNumber = floorNumber;
+        makeButtons();
+    }
+
+    public Lift(Integer number, List<IFloor> floors, Integer maxWeight, Integer floorNumber){
+        this.number = number;
+        this.floorNumber = 0;
+        this.floors = floors;
+        this.maxWeight = maxWeight;
         this.floorNumber = floorNumber;
         makeButtons();
     }
@@ -89,22 +98,25 @@ public class Lift implements ILift{
         return result;
     }
 
-    public void takePeopleFromFloorOneByOne(IFloor floor) throws LiftWeightException{
+    private void takePeopleFromFloorOneByOne(IFloor floor){
             int count = floor.howManyPeopleWaiting();
-            for(int i = 0; i < count; i++){
-                IPerson newPerson = floor.getWaitingPerson(weight, maxWeight);
-                weight+=newPerson.getWeight();
-                injectFloorButtonsToPeople(newPerson);
-                setNewLiftToPeople(newPerson);
-                addNewPeople(newPerson);
-            }
+            try {
+                for (int i = 0; i < count; i++) {
+                    try {
+                        IPerson newPerson = floor.getWaitingPerson(weight, maxWeight);
+                        weight += newPerson.getWeight();
+                        injectFloorButtonsToPeople(newPerson);
+                        setNewLiftToPeople(newPerson);
+                        addNewPeople(newPerson);
+                    }catch (LiftWeightException e){}
+                }
+            }catch (NullPointerException e){}
     }
 
     /**
      * Executes when lift comes to the target floor
      */
     public void arrived(){
-        try {
             IFloor floor = floors.get(floorNumber);
 
             takePeopleFromFloorOneByOne(floor);
@@ -113,12 +125,7 @@ public class Lift implements ILift{
             floor.takePeople(whoWantsToLeave);
             removeLeavedPeople(whoWantsToLeave);
 
-
-
             deleteFloorFromLists(floorNumber);
-        }catch (LiftWeightException ex){
-
-        }
 
     }
 
@@ -182,33 +189,10 @@ public class Lift implements ILift{
         if(isNotAlreadyInList(dto)) {
             addFloorToFromFloorsList(dto);
             if(currentDirection == null){
-                currentDirection = Direction.UP;
+                currentDirection = (floorNumber >= this.floorNumber)? Direction.UP : Direction.DOWN;
                 thinkWhereToGo();
             }
         }
-    }
-
-    /**
-     *
-     * @return Iterator for people in lift
-     */
-    @Override
-    public Iterator<IPerson> getPeopleIterator() {
-        return new Iterator<IPerson>() {
-            int i = 0;
-
-            @Override
-            public boolean hasNext() {
-                return i < peopleIn.size();
-            }
-
-            @Override
-            public IPerson next() {
-                IPerson next = peopleIn.get(i);
-                i++;
-                return next;
-            }
-        };
     }
 
     public Integer getNumber() {
@@ -322,25 +306,15 @@ public class Lift implements ILift{
         return false;
     }
 
-    private void injectFloorButtonsToPeople(List<IPerson> people){
-        for (IPerson person:
-             people) {
-            person.acceptFloorButtons(buttons);
-        }
-    }
-
     private void injectFloorButtonsToPeople(IPerson person){
         person.acceptFloorButtons(buttons);
     }
 
     private List<IPerson> whoWantsToLeave(Integer floorNumber){
         List<IPerson> people = new ArrayList<>();
-        for (IPerson person :
-                peopleIn) {
-            if (person.getDestinationFloor() == floorNumber) {
-                people.add(person);
-            }
-        }
+        peopleIn.forEach(person -> {
+            if(person.getDestinationFloor() == floorNumber) people.add(person);
+        });
 
         return people;
     }
@@ -351,13 +325,6 @@ public class Lift implements ILift{
             weight -= person.getWeight();
         }
         peopleIn.removeAll(leaved);
-    }
-
-    private void addNewPeople(List<IPerson> newPeople){
-        for (IPerson person : newPeople) {
-            peopleIn.add(person);
-            person.chooseDestinationFloor();
-        }
     }
 
     private void addNewPeople(IPerson person){
@@ -408,8 +375,7 @@ public class Lift implements ILift{
     private void deleteFloorFromLists(Integer number){
         fromLift.remove(number);
         FloorDTO del = null;
-        for (FloorDTO floor:
-             fromFloors) {
+        for (FloorDTO floor : fromFloors) {
             if(floor.getNumber() == number){
                 del = floor;
             }
@@ -431,15 +397,13 @@ public class Lift implements ILift{
     }
 
     private void checkFloor(Integer number){
-        for (Integer floor :
-                fromLift) {
+        for (Integer floor : fromLift) {
             if(floor == number) {
                 arrived();
                 return;
             }
         }
-        for (FloorDTO dto :
-                fromFloors) {
+        for (FloorDTO dto : fromFloors) {
             if(dto.getNumber() == number){
                 if(dto.getDir() == currentDirection) {
                     arrived();
@@ -454,6 +418,11 @@ public class Lift implements ILift{
 
     }
 
+    /**
+     * Checks maybe lift needs to change direction
+     * @param direction
+     * @return
+     */
     private boolean changeDirection(Direction direction){
         if(currentDirection == Direction.UP) {
             for (Integer floor : fromLift) {
@@ -492,13 +461,6 @@ public class Lift implements ILift{
         for (IFloor floor:
              floors) {
             buttons.add(new LiftButton(this, floor.getNumber()));
-        }
-    }
-
-    private void setNewLiftToPeople(List<IPerson> people){
-        for (IPerson person :
-                people) {
-            person.setWaitsForLiftNumber(number);
         }
     }
 

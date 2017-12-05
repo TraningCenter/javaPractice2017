@@ -44,6 +44,22 @@ public class HouseTest extends Assert{
         assertEquals(1,liftsCount);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testFloorException(){
+        List<IFloor> floors = new ArrayList<>();
+        List<ILift> lifts = new ArrayList<>();
+        IHouse house = new House(floors, lifts);
+        house.addFloor(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testLiftException(){
+        List<IFloor> floors = new ArrayList<>();
+        List<ILift> lifts = new ArrayList<>();
+        IHouse house = new House(floors, lifts);
+        house.addLift(null);
+    }
+
     @Test
     public void testIterator(){
         IHouse house;

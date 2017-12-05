@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Application.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LiftApp</a> &gt; <a href="index.source.html" class="el_package">com.alegerd.mainData</a> &gt; <span class="el_source">Application.java</span></div><h1>Application.java</h1><pre class="source lang-java linenums">package com.alegerd.mainData;
+
+import com.alegerd.commands.interfaces.CommandReceiver;
+import com.alegerd.commands.interfaces.ICommand;
+import com.alegerd.commands.interfaces.PersonCallsLiftCommand;
+import com.alegerd.exceptions.ParserException;
+import com.alegerd.model.House;
+import com.alegerd.model.buttons.CallLiftButton;
+import com.alegerd.model.buttons.ICallLiftButton;
+import com.alegerd.model.interfaces.IFloor;
+import com.alegerd.model.interfaces.IHouse;
+import com.alegerd.model.interfaces.ILift;
+import com.alegerd.model.interfaces.IPerson;
+import com.alegerd.utils.Config;
+import com.alegerd.view.Parser;
+import com.alegerd.view.Renderer;
+
+import java.util.*;
+
+public class Application {
+
+<span class="fc" id="L22">    private boolean modelIsBuilt = false;</span>
+    private IHouse model;
+    private Renderer view;
+    private Parser parser;
+    private Queue&lt;ICommand&gt; commandQueue;
+    private List&lt;IPerson&gt; people;
+    private List&lt;IFloor&gt; floors;
+    private List&lt;ILift&gt; lifts;
+
+    private String[][] floorsToDraw;
+    private String[][] liftsToDraw;
+
+<span class="fc" id="L34">    public Application(String input) throws Exception{</span>
+<span class="fc" id="L35">        view = new Renderer();</span>
+        try {
+<span class="fc" id="L37">            buildModel(input);</span>
+        }
+<span class="nc" id="L39">        catch (ParserException e){</span>
+<span class="nc" id="L40">            view.writeMessage(&quot;Error with parsing input file, system will be using local one.&quot;);</span>
+<span class="nc" id="L41">            model = parser.parseInputFile(null);</span>
+        }
+<span class="nc" id="L43">        catch (Exception e){</span>
+<span class="nc" id="L44">            view.writeMessage(e.getMessage());</span>
+<span class="nc" id="L45">            throw e;</span>
+<span class="pc" id="L46">        }</span>
+<span class="fc" id="L47">    }</span>
+
+<span class="fc" id="L49">    public Application(House input) throws Exception{</span>
+<span class="fc" id="L50">        view = new Renderer();</span>
+        try {
+<span class="fc" id="L52">            buildModel(input);</span>
+<span class="nc" id="L53">        }catch (Exception e){</span>
+<span class="nc" id="L54">            view.writeMessage(e.getMessage());</span>
+<span class="nc" id="L55">            throw e;</span>
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Main method of the program
+     */
+    public void start(){
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if(!modelIsBuilt) throw new NullPointerException(&quot;System is not set up&quot;);</span>
+        try {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            while (!commandQueue.isEmpty()){</span>
+<span class="fc" id="L66">                ICommand command = commandQueue.poll();</span>
+<span class="fc" id="L67">                command.execute();</span>
+<span class="fc" id="L68">                updateView();</span>
+<span class="fc" id="L69">                Thread.sleep(Config.getTimeInterval());</span>
+<span class="fc" id="L70">                view.clear();</span>
+<span class="fc" id="L71">            }</span>
+<span class="fc" id="L72">            view.writeMessage(Config.getFinalMessage());</span>
+        }
+<span class="nc" id="L74">        catch (Exception e){</span>
+<span class="nc" id="L75">            view.writeMessage(e.getMessage());</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Builds system from input file or from resource file
+     * @param input path to input file
+     */
+    private void buildModel(String input) throws Exception{
+<span class="fc" id="L84">        parser = new Parser();</span>
+<span class="fc" id="L85">        commandQueue = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L86">        model = parser.parseInputFile(input);</span>
+
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if(model == null) throw new Exception(&quot;Model is not set&quot;);</span>
+<span class="fc" id="L89">        people = getListOfPeople(model);</span>
+<span class="fc" id="L90">        floors = getListOfFloors(model);</span>
+<span class="fc" id="L91">        lifts = getListOfLifts(model);</span>
+
+<span class="fc" id="L93">        injectLiftButtonsToFloors(floors, lifts);</span>
+<span class="fc" id="L94">        injectLiftButtonsToPeople(floors);</span>
+<span class="fc" id="L95">        createCommandReceiver();</span>
+<span class="fc" id="L96">        pushFirstCommands();</span>
+<span class="fc" id="L97">        modelIsBuilt = true;</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Builds system from house
+     * @param house house to build system from
+     */
+    private void buildModel(House house) throws Exception{
+<span class="fc" id="L105">        commandQueue = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L107">        model = house;</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if(model == null) throw new Exception(&quot;Model is not set&quot;);</span>
+<span class="fc" id="L109">        people = getListOfPeople(model);</span>
+<span class="fc" id="L110">        floors = getListOfFloors(model);</span>
+<span class="fc" id="L111">        lifts = getListOfLifts(model);</span>
+
+<span class="fc" id="L113">        injectLiftButtonsToFloors(floors, lifts);</span>
+<span class="fc" id="L114">        injectLiftButtonsToPeople(floors);</span>
+<span class="fc" id="L115">        createCommandReceiver();</span>
+<span class="fc" id="L116">        pushFirstCommands();</span>
+<span class="fc" id="L117">        modelIsBuilt = true;</span>
+<span class="fc" id="L118">    }</span>
+
+    /**
+     * Updates the view
+     */
+    private void updateView(){
+        try{
+<span class="fc" id="L125">            floorsToDraw = makeDrawableModel();</span>
+<span class="fc" id="L126">            liftsToDraw = makeDrawableLiftModel();</span>
+<span class="fc" id="L127">            view.drawHouse(floorsToDraw, liftsToDraw, lifts.size());</span>
+        }
+<span class="nc" id="L129">        catch (Exception e){</span>
+<span class="nc" id="L130">            view.writeMessage(e.getMessage());</span>
+<span class="fc" id="L131">        }</span>
+<span class="fc" id="L132">    }</span>
+    /**
+     * Pushes new command ICommand to the command queue
+     * @param newCommand new command to push
+     */
+    public void addNewCommand(ICommand newCommand){
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if(commandQueue==null) throw new NullPointerException(&quot;Command queue is not set&quot;);</span>
+        else {
+<span class="fc" id="L140">            this.commandQueue.add(newCommand);</span>
+        }
+<span class="fc" id="L142">    }</span>
+    /**
+     * Creates twodimensional array of floors and people on them
+     * out of model
+     * @return array of floors and people
+     */
+    private String[][] makeDrawableModel(){
+        String[][] floorsToDraw;
+
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if(model == null)</span>
+<span class="nc" id="L152">            throw new NullPointerException(&quot;Input exception&quot;);</span>
+        else{
+<span class="fc" id="L154">            Integer numberOfFloors = model.getNumberOfFloors();</span>
+<span class="fc" id="L155">            floorsToDraw = new String[numberOfFloors][];</span>
+
+<span class="fc" id="L157">            int i = 0;</span>
+<span class="fc" id="L158">            Iterator&lt;IFloor&gt; iter = model.floorIterator();</span>
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            while (iter.hasNext()){</span>
+<span class="fc" id="L161">                IFloor next = iter.next();</span>
+<span class="fc" id="L162">                floorsToDraw[i] = new String[next.getNumberOfPeople()];</span>
+
+<span class="fc" id="L164">                    int num = 0;</span>
+<span class="fc" id="L165">                    Iterator&lt;IPerson&gt; personIterator = next.getPersonIterator();</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">                    while (personIterator.hasNext()){</span>
+<span class="fc" id="L167">                        IPerson nextPerson = personIterator.next();</span>
+<span class="fc" id="L168">                        floorsToDraw[i][num] = nextPerson.getWaitsForLiftNumber() + &quot;:&quot; + nextPerson.getDestinationFloor();</span>
+<span class="fc" id="L169">                        num++;</span>
+<span class="fc" id="L170">                    }</span>
+<span class="fc" id="L171">                i++;</span>
+<span class="fc" id="L172">            }</span>
+        }
+
+<span class="fc" id="L175">        return floorsToDraw;</span>
+    }
+
+    /**
+     * Creates twodimensional array of floors and number of people in lifts
+     * on them out of model
+     * @return array of lift and people
+     */
+    private String[][] makeDrawableLiftModel(){
+        String[][] liftsToDraw;
+
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if(model == null)</span>
+<span class="nc" id="L187">            throw new NullPointerException(&quot;Input exception&quot;);</span>
+        else{
+<span class="fc" id="L189">            Integer modelNumberOfFloors = model.getNumberOfFloors();</span>
+<span class="fc" id="L190">            liftsToDraw = new String[modelNumberOfFloors][];</span>
+
+<span class="fc" id="L192">            Iterator&lt;ILift&gt; iter = model.liftIterator();</span>
+
+<span class="fc" id="L194">            ArrayList&lt;ArrayList&lt;ILift&gt;&gt; floorList = new ArrayList&lt;&gt;(modelNumberOfFloors);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            for(int i = 0; i &lt; modelNumberOfFloors; i++){</span>
+<span class="fc" id="L196">                floorList.add(i, new ArrayList&lt;&gt;());</span>
+            }
+
+<span class="fc bfc" id="L199" title="All 2 branches covered.">            while (iter.hasNext()){</span>
+<span class="fc" id="L200">                ILift next = iter.next();</span>
+<span class="fc" id="L201">                floorList.get(next.getFloorLiftOn()).add(next);</span>
+<span class="fc" id="L202">            }</span>
+
+<span class="fc bfc" id="L204" title="All 2 branches covered.">            for (int i = 0; i &lt; modelNumberOfFloors; i++){</span>
+<span class="fc" id="L205">                Integer numberOfLifts = floorList.get(i).size();</span>
+<span class="fc" id="L206">                liftsToDraw[i] = new String[numberOfLifts];</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">                for (int j = 0; j &lt; numberOfLifts; j++){</span>
+<span class="fc" id="L208">                    liftsToDraw[i][j] = floorList.get(i).get(j).getNumber() + &quot;:&quot;</span>
+<span class="fc" id="L209">                            + floorList.get(i).get(j).getNumberOfPeople();</span>
+                }
+            }
+        }
+
+<span class="fc" id="L214">        return liftsToDraw;</span>
+    }
+
+    private List&lt;IPerson&gt; getListOfPeople(IHouse model){
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">        if(model == null) throw new NullPointerException(&quot;Model is null&quot;);</span>
+        else {
+<span class="fc" id="L220">            List&lt;IPerson&gt; people = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L221">            Iterator&lt;IFloor&gt; iter = model.floorIterator();</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">            while (iter.hasNext()) {</span>
+<span class="fc" id="L223">                IFloor floor = iter.next();</span>
+<span class="fc" id="L224">                Iterator&lt;IPerson&gt; personIterator = floor.getPersonIterator();</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">                while (personIterator.hasNext()) {</span>
+<span class="fc" id="L226">                    people.add(personIterator.next());</span>
+                }
+<span class="fc" id="L228">            }</span>
+
+<span class="fc" id="L230">            return people;</span>
+        }
+    }
+
+    private List&lt;ILift&gt; getListOfLifts(IHouse model){
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">        if(model == null) throw new NullPointerException(&quot;Model is null&quot;);</span>
+        else {
+<span class="fc" id="L237">            List&lt;ILift&gt; lifts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L238">            Iterator&lt;ILift&gt; iter = model.liftIterator();</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            while (iter.hasNext()) {</span>
+<span class="fc" id="L240">                lifts.add(iter.next());</span>
+            }
+
+<span class="fc" id="L243">            return lifts;</span>
+        }
+    }
+
+    private List&lt;IFloor&gt; getListOfFloors(IHouse model){
+<span class="pc bpc" id="L248" title="1 of 2 branches missed.">        if(model == null) throw new NullPointerException(&quot;Model is null&quot;);</span>
+        else {
+<span class="fc" id="L250">            List&lt;IFloor&gt; floors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L251">            Iterator&lt;IFloor&gt; iter = model.floorIterator();</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            while (iter.hasNext()) {</span>
+<span class="fc" id="L253">                floors.add(iter.next());</span>
+            }
+
+<span class="fc" id="L256">            return floors;</span>
+        }
+    }
+
+    private void injectLiftButtonsToFloors(List&lt;IFloor&gt; floors, List&lt;ILift&gt; lifts){
+
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        for (IFloor floor : floors) {</span>
+<span class="fc" id="L263">            ArrayList&lt;ICallLiftButton&gt; buttons = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            for (ILift lift : lifts) {</span>
+<span class="fc" id="L265">                ICallLiftButton button = new CallLiftButton(floor.getNumber(), lift);</span>
+<span class="fc" id="L266">                buttons.add(button);</span>
+<span class="fc" id="L267">            }</span>
+<span class="fc" id="L268">            floor.acceptLiftButtons(buttons);</span>
+<span class="fc" id="L269">        }</span>
+<span class="fc" id="L270">    }</span>
+
+    private void injectLiftButtonsToPeople(List&lt;IFloor&gt; floors){
+        for (IFloor floor :
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                floors) {</span>
+<span class="fc" id="L275">            floor.injectLiftButtonsToPeople();</span>
+<span class="fc" id="L276">        }</span>
+<span class="fc" id="L277">    }</span>
+
+    private void pushFirstCommands(){
+        for (IPerson person :
+<span class="fc bfc" id="L281" title="All 2 branches covered.">                people) {</span>
+<span class="fc" id="L282">            ICommand command = new PersonCallsLiftCommand(person);</span>
+<span class="fc" id="L283">            commandQueue.add(command);</span>
+<span class="fc" id="L284">        }</span>
+<span class="fc" id="L285">    }</span>
+
+    private void createCommandReceiver(){
+<span class="fc" id="L288">        CommandReceiver.addModel(this);</span>
+<span class="fc" id="L289">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
