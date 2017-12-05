@@ -127,12 +127,12 @@ public class ApplicationManager {
                     } else {
                         if (!elevator.isUnLoaded() && !elevator.getPassengers().isEmpty()) {
                             commandManager.addCommand(new UnLoadPassengersElevatorCommand(elevator));
-                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), elevator.getCurrentFloor(), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
+                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
                             continue;
                         }
                         if (!elevator.isLoaded()) {
                             commandManager.addCommand(new LoadPassengersElevatorCommand(elevator, waitingCalls));
-                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), elevator.getCurrentFloor(), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
+                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
                             commandManager.addCommand(new CloseDoorsVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId())));
                             continue;
                         }

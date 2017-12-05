@@ -3,9 +3,13 @@ import com.netcracker.unc.commands.elevator.LoadPassengersElevatorCommand;
 import com.netcracker.unc.commands.elevator.MoveElevatorCommand;
 import com.netcracker.unc.commands.elevator.UnLoadPassengersElevatorCommand;
 import com.netcracker.unc.commands.floor.AddNewPassengerFloorCommand;
+import com.netcracker.unc.commands.vizualizer.*;
 import com.netcracker.unc.logic.*;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
+import com.netcracker.unc.visualization.VisualizerConfig;
+import com.netcracker.unc.visualization.elements.ElevatorPicture;
+import com.netcracker.unc.visualization.elements.FloorPicture;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +36,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void UnLoadPassengersElevatorCommand() {
+    public void unLoadPassengersElevatorCommand() {
         elevator.addFloorInQueue(floors.get(7));
         elevator.addPassenger(new Passenger(floors.get(0), floors.get(7), 30, 10));
         elevator.addPassenger(new Passenger(floors.get(0), floors.get(3), 30, 0));
@@ -44,7 +48,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void LoadPassengersElevatorCommand() {
+    public void loadPassengersElevatorCommand() {
         Floor floor = floors.get(3);
         Queue<WaitingCall> waitingCalls = new LinkedList<WaitingCall>();
         floor.addPassenger(new Passenger(floors.get(3), floors.get(5), 100, 0));
@@ -62,7 +66,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void MoveElevatorCommand() {
+    public void moveElevatorCommand() {
         elevator.addFloorInQueue(floors.get(4));
         new MoveElevatorCommand(elevator, floors).execute();
         Assert.assertEquals(floors.get(4), elevator.getCurrentFloor());
@@ -75,7 +79,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void CallElevatorBuildingCommand() {
+    public void callElevatorBuildingCommand() {
         List<IElevator> elevators = new ArrayList<IElevator>();
         Queue<WaitingCall> waitingCalls = new LinkedList<WaitingCall>();
         elevators.add(elevator);
@@ -102,7 +106,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void CallElevatorToProhibitedFloor() {
+    public void callElevatorToProhibitedFloor() {
         List<IElevator> elevators = new ArrayList<IElevator>();
         elevators.add(elevator);
         List<Floor> availableFloors = new ArrayList<Floor>(floors);
@@ -120,7 +124,7 @@ public class CommandsTests {
     }
 
     @Test
-    public void LoadPassengersElevatorCommandWithProbabilityOfChoice() {
+    public void loadPassengersElevatorCommandWithProbabilityOfChoice() {
         Floor floor = floors.get(3);
         Queue<WaitingCall> waitingCalls = new LinkedList<WaitingCall>();
         floor.addPassenger(new Passenger(floors.get(3), floors.get(6), 30, 0));
@@ -132,9 +136,58 @@ public class CommandsTests {
     }
 
     @Test
-    public void AddNewPassengerFloorCommand() {
+    public void addNewPassengerFloorCommand() {
         Floor floor = floors.get(0);
         new AddNewPassengerFloorCommand(new Passenger(floors.get(0), floors.get(5)), floor).execute();
         Assert.assertEquals(1, floor.getPassengers().size());
+    }
+
+    @Test
+    public void closeAndOpenDoorsCommand() {
+        ElevatorPicture elevatorPicture = new ElevatorPicture(elevator.getId(), 1, 0, false);
+        new OpenDoorsVisualizerCommand(elevator, elevatorPicture).execute();
+        Assert.assertTrue(elevator.isOpened());
+        Assert.assertTrue(elevatorPicture.isOpened());
+
+        new CloseDoorsVisualizerCommand(elevator, elevatorPicture).execute();
+        Assert.assertFalse(elevator.isOpened());
+        Assert.assertFalse(elevatorPicture.isOpened());
+    }
+
+    @Test
+    public void moveElevatorVisualizerCommand() {
+        ElevatorPicture elevatorPicture = new ElevatorPicture(elevator.getId(), 1, 0, false);
+        FloorPicture floorPicture = new FloorPicture(elevator.getCurrentFloor().getId(), (floors.size() - elevator.getCurrentFloor().getId()) * VisualizerConfig.FLOOR_HEIGHT + 1, 0, false, false);
+        Assert.assertTrue(elevator.isInFloor());
+        elevator.setState(State.DOWN);
+        new MoveElevatorVisualizerCommand(elevator, elevatorPicture, floorPicture, floors).execute();
+        Assert.assertEquals(2, elevatorPicture.getyCoordinate());
+        Assert.assertFalse(elevator.isInFloor());
+        for (int i = 1; i < VisualizerConfig.ELEVATOR_HEIGHT; i++)
+            new MoveElevatorVisualizerCommand(elevator, elevatorPicture, floorPicture, floors).execute();
+        Assert.assertEquals(4, elevatorPicture.getyCoordinate());
+    }
+
+    @Test
+    public void updateFloorVisualizerCommand(){
+        Floor floor = floors.get(3);
+        FloorPicture floorPicture = new FloorPicture(floor.getId(), (floors.size() - floor.getId()) * VisualizerConfig.FLOOR_HEIGHT + 1, 0, false, false);
+        floor.setPushedButtonDown(true);
+        floor.addPassenger(new Passenger(floor, floors.get(0)));
+        new UpdateFloorVisualizerCommand(floor, floorPicture).execute();
+        Assert.assertTrue(floorPicture.isPushedDown());
+        Assert.assertFalse(floorPicture.isPushedUp());
+        Assert.assertEquals(1, floorPicture.getCountOfPassengers());
+    }
+
+    @Test
+    public void loadPassengersVisualizerCommand(){
+        ElevatorPicture elevatorPicture = new ElevatorPicture(elevator.getId(), 1, 0, false);
+        FloorPicture floorPicture = new FloorPicture(elevator.getCurrentFloor().getId(), (floors.size() - elevator.getCurrentFloor().getId()) * VisualizerConfig.FLOOR_HEIGHT + 1, 1, true, false);
+        elevator.addPassenger(new Passenger(floors.get(3), floors.get(0)));
+        new LoadPassengersVisualizerCommand(elevator, elevatorPicture, floorPicture).execute();
+        Assert.assertEquals(1, elevatorPicture.getCountOfPassengers());
+        Assert.assertEquals(0, floorPicture.getCountOfPassengers());
+        Assert.assertFalse(floorPicture.isPushedUp());
     }
 }
