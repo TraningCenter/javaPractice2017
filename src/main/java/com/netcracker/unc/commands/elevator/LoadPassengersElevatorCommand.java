@@ -31,7 +31,6 @@ public class LoadPassengersElevatorCommand implements IElevatorCommand {
         int prob;
         for (IPassenger passenger : passengers) {
             prob = rnd.nextInt(101);
-            System.out.println(prob);
             if (elevator.getState() == passenger.getDirection() || elevator.getState() == State.STOPPED) {
                 if (!elevator.getAvailableFloors().contains(passenger.getDestinationFloor()) || prob <= passenger.getProbabilityOfChoice() || !elevator.addPassenger(passenger))
                     waiting.add(new WaitingCall(floor, passenger.getDestinationFloor()));
@@ -41,17 +40,18 @@ public class LoadPassengersElevatorCommand implements IElevatorCommand {
                 }
             }
         }
+        // Отключение кнопок на этаже
         if (elevator.getState() == State.STOPPED) {
             floor.setPushedButtonUp(false);
             floor.setPushedButtonDown(false);
+        } else {
+            if (elevator.getState() == State.DOWN && floor.isPushedButtonDown())
+                floor.setPushedButtonDown(false);
+            else if (elevator.getState() == State.UP && floor.isPushedButtonUp())
+                floor.setPushedButtonUp(false);
         }
-        if (elevator.getState() == State.DOWN && floor.isPushedButtonDown())
-            floor.setPushedButtonDown(false);
-        else if (elevator.getState() == State.UP && floor.isPushedButtonUp())
-            floor.setPushedButtonUp(false);
-        if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor()) {
+        if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor())
             elevator.deleteFloorFromQueue();
-        }
         if (!elevator.getFloorsToVisit().isEmpty())
             elevator.setLoaded(true);
     }

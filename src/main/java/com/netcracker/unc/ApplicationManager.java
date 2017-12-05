@@ -3,13 +3,16 @@ package com.netcracker.unc;
 import com.netcracker.unc.commands.CommandManager;
 import com.netcracker.unc.commands.building.CallElevatorBuildingCommand;
 import com.netcracker.unc.commands.elevator.LoadPassengersElevatorCommand;
-import com.netcracker.unc.commands.elevator.MoveElevatorCommand;
 import com.netcracker.unc.commands.elevator.UnLoadPassengersElevatorCommand;
 import com.netcracker.unc.commands.floor.AddNewPassengerFloorCommand;
+import com.netcracker.unc.commands.vizualizer.*;
 import com.netcracker.unc.logic.*;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.logic.interfaces.IPassenger;
+import com.netcracker.unc.visualization.Visualizer;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.*;
 
 public class ApplicationManager {
@@ -21,38 +24,63 @@ public class ApplicationManager {
     private static Building building;
     private static CommandManager commandManager;
     private static Queue<WaitingCall> waitingCalls;
+    private static Visualizer visualizer;
 
 
     public static void main(String[] args) {
+        try {
+            // настройки консоли для отображения UTF-8 символов отрисовки лифта и этажа
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+            // очищение экрана cmd
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
         building = new Building();
         commandManager = new CommandManager();
-        waitingCalls = new LinkedList<WaitingCall>();
+        waitingCalls = new LinkedList<>();
+        visualizer = new Visualizer();
+
         inputConfiguration();
+        visualizer.visualize();
         List<IElevator> elevators = building.getElevators();
-        while (!commandManager.isEpmty()) {
-            while (!commandManager.isEpmty()) {
+        while (!commandManager.isEmpty()) {
+            while (!commandManager.isEmpty()) {
                 commandManager.executeNextCommand();
             }
-            //draw()
+            visualizer.visualize();
             for (IElevator elevator : elevators) {
-                if (elevator.getFloorsToVisit().isEmpty()) {
+                if (elevator.getFloorsToVisit().isEmpty())
                     continue;
+
+                if (elevator.isInFloor() && elevator.getCurrentFloor() == elevator.getNextDestinationFloor()) {
+                    if (!elevator.isOpened()) {
+                        if (!elevator.isUnLoaded() || !elevator.isLoaded()) {
+                            commandManager.addCommand(new OpenDoorsVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId())));
+                            continue;
+                        }
+                    } else {
+                        if (!elevator.isUnLoaded() && !elevator.getPassengers().isEmpty()) {
+                            commandManager.addCommand(new UnLoadPassengersElevatorCommand(elevator));
+                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), elevator.getCurrentFloor(), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
+                            continue;
+                        }
+                        if (!elevator.isLoaded()) {
+                            commandManager.addCommand(new LoadPassengersElevatorCommand(elevator, waitingCalls));
+                            commandManager.addCommand(new LoadPassengersVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), elevator.getCurrentFloor(), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId())));
+                            commandManager.addCommand(new CloseDoorsVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId())));
+                            continue;
+                        }
+                    }
                 }
-                if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor() && !elevator.isUnLoaded() && !elevator.getPassengers().isEmpty()) {
-                    commandManager.addCommand(new UnLoadPassengersElevatorCommand(elevator));
-                    continue;
-                }
-                if (elevator.getCurrentFloor() == elevator.getNextDestinationFloor() && !elevator.isLoaded()) {
-                    commandManager.addCommand(new LoadPassengersElevatorCommand(elevator, waitingCalls));
-                    continue;
-                }
-                commandManager.addCommand(new MoveElevatorCommand(elevator, building.getFloors()));
+                commandManager.addCommand(new MoveElevatorVisualizerCommand(elevator, visualizer.getElevatorPictureList().get(elevator.getId()), visualizer.getFloorPictureById(elevator.getCurrentFloor().getId()), building.getFloors()));
             }
             if (!waitingCalls.isEmpty()) {
-                List<WaitingCall> wc = new ArrayList<WaitingCall>(waitingCalls);
+                List<WaitingCall> wc = new ArrayList<>(waitingCalls);
                 for (WaitingCall waitingCall : wc) {
                     waitingCalls.remove(waitingCall);
                     commandManager.addCommand(new CallElevatorBuildingCommand(elevators, waitingCall.getStartFloor(), waitingCall.getDestFloor(), waitingCall.getDirection(), waitingCalls));
+                    commandManager.addCommand(new UpdateFloorVisualizerCommand(waitingCall.getStartFloor(), visualizer.getFloorPictureById(waitingCall.getStartFloor().getId())));
                 }
             }
         }
@@ -70,6 +98,7 @@ public class ApplicationManager {
         for (int i = 0; i < countElevators; i++) {
             building.addElevator(inputElevatorInfo(scanner, i));
         }
+        visualizer.setConfiguration(building);
         // добавляем пассажиров
         String line;
         IPassenger passenger;
@@ -78,8 +107,10 @@ public class ApplicationManager {
             line = scanner.nextLine();
             if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
                 passenger = inputPassengerInfo(scanner);
-                commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, passenger.getStartFloor()));
-                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), passenger.getStartFloor(), passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
+                Floor startFloor = passenger.getStartFloor();
+                commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, startFloor));
+                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), startFloor, passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
+                commandManager.addCommand(new UpdateFloorVisualizerCommand(startFloor, visualizer.getFloorPictureById(startFloor.getId())));
             } else
                 break;
         }
@@ -174,7 +205,7 @@ public class ApplicationManager {
             passenger.setStartFloor(floors.get(startFloor - 1));
             passenger.setDestinationFloor(floors.get(destFloor - 1));
             passenger.setWeight(20 + rnd.nextInt(131));
-            passenger.setProbabilityOfChoice(rnd.nextInt(101));
+            passenger.setProbabilityOfChoice(rnd.nextInt(41));
             System.out.println(String.format("INFO: Пассажир. ОТ: %d, ДО: %d, вес: %d, вероятн. передумать: %d %%", startFloor, destFloor, passenger.getWeight(), passenger.getProbabilityOfChoice()));
         }
         return passenger;

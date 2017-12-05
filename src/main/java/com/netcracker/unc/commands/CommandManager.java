@@ -27,7 +27,7 @@ public class CommandManager {
         return commands.offer(command);
     }
 
-    public boolean isEpmty() {
+    public boolean isEmpty() {
         return commands.size() == 0;
     }
 }

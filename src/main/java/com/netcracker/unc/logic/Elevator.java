@@ -19,6 +19,8 @@ public class Elevator implements IElevator {
     private int remainingCapacity;
     private boolean isUnLoaded = false;
     private boolean isLoaded = false;
+    private boolean isOpened = false;
+    private boolean inFloor = true;
 
     public Elevator(int id) {
         this.id = id;
@@ -218,4 +220,21 @@ public class Elevator implements IElevator {
     public void setLoaded(boolean loaded) {
         isLoaded = loaded;
     }
+
+    public boolean isOpened() {
+        return isOpened;
+    }
+
+    public void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
+    public boolean isInFloor() {
+        return inFloor;
+    }
+
+    public void setInFloor(boolean inFloor) {
+        this.inFloor = inFloor;
+    }
 }
+

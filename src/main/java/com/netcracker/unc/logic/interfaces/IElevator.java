@@ -15,8 +15,6 @@ public interface IElevator {
 
     List<Floor> getAvailableFloors();
 
-    void setAvailableFloors(List<Floor> floors);
-
     void addAvailableFloor(Floor floor);
 
     void addFloorInQueue(Floor floor);
@@ -50,4 +48,12 @@ public interface IElevator {
     boolean isLoaded();
 
     void setLoaded(boolean loaded);
+
+    boolean isOpened();
+
+    void setOpened(boolean opened);
+
+    boolean isInFloor();
+
+    void setInFloor(boolean inFloor);
 }
