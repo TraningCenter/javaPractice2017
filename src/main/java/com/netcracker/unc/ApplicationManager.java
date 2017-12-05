@@ -13,12 +13,16 @@ import com.netcracker.unc.visualization.Visualizer;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class which emulates a multi-storey building with elevators
  */
 public class ApplicationManager {
+
     private int countFloors;
     private static final int MAX_COUNT_OF_FLOORS = 10;
     private static final int MAX_COUNT_OF_ELEVATORS = 6;
@@ -28,17 +32,18 @@ public class ApplicationManager {
     private Queue<WaitingCall> waitingCalls;
     private Visualizer visualizer;
 
-
     void start() {
+
         try {
             // настройки консоли для отображения UTF-8 символов отрисовки лифта и этажа
             System.setOut(new PrintStream(System.out, true, "UTF-8"));
             // очищение экрана cmd
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+            System.out.print("\033[H\033[2J");
+
+            menu();
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ApplicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        menu();
     }
 
     private void menu() {
@@ -52,8 +57,9 @@ public class ApplicationManager {
             System.out.println("0. Выход");
             try {
                 i = Integer.parseInt(scanner.nextLine());
-                if (i<0 || i>2)
+                if (i < 0 || i > 2) {
                     throw new NumberFormatException();
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка. Введите число от 0 до 2");
                 continue;
@@ -82,8 +88,9 @@ public class ApplicationManager {
         visualizer = new Visualizer();
         countFloors = inputInt(scanner, "Введите количество этажей в доме: ", 2, MAX_COUNT_OF_FLOORS);
         // добавляем этажи в здание
-        for (int i = 1; i <= countFloors; i++)
+        for (int i = 1; i <= countFloors; i++) {
             building.addFloor(new Floor(i));
+        }
         int countElevators = inputInt(scanner, "Введите количество лифтов в доме: ", 1, MAX_COUNT_OF_ELEVATORS);
         // добавляем лифты в здание (данные заполняются вручную или автоматически
         for (int i = 0; i < countElevators; i++) {
@@ -102,21 +109,23 @@ public class ApplicationManager {
                 commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, startFloor));
                 commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), startFloor, passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
                 commandManager.addCommand(new UpdateFloorVisualizerCommand(startFloor, visualizer.getFloorPictureById(startFloor.getId())));
-            } else
+            } else {
                 break;
+            }
         }
     }
 
     private void runSimulation() {
         List<IElevator> elevators = building.getElevators();
-        while (!commandManager.isEmpty()) {
+        while (!commandManager.isEmpty()) {           
             while (!commandManager.isEmpty()) {
                 commandManager.executeNextCommand();
             }
             visualizer.visualize();
             for (IElevator elevator : elevators) {
-                if (elevator.getFloorsToVisit().isEmpty())
+                if (elevator.getFloorsToVisit().isEmpty()) {
                     continue;
+                }
 
                 if (elevator.isInFloor() && elevator.getCurrentFloor() == elevator.getNextDestinationFloor()) {
                     if (!elevator.isOpened()) {
@@ -147,7 +156,7 @@ public class ApplicationManager {
                     commandManager.addCommand(new CallElevatorBuildingCommand(elevators, waitingCall.getStartFloor(), waitingCall.getDestFloor(), waitingCall.getDirection(), waitingCalls));
                     commandManager.addCommand(new UpdateFloorVisualizerCommand(waitingCall.getStartFloor(), visualizer.getFloorPictureById(waitingCall.getStartFloor().getId())));
                 }
-            }
+            }            
         }
     }
 
@@ -158,10 +167,11 @@ public class ApplicationManager {
             String line = scanner.nextLine();
             try {
                 i = Integer.parseInt(line);
-                if (i >= min && i <= max)
+                if (i >= min && i <= max) {
                     break;
-                else
+                } else {
                     System.out.println(String.format("Введите число в диапазоне (%d;%d)", min, max));
+                }
 
             } catch (NumberFormatException nfe) {
                 System.out.println("Ошибка! Введите число! ");
@@ -183,22 +193,25 @@ public class ApplicationManager {
         if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
             minFloor = inputInt(scanner, "Введите минимальный доступный этаж: ", 1, countFloors - 1);
             maxFloor = inputInt(scanner, "Введите максимальный доступный этаж: ", minFloor + 1, countFloors);
-            for (int i = minFloor; i <= maxFloor; i++)
+            for (int i = minFloor; i <= maxFloor; i++) {
                 elevator.addAvailableFloor(floors.get(i - 1));
+            }
             while (true) {
                 currentFloor = inputInt(scanner, "Введите этаж стоянки лифта: ", minFloor, maxFloor);
-                if (elevator.setCurrentFloor(floors.get(currentFloor - 1)))
+                if (elevator.setCurrentFloor(floors.get(currentFloor - 1))) {
                     break;
-                else
+                } else {
                     System.out.println(String.format("Этаж #%d недоступен для этого лифта!", currentFloor));
+                }
             }
             elevator.setCapacity(inputInt(scanner, "Введите грузоподъемность лифта: ", 100, 600));
         } else {
             Random rnd = new Random(System.currentTimeMillis());
             minFloor = 1 + rnd.nextInt(countFloors - 1);
             maxFloor = minFloor + 1 + rnd.nextInt(countFloors - minFloor);
-            for (int i = minFloor; i <= maxFloor; i++)
+            for (int i = minFloor; i <= maxFloor; i++) {
                 elevator.addAvailableFloor(floors.get(i - 1));
+            }
             currentFloor = minFloor + rnd.nextInt(maxFloor - minFloor + 1);
             elevator.setCurrentFloor(floors.get(currentFloor - 1));
             elevator.setCapacity(100 + rnd.nextInt(501));
@@ -220,10 +233,11 @@ public class ApplicationManager {
             startFloor = inputInt(scanner, "Введите начальный этаж: ", 1, countFloors);
             while (true) {
                 destFloor = inputInt(scanner, "Введите конечный этаж: ", 1, countFloors);
-                if (destFloor != startFloor)
+                if (destFloor != startFloor) {
                     break;
-                else
+                } else {
                     System.out.println("Это начальный этаж. Необходимо выбрать другой этаж!");
+                }
             }
             passenger.setStartFloor(floors.get(startFloor - 1));
             passenger.setDestinationFloor(floors.get(destFloor - 1));
@@ -234,8 +248,9 @@ public class ApplicationManager {
             startFloor = 1 + rnd.nextInt(countFloors);
             while (true) {
                 destFloor = 1 + rnd.nextInt(countFloors);
-                if (destFloor != startFloor)
+                if (destFloor != startFloor) {
                     break;
+                }
             }
             passenger.setStartFloor(floors.get(startFloor - 1));
             passenger.setDestinationFloor(floors.get(destFloor - 1));
@@ -252,8 +267,9 @@ public class ApplicationManager {
         waitingCalls = new LinkedList<>();
         visualizer = new Visualizer();
         List<Floor> floors = new ArrayList<>();
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 5; i++) {
             floors.add(new Floor(i));
+        }
         building.setFloors(floors);
         List<IElevator> elevators = new ArrayList<>();
         elevators.add(new Elevator(0, floors.get(0), floors, 500));

@@ -24,7 +24,7 @@ public class Visualizer {
         elevatorPictureList = new ArrayList<>();
         floorPicturesList = new ArrayList<>();
     }
-    
+
     public void setConfiguration(Building building) {
         List<Floor> floors = building.getFloors();
         List<IElevator> elevators = building.getElevators();
@@ -42,10 +42,10 @@ public class Visualizer {
         }
     }
 
-
-    public void visualize(){
+    public void visualize() {
         try {
             Thread.sleep(500);
+            System.out.print("\033[H\033[2J");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -61,8 +61,8 @@ public class Visualizer {
                 builder.append("|");
                 for (ElevatorPicture anElevatorPictureList : elevatorPictureList) {
                     builder
-                        .append(printNTimes(" ", FLOOR_WIDTH))
-                        .append(anElevatorPictureList.draw(line));
+                            .append(printNTimes(" ", FLOOR_WIDTH))
+                            .append(anElevatorPictureList.draw(line));
                 }
                 builder.append(printNTimes(" ", FLOOR_WIDTH)).append(printNTimes("#", SEPARATOR_WIDTH));
                 builder.append(floorPicturesList.get(i).draw(line));
@@ -83,10 +83,10 @@ public class Visualizer {
         builder.append("\n");
         for (int i = ROOF_HEIGHT, line = 0; i > 0; i--, line++) {
             builder.append(
-                printNTimes(" ", i))
-                .append('/')
-                .append(printNTimes(" ", topWidth + line * 2))
-                .append("\\\n");
+                    printNTimes(" ", i))
+                    .append('/')
+                    .append(printNTimes(" ", topWidth + line * 2))
+                    .append("\\\n");
         }
         builder.append(printNTimes("-", bottomWidth));
         builder.append('\n');
@@ -108,8 +108,9 @@ public class Visualizer {
     public FloorPicture getFloorPictureById(int id) {
         FloorPicture floorPicture = null;
         for (FloorPicture fp : floorPicturesList) {
-            if (fp.getId() == id)
+            if (fp.getId() == id) {
                 floorPicture = fp;
+            }
         }
         return floorPicture;
     }
