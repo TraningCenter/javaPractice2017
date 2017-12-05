@@ -1,6 +1,10 @@
 package com.netcracker.unc.logic;
 
 
+/**
+ * Helper class, which describes delayed call of elevator,
+ * when the passenger refuses to go (or overload of elevator)
+ */
 public class WaitingCall {
     private Floor startFloor;
     private Floor destFloor;

@@ -6,6 +6,9 @@ import com.netcracker.unc.logic.interfaces.IElevator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which combines list of elevators and  list of floors
+ */
 public class Building {
 
     private List<IElevator> elevators;

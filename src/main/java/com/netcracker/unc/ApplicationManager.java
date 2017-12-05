@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
+/**
+ * Class which emulates a multi-storey building with elevators
+ */
 public class ApplicationManager {
     private int countFloors;
     private static final int MAX_COUNT_OF_FLOORS = 10;

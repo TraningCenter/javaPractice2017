@@ -12,6 +12,9 @@ import com.netcracker.unc.visualization.elements.FloorPicture;
 
 import java.util.List;
 
+/**
+ * Command which moves the elevator by one character
+ */
 public class MoveElevatorVisualizerCommand implements IVizualizerCommand {
     private IElevator elevator;
     private ElevatorPicture elevatorPicture;

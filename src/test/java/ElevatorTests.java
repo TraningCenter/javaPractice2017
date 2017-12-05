@@ -10,7 +10,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Tests that verify the correct operation of the internal elevator commands
+ */
 public class ElevatorTests {
 
     private IElevator elevator;

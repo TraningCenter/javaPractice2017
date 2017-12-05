@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class implements IElevator interface
+ */
 public class Elevator implements IElevator {
     private int id;
     private State state;

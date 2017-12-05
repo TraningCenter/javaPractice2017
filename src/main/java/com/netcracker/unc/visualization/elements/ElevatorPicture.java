@@ -1,5 +1,9 @@
 package com.netcracker.unc.visualization.elements;
 
+
+/**
+ * Class which visualizes elevator with passengers, open and close doors
+ */
 public class ElevatorPicture implements IPicture {
 
     private int id;

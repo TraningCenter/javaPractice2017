@@ -7,6 +7,9 @@ import java.util.Collections;
 import static com.netcracker.unc.visualization.VisualizerConfig.FLOOR_HEIGHT;
 import static com.netcracker.unc.visualization.VisualizerConfig.FLOOR_WIDTH;
 
+/**
+ * * Class which visualizes floor with passengers
+ */
 public class FloorPicture implements IPicture {
 
     private int id;

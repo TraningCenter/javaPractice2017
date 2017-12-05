@@ -5,6 +5,9 @@ import com.netcracker.unc.commands.interfaces.ICommand;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Class which manages all the commands in the application
+ */
 public class CommandManager {
     private Queue<ICommand> commands;
 

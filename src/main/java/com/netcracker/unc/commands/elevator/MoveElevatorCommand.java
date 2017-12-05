@@ -8,6 +8,9 @@ import com.netcracker.unc.logic.interfaces.IElevator;
 
 import java.util.List;
 
+/**
+ * Command which moves in right direction
+ */
 public class MoveElevatorCommand implements IElevatorCommand {
     private IElevator elevator;
     private List<Floor> floors;

@@ -10,6 +10,9 @@ import com.netcracker.unc.logic.interfaces.IElevator;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Command which calls the nearest elevator in the right direction
+ */
 public class CallElevatorBuildingCommand implements IBuildingCommand {
     private List<IElevator> elevators;
     private Floor floor;

@@ -8,6 +8,9 @@ import com.netcracker.unc.logic.interfaces.IPassenger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command which unloads passengers on their floor
+ */
 public class UnLoadPassengersElevatorCommand implements IElevatorCommand {
     private IElevator elevator;
 

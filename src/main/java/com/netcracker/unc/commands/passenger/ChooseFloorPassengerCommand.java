@@ -4,7 +4,9 @@ import com.netcracker.unc.commands.interfaces.IPassengerCommand;
 import com.netcracker.unc.logic.Floor;
 import com.netcracker.unc.logic.interfaces.IElevator;
 
-
+/**
+ * Command which clicks on the floor inside the elevator
+ */
 public class ChooseFloorPassengerCommand implements IPassengerCommand {
     private IElevator elevator;
     private Floor floor;

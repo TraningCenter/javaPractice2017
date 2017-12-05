@@ -5,6 +5,9 @@ import com.netcracker.unc.logic.interfaces.IPassenger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which has list of passengers and buttons (up, down)
+ */
 public class Floor implements Comparable<Floor> {
     private int id;
     private List<IPassenger> passengers;

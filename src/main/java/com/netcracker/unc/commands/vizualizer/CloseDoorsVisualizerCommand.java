@@ -4,6 +4,9 @@ import com.netcracker.unc.commands.interfaces.IVizualizerCommand;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.visualization.elements.ElevatorPicture;
 
+/**
+ * Command which closes the elevator doors
+ */
 public class CloseDoorsVisualizerCommand implements IVizualizerCommand{
 
     private IElevator elevator;

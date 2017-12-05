@@ -9,10 +9,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests that verify the correct direction of passengers
+ */
 public class PassengerTests {
 
-    List<Floor> floors;
-    IPassenger passenger;
+    private List<Floor> floors;
+    private IPassenger passenger;
 
     @Before
     public void init() {

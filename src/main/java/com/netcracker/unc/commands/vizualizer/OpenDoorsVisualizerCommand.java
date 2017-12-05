@@ -5,6 +5,9 @@ import com.netcracker.unc.commands.interfaces.IVizualizerCommand;
 import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.visualization.elements.ElevatorPicture;
 
+/**
+ * Command which opens the elevator doors
+ */
 public class OpenDoorsVisualizerCommand implements IVizualizerCommand {
 
     private IElevator elevator;

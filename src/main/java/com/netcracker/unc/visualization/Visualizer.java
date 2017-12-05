@@ -12,6 +12,9 @@ import java.util.List;
 
 import static com.netcracker.unc.visualization.VisualizerConfig.*;
 
+/**
+ * Class which visualizes all building
+ */
 public class Visualizer {
 
     private List<ElevatorPicture> elevatorPictureList;

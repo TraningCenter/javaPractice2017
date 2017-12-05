@@ -7,6 +7,9 @@ import com.netcracker.unc.logic.interfaces.IElevator;
 import com.netcracker.unc.visualization.elements.ElevatorPicture;
 import com.netcracker.unc.visualization.elements.FloorPicture;
 
+/**
+ * Command which loads passengers in a picture
+ */
 public class LoadPassengersVisualizerCommand implements IVizualizerCommand{
 
     private IElevator elevator;

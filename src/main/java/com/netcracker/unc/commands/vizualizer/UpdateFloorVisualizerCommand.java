@@ -5,6 +5,9 @@ import com.netcracker.unc.commands.interfaces.IVizualizerCommand;
 import com.netcracker.unc.logic.Floor;
 import com.netcracker.unc.visualization.elements.FloorPicture;
 
+/**
+ * Command which updates floor information
+ */
 public class UpdateFloorVisualizerCommand implements IVizualizerCommand {
 
     private FloorPicture floorPicture;

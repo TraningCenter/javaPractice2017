@@ -6,6 +6,10 @@ import com.netcracker.unc.logic.State;
 
 import java.util.List;
 
+/**
+ * Interface of elevator, which has state (UP, DOWN, STOPPED), passengers, available floors
+ * and queue of floors to visit
+ */
 public interface IElevator {
     List<IPassenger> getPassengers();
 

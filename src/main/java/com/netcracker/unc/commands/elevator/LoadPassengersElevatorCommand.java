@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+/**
+ * Command which loads passengers in right direction
+ */
 public class LoadPassengersElevatorCommand implements IElevatorCommand {
 
     private IElevator elevator;

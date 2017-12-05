@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Tests that verify the correct operation of commands
+ */
 public class CommandsTests {
 
     private List<Floor> floors;

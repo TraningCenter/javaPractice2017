@@ -3,6 +3,9 @@ package com.netcracker.unc.logic;
 
 import com.netcracker.unc.logic.interfaces.IPassenger;
 
+/**
+ * Class implements IPassenger interface
+ */
 public class Passenger implements IPassenger {
     private Floor startFloor;
     private Floor destinationFloor;

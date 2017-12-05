@@ -1,5 +1,8 @@
 package com.netcracker.unc.visualization;
 
+/**
+ * Config with building visualization settings
+ */
 public class VisualizerConfig {
 
     public final static int ROOF_HEIGHT=3;
