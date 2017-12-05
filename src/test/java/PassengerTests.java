@@ -15,17 +15,15 @@ public class PassengerTests {
     IPassenger passenger;
 
     @Before
-    public void init(){
+    public void init() {
         floors = new ArrayList<>();
-        floors.add(new Floor(1));
-        floors.add(new Floor(2));
-        floors.add(new Floor(3));
-        floors.add(new Floor(4));
-        passenger= new Passenger(floors.get(0), floors.get(3));
+        for (int i = 1; i <= 4; i++)
+            floors.add(new Floor(i));
+        passenger = new Passenger(floors.get(0), floors.get(3));
     }
 
     @Test
-    public void getDirection(){
+    public void getDirection() {
         State state = passenger.getDirection();
         Assert.assertEquals(State.UP, state);
         passenger.setStartFloor(floors.get(3));

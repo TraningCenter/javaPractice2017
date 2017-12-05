@@ -16,18 +16,17 @@ import java.io.PrintStream;
 import java.util.*;
 
 public class ApplicationManager {
-    private static int countFloors;
-    private static int countElevators;
-    private static final int maxCountOfFloors = 10;
-    private static final int maxCountOfElevators = 6;
+    private int countFloors;
+    private static final int MAX_COUNT_OF_FLOORS = 10;
+    private static final int MAX_COUNT_OF_ELEVATORS = 6;
 
-    private static Building building;
-    private static CommandManager commandManager;
-    private static Queue<WaitingCall> waitingCalls;
-    private static Visualizer visualizer;
+    private Building building;
+    private CommandManager commandManager;
+    private Queue<WaitingCall> waitingCalls;
+    private Visualizer visualizer;
 
 
-    public static void main(String[] args) {
+    void start() {
         try {
             // настройки консоли для отображения UTF-8 символов отрисовки лифта и этажа
             System.setOut(new PrintStream(System.out, true, "UTF-8"));
@@ -36,13 +35,76 @@ public class ApplicationManager {
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
+        menu();
+    }
+
+    private void menu() {
+        boolean exit = false;
+        int i;
+        Scanner scanner = new Scanner(System.in);
+        while (!exit) {
+            System.out.println("Выберите конфигурацию: ");
+            System.out.println("1. По умолчанию");
+            System.out.println("2. Сгенерировать самостоятельно");
+            System.out.println("0. Выход");
+            try {
+                i = Integer.parseInt(scanner.nextLine());
+                if (i<0 || i>2)
+                    throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                System.out.println("Ошибка. Введите число от 0 до 2");
+                continue;
+            }
+            switch (i) {
+                case 1:
+                    defaultConfiguration();
+                    runSimulation();
+                    break;
+                case 2:
+                    inputConfiguration(scanner);
+                    runSimulation();
+                    break;
+                case 0:
+                    exit = true;
+                    break;
+            }
+        }
+    }
+
+    private void inputConfiguration(Scanner scanner) {
+        building = new Building();
         building = new Building();
         commandManager = new CommandManager();
         waitingCalls = new LinkedList<>();
         visualizer = new Visualizer();
+        countFloors = inputInt(scanner, "Введите количество этажей в доме: ", 2, MAX_COUNT_OF_FLOORS);
+        // добавляем этажи в здание
+        for (int i = 1; i <= countFloors; i++)
+            building.addFloor(new Floor(i));
+        int countElevators = inputInt(scanner, "Введите количество лифтов в доме: ", 1, MAX_COUNT_OF_ELEVATORS);
+        // добавляем лифты в здание (данные заполняются вручную или автоматически
+        for (int i = 0; i < countElevators; i++) {
+            building.addElevator(inputElevatorInfo(scanner, i));
+        }
+        visualizer.setConfiguration(building);
+        // добавляем пассажиров
+        String line;
+        IPassenger passenger;
+        while (true) {
+            System.out.print("Добавить пассажира? (Y/N) ");
+            line = scanner.nextLine();
+            if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
+                passenger = inputPassengerInfo(scanner);
+                Floor startFloor = passenger.getStartFloor();
+                commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, startFloor));
+                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), startFloor, passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
+                commandManager.addCommand(new UpdateFloorVisualizerCommand(startFloor, visualizer.getFloorPictureById(startFloor.getId())));
+            } else
+                break;
+        }
+    }
 
-        inputConfiguration();
-        visualizer.visualize();
+    private void runSimulation() {
         List<IElevator> elevators = building.getElevators();
         while (!commandManager.isEmpty()) {
             while (!commandManager.isEmpty()) {
@@ -84,39 +146,9 @@ public class ApplicationManager {
                 }
             }
         }
-        System.out.println();
     }
 
-    private static void inputConfiguration() {
-        Scanner scanner = new Scanner(System.in);
-        countFloors = inputInt(scanner, "Введите количество этажей в доме: ", 2, maxCountOfFloors);
-        // добавляем этажи в здание
-        for (int i = 1; i <= countFloors; i++)
-            building.addFloor(new Floor(i));
-        countElevators = inputInt(scanner, "Введите количество лифтов в доме: ", 1, maxCountOfElevators);
-        // добавляем лифты в здание (данные заполняются вручную или автоматически
-        for (int i = 0; i < countElevators; i++) {
-            building.addElevator(inputElevatorInfo(scanner, i));
-        }
-        visualizer.setConfiguration(building);
-        // добавляем пассажиров
-        String line;
-        IPassenger passenger;
-        while (true) {
-            System.out.print("Добавить пассажира? (Y/N) ");
-            line = scanner.nextLine();
-            if (line.equalsIgnoreCase("yes") || line.equalsIgnoreCase("y")) {
-                passenger = inputPassengerInfo(scanner);
-                Floor startFloor = passenger.getStartFloor();
-                commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, startFloor));
-                commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), startFloor, passenger.getDestinationFloor(), passenger.getDirection(), waitingCalls));
-                commandManager.addCommand(new UpdateFloorVisualizerCommand(startFloor, visualizer.getFloorPictureById(startFloor.getId())));
-            } else
-                break;
-        }
-    }
-
-    private static int inputInt(Scanner scanner, String msg, int min, int max) {
+    private int inputInt(Scanner scanner, String msg, int min, int max) {
         int i;
         while (true) {
             System.out.print(msg);
@@ -135,7 +167,7 @@ public class ApplicationManager {
         return i;
     }
 
-    private static IElevator inputElevatorInfo(Scanner scanner, int id) {
+    private IElevator inputElevatorInfo(Scanner scanner, int id) {
         int minFloor;
         int maxFloor;
         List<Floor> floors = building.getFloors();
@@ -172,7 +204,7 @@ public class ApplicationManager {
         return elevator;
     }
 
-    private static IPassenger inputPassengerInfo(Scanner scanner) {
+    private IPassenger inputPassengerInfo(Scanner scanner) {
         List<Floor> floors = building.getFloors();
         int startFloor;
         int destFloor;
@@ -209,5 +241,37 @@ public class ApplicationManager {
             System.out.println(String.format("INFO: Пассажир. ОТ: %d, ДО: %d, вес: %d, вероятн. передумать: %d %%", startFloor, destFloor, passenger.getWeight(), passenger.getProbabilityOfChoice()));
         }
         return passenger;
+    }
+
+    private void defaultConfiguration() {
+        building = new Building();
+        commandManager = new CommandManager();
+        waitingCalls = new LinkedList<>();
+        visualizer = new Visualizer();
+        List<Floor> floors = new ArrayList<>();
+        for (int i = 1; i <= 5; i++)
+            floors.add(new Floor(i));
+        building.setFloors(floors);
+        List<IElevator> elevators = new ArrayList<>();
+        elevators.add(new Elevator(0, floors.get(0), floors, 500));
+        elevators.add(new Elevator(1, floors.get(1), floors, 500));
+        elevators.add(new Elevator(2, floors.get(4), floors, 500));
+        building.setElevators(elevators);
+        visualizer.setConfiguration(building);
+
+        addPassenger(floors.get(0), floors.get(2), 49, 0);
+        addPassenger(floors.get(0), floors.get(3), 56, 0);
+        addPassenger(floors.get(4), floors.get(1), 68, 0);
+        addPassenger(floors.get(3), floors.get(1), 68, 0);
+        addPassenger(floors.get(2), floors.get(0), 100, 0);
+        addPassenger(floors.get(4), floors.get(0), 100, 0);
+
+    }
+
+    private void addPassenger(Floor startFloor, Floor destFloor, int weight, int probabilityOfChoice) {
+        IPassenger passenger = new Passenger(startFloor, destFloor, weight, probabilityOfChoice);
+        commandManager.addCommand(new AddNewPassengerFloorCommand(passenger, startFloor));
+        commandManager.addCommand(new CallElevatorBuildingCommand(building.getElevators(), startFloor, destFloor, passenger.getDirection(), waitingCalls));
+        commandManager.addCommand(new UpdateFloorVisualizerCommand(startFloor, visualizer.getFloorPictureById(startFloor.getId())));
     }
 }

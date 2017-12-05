@@ -31,7 +31,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.netcracker.unc.ApplicationManager</mainClass>
+                            <mainClass>com.netcracker.unc.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -22,16 +22,10 @@ public class CommandsTests {
 
     @Before
     public void init() {
-        floors = new ArrayList<Floor>();
-        floors.add(new Floor(1));
-        floors.add(new Floor(2));
-        floors.add(new Floor(3));
-        floors.add(new Floor(4));
+        floors = new ArrayList<>();
+        for (int i = 1; i <= 8; i++)
+            floors.add(new Floor(i));
         elevator = new Elevator(0, floors.get(3), floors, 300);
-        floors.add(new Floor(5));
-        floors.add(new Floor(6));
-        floors.add(new Floor(7));
-        floors.add(new Floor(8));
     }
 
     @Test
