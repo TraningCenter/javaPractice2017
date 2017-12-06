@@ -20,6 +20,16 @@ public class House implements IBuilding{
 		if (!floors.add(floor))
 			System.out.println("Something went wrong with adding floor");
 	}
+	public Floor getFloorByNumber(int floorNum) {
+		Floor selectedFloor  = null;
+		for (Floor f: floors) {
+			if (f.getNumber() == floorNum) {
+				selectedFloor = f;
+				break;
+			}
+		}
+		return selectedFloor;
+	}
 	public void floorChecker() {
 		for (Floor f: floors) {
 			if (!f.getWaitingList().isEmpty()) {

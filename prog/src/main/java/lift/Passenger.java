@@ -4,6 +4,14 @@ public class Passenger implements Transportable {
 	private int startFloor;
 	private int destFloor;
 	
+	public Passenger() {
+		startFloor = 0;
+		destFloor = 1;
+	}
+	public Passenger(int start, int dest) {
+		startFloor = start;
+		destFloor = dest;
+	}
 	public int getStart() {
 		return this.startFloor;
 	}
