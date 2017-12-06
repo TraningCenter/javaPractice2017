@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LiftApp</a> &gt; <a href="index.source.html" class="el_package">com.alegerd.mainData</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.alegerd.mainData;
+import com.alegerd.utils.Config;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
-<span class="nc" id="L8">public class Main{</span>
+<span class="nc" id="L10">public class Main{</span>
 
     static Application application;
 
@@ -14,14 +16,57 @@ import java.util.List;
      * @param args Path to the input file
      */
     public static void main(String[] args) {
-<span class="nc" id="L17">        String fileName = null;</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if(args.length &gt; 0) fileName = args[0];</span>
-        try {
-<span class="nc" id="L20">            application = new Application(fileName);</span>
-<span class="nc" id="L21">            application.start();</span>
-<span class="nc" id="L22">        }catch (Exception e){</span>
-<span class="nc" id="L23">            System.out.println(e.getMessage());</span>
-<span class="nc" id="L24">        }</span>
-<span class="nc" id="L25">    }</span>
+<span class="nc" id="L19">        String fileName = null;</span>
+<span class="nc" id="L20">        Console console = Config.getOutputDevice();</span>
+<span class="nc" id="L21">        String newInput = &quot;first&quot;;</span>
+<span class="nc" id="L22">        boolean exit = false;</span>
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if(args.length &gt; 0) fileName = args[0];</span>
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            while (!exit){</span>
+                try {
+<span class="nc bnc" id="L28" title="All 18 branches missed.">                    switch (newInput) {</span>
+                        case &quot;exit&quot;:
+<span class="nc" id="L30">                            exit = true;</span>
+<span class="nc" id="L31">                            break;</span>
+                        case &quot;newInput&quot;: {
+<span class="nc" id="L33">                            console.printf(&quot;\nEnter path to input file\n&quot;);</span>
+<span class="nc" id="L34">                            fileName = console.readLine();</span>
+<span class="nc" id="L35">                            fileName = fileName.split(&quot;\n&quot;)[0];</span>
+<span class="nc" id="L36">                            application = new Application(fileName);</span>
+<span class="nc" id="L37">                            application.start();</span>
+<span class="nc" id="L38">                            break;</span>
+                        }
+                        case &quot;default&quot;: {
+<span class="nc" id="L41">                            String input = null;</span>
+<span class="nc" id="L42">                            application = new Application(input);</span>
+<span class="nc" id="L43">                            application.start();</span>
+<span class="nc" id="L44">                            break;</span>
+                        }
+                        case &quot;first&quot;:{
+
+<span class="nc" id="L48">                            application = new Application(fileName);</span>
+<span class="nc" id="L49">                            application.start();</span>
+<span class="nc" id="L50">                            break;</span>
+                        }
+                        default: {
+<span class="nc" id="L53">                            console.printf(&quot;\nWrong command\n&quot;);</span>
+<span class="nc" id="L54">                            fileName = null;</span>
+                        }
+                    }
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                    if(!exit) {</span>
+<span class="nc" id="L59">                        console.printf(&quot;\nEnter command &quot; +</span>
+                                       &quot;\n exit&quot; +
+                                       &quot;\n newInput - enter new Input data&quot; +
+                                       &quot;\n default - start with default parameters\n&quot;);
+<span class="nc" id="L63">                        newInput = console.readLine();</span>
+                    }
+
+<span class="nc" id="L66">                    }catch(Exception e){</span>
+<span class="nc" id="L67">                        console.printf(&quot;\nException: &quot; + e.getMessage());</span>
+<span class="nc" id="L68">                    }</span>
+            }
+<span class="nc" id="L70">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

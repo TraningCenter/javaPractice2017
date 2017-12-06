@@ -3,10 +3,8 @@ package com.alegerd.view;
 import com.alegerd.mainData.ViewController;
 import com.alegerd.utils.Config;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.io.Console;
 
 /**
  * Builds House in console out of JSON
@@ -18,76 +16,94 @@ public class Renderer {
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections) throws Exception{
+    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections){
 
-        if(!Config.isStopDrawing()) {
-            Integer additionalCells = countAdditionalCells(floorsToDraw);
+        try {
+            Console console = System.console();
 
-            if (floorsToDraw == null)
-                throw new IllegalArgumentException("floors array is null");
-            else {
-                for (int row = floorsToDraw.length - 1; row >= 0; row--) {
+            if (!Config.isStopDrawing()) {
+                Integer additionalCells = countAdditionalCells(floorsToDraw);
 
-                    for (int section = 0; section < numberOfSections; section++) {
+                if (floorsToDraw == null)
+                    throw new IllegalArgumentException("floors array is null");
+                else {
+                    for (int row = floorsToDraw.length - 1; row >= 0; row--) {
 
-                        System.out.print("   ");
+                        for (int section = 0; section < numberOfSections; section++) {
 
-                        for (int j = 0; j < (sectionSize + additionalCells); j++) {
-                            System.out.print("=");
-                        }
-                    }
+                            console.printf("   ");
 
-                    System.out.println();
-
-                    for (int section = 0; section < numberOfSections; section++) {
-
-                        Integer lift = null;
-
-                        for (String s :
-                                liftsToDraw[row]) {
-                            String[] line = s.split(":");
-                            Integer sect = Integer.parseInt(line[0]);
-                            if (sect == section) lift = Integer.parseInt(line[1]);
-                        }
-
-                        if (lift == null)
-                            System.out.print("   ");
-                        else
-                            System.out.print("|" + lift + "|");
-
-                        Integer peopleCount = 0;
-                        for (String col :
-                                floorsToDraw[row]) {
-                            String[] line = col.split(":");
-                            Integer sect = Integer.parseInt(line[0]);
-                            if (sect == section) {
-                                peopleCount++;
-                                System.out.print(Integer.parseInt(line[1]) + 1);
+                            for (int j = 0; j < (sectionSize + additionalCells); j++) {
+                                console.printf("=");
                             }
                         }
-                        Integer count = sectionSize + additionalCells - peopleCount;
-                        for (int i = 0; i < count; i++) {
-                            System.out.print(" ");
+
+                        System.out.println();
+
+                        for (int section = 0; section < numberOfSections; section++) {
+
+                            Integer lift = null;
+
+                            for (String s :
+                                    liftsToDraw[row]) {
+                                String[] line = s.split(":");
+                                Integer sect = Integer.parseInt(line[0]);
+                                if (sect == section) lift = Integer.parseInt(line[1]);
+                            }
+
+                            if (lift == null)
+                                console.printf("   ");
+                            else
+                                console.printf("|" + lift + "|");
+
+                            Integer peopleCount = 0;
+                            for (String col :
+                                    floorsToDraw[row]) {
+                                String[] line = col.split(":");
+                                Integer sect = Integer.parseInt(line[0]);
+                                if (sect == section) {
+                                    peopleCount++;
+                                    console.printf("%d", (Integer.parseInt(line[1]) + 1));
+                                }
+                            }
+                            Integer count = sectionSize + additionalCells - peopleCount;
+                            for (int i = 0; i < count; i++) {
+                                console.printf(" ");
+                            }
                         }
+                        console.printf("\n");
                     }
-                    System.out.println();
                 }
             }
+        }catch (Exception e){
+
         }
     }
 
     public void clear(){
-        if(!Config.isStopDrawing()) {
-            Integer num = ViewController.getNumberOfFloors() * 2 + 10;
-            for (int i = 0; i < num; i++) {
-                System.out.println();
+        try {
+            Console console = System.console();
+
+            if (!Config.isStopDrawing()) {
+                Integer num = ViewController.getNumberOfFloors() * 2 + 10;
+                for (int i = 0; i < num; i++) {
+                    console.printf("\n");
+                }
             }
+        }catch (Exception e){
+
         }
     }
 
     public void writeMessage(String message){
-        if(!Config.isStopDrawing()) {
-            System.out.println(message);
+        try {
+            Console console = System.console();
+
+            if (!Config.isStopDrawing()) {
+                console.printf(message);
+            }
+        }catch (Exception e){
+
         }
     }
 

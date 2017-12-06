@@ -2,69 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a9c47b2-1972-4af6-a2e5-6ed20d311147" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__backport_util_concurrent_backport_util_concurrent_3_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__classworlds_classworlds_1_1_alpha_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_beanutils_commons_beanutils_1_7_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_digester_commons_digester_1_6.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_httpclient_commons_httpclient_3_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_4.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_0_4.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_validator_commons_validator_1_2_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_core_1_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_decoration_model_1_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_logging_api_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_module_fml_1_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_module_xhtml_1_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_sink_api_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_doxia_doxia_site_renderer_1_1_2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_artifact_manager_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_model_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_plugin_api_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_plugin_registry_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_profile_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_project_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_repository_metadata_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_maven_settings_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_reporting_maven_reporting_api_2_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_reporting_maven_reporting_impl_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_file_management_1_2_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_shared_maven_shared_io_1_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_maven_wagon_wagon_provider_api_1_0_beta_6.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_velocity_velocity_1_5.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_container_default_1_0_alpha_9_stable_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_i18n_1_0_beta_7.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_interpolation_1_11.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_utils_3_0_22.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_plexus_plexus_velocity_1_1_7.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jacoco_jacoco_maven_plugin_0_7_7_201606060606.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jacoco_org_jacoco_agent_runtime_0_7_7_201606060606.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jacoco_org_jacoco_core_0_7_7_201606060606.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jacoco_org_jacoco_report_0_7_7_201606060606.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_debug_all_5_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__oro_oro_2_0_8.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_8_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/exceptions/ParserException.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/RenderTest.java" />
-      <change beforePath="$PROJECT_DIR$/LiftApp.iml" afterPath="$PROJECT_DIR$/LiftApp.iml" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Application.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Application.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/lift.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Floor.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Floor.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/House.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/House.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Lift.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Lift.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Person.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/Person.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IFloor.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IFloor.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/ILift.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/ILift.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IPerson.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IPerson.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Parser.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Parser.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/HouseTest.java" afterPath="$PROJECT_DIR$/src/test/java/HouseTest.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/LiftTest.java" afterPath="$PROJECT_DIR$/src/test/java/LiftTest.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/input" afterPath="$PROJECT_DIR$/src/main/resources/input" />
+      <change beforePath="$PROJECT_DIR$/target/LiftApp-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/LiftApp-1.0-SNAPSHOT.jar" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/mainData/Main.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/mainData/Main.class" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/utils/Config.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/utils/Config.class" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/view/Renderer.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/view/Renderer.class" />
+      <change beforePath="$PROJECT_DIR$/target/classes/input" afterPath="$PROJECT_DIR$/target/classes/input" />
+      <change beforePath="$PROJECT_DIR$/target/coverage-reports/jacoco-unit.exec" afterPath="$PROJECT_DIR$/target/coverage-reports/jacoco-unit.exec" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.java.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.source.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.java.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.source.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.java.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.source.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/index.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" />
+      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/FloorTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/FloorTest.txt" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/HouseTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/HouseTest.txt" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/LiftTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/LiftTest.txt" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/PersonTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/PersonTest.txt" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-FloorTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-FloorTest.xml" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-HouseTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-HouseTest.xml" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-LiftTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-LiftTest.xml" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-PersonTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-PersonTest.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -81,11 +54,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="40" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+            <state relative-caret-position="230">
+              <caret line="61" column="84" lean-forward="false" selection-start-line="61" selection-start-column="84" selection-end-line="61" selection-end-column="84" />
               <folding />
             </state>
           </provider>
@@ -157,24 +130,24 @@
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/commands/interfaces/LiftArrivedCommand.java" />
         <option value="$PROJECT_DIR$/src/test/java/FloorTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/PersonTest.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/input" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/Person.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IPerson.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/exceptions/ParserException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Application.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/IFloor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/Floor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/House.java" />
         <option value="$PROJECT_DIR$/src/test/java/HouseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/RenderTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/view/Parser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/Lift.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/interfaces/ILift.java" />
         <option value="$PROJECT_DIR$/src/test/java/LiftTest.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/input" />
+        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" />
       </list>
     </option>
   </component>
@@ -363,6 +336,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -371,59 +346,11 @@
               <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="alegerd" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -433,7 +360,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Errors" />
-    <property name="SearchEverywhereHistoryKey" value="mav&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;ma&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/mainData/Main.java&#10;maven&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;mave&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;main&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/Main.java&#10;li&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;Per&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Person.java&#10;Li&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;Lift&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;flo&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Floor.java&#10;per&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Person.java&#10;lif&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;inp&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/resources/input&#10;parces&#9;PSI&#9;JAVA://com.sun.xml.internal.fastinfoset.Decoder#compareCharsWithCharBufferFromEndToStart&#10;pa&#9;ACTION&#9;NewPackageInfo&#10;appl&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/commands/interfaces/Application.java&#10;ap&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/commands/interfaces/Application.java" />
+    <property name="SearchEverywhereHistoryKey" value="mave&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;mav&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;ma&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/mainData/Main.java&#10;maven&#9;ACTION&#9;ActivateMavenProjectsToolWindow&#10;main&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/Main.java&#10;li&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;Per&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Person.java&#10;Li&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;Lift&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;flo&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Floor.java&#10;per&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Person.java&#10;lif&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/model/Lift.java&#10;inp&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/resources/input&#10;parces&#9;PSI&#9;JAVA://com.sun.xml.internal.fastinfoset.Decoder#compareCharsWithCharBufferFromEndToStart&#10;pa&#9;ACTION&#9;NewPackageInfo&#10;appl&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/commands/interfaces/Application.java&#10;ap&#9;FILE&#9;file:///Users/alegerd/Documents/Projects/Java/NetCracker/LiftApp/src/main/java/com/alegerd/commands/interfaces/Application.java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java" />
   </component>
@@ -588,7 +515,8 @@
       <workItem from="1512416317347" duration="726000" />
       <workItem from="1512428522034" duration="37000" />
       <workItem from="1512458402632" duration="1753000" />
-      <workItem from="1512495791010" duration="16398000" />
+      <workItem from="1512495791010" duration="16609000" />
+      <workItem from="1512547874836" duration="4362000" />
     </task>
     <task id="LOCAL-00001" summary="building model">
       <created>1511607263741</created>
@@ -720,11 +648,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="120248000" />
+    <option name="totallyTimeSpent" value="124821000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -733,26 +660,26 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23333333" sideWeight="0.48588234" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23333333" sideWeight="0.48588234" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2951389" sideWeight="0.51411766" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2951389" sideWeight="0.51411766" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -814,25 +741,19 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="79" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java</url>
+          <line>9</line>
+          <properties field="outputDevice" class="com.alegerd.utils.Config" />
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="81" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/src.zip!/java/lang/Class.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="656">
-          <caret line="2259" column="24" lean-forward="false" selection-start-line="2259" selection-start-column="24" selection-end-line="2259" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/statements/RunAfters.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -934,26 +855,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lift.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/input">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/FloorTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1978">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -961,7 +866,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="12" lean-forward="false" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -969,7 +873,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="51" column="13" lean-forward="false" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -989,7 +892,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -997,7 +899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
           <caret line="45" column="42" lean-forward="false" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1005,7 +906,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="12" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1013,7 +913,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1021,7 +920,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="1" lean-forward="false" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1045,7 +943,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1068,29 +965,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="37" lean-forward="false" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="147" column="42" lean-forward="false" selection-start-line="147" selection-start-column="42" selection-end-line="147" selection-end-column="42" />
-          <folding>
-            <element signature="method#Application#0;class#Application#0" expanded="false" />
-            <element signature="method#buildModel#0;class#Application#0" expanded="false" />
-            <element signature="method#buildModel#1;class#Application#0" expanded="false" />
-            <element signature="method#updateView#0;class#Application#0" expanded="false" />
-            <element signature="method#addNewCommand#0;class#Application#0" expanded="false" />
-            <element signature="method#makeDrawableModel#0;class#Application#0" expanded="false" />
-            <element signature="method#makeDrawableLiftModel#0;class#Application#0" expanded="false" />
-            <element signature="method#getListOfPeople#0;class#Application#0" expanded="false" />
-            <element signature="method#getListOfLifts#0;class#Application#0" expanded="false" />
-            <element signature="method#getListOfFloors#0;class#Application#0" expanded="false" />
-            <element signature="method#injectLiftButtonsToFloors#0;class#Application#0" expanded="false" />
-            <element signature="method#injectLiftButtonsToPeople#0;class#Application#0" expanded="false" />
-            <element signature="method#pushFirstCommands#0;class#Application#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1111,7 +985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="32" column="35" lean-forward="false" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1119,7 +992,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1127,7 +999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
           <caret line="59" column="22" lean-forward="true" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1139,14 +1010,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/output">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/output" />
     <entry file="file://$PROJECT_DIR$/src/test/java/RenderTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1155,43 +1019,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="20" column="118" lean-forward="false" selection-start-line="20" selection-start-column="118" selection-end-line="20" selection-end-column="118" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="46" lean-forward="false" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/view/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="59" column="81" lean-forward="true" selection-start-line="59" selection-start-column="81" selection-end-line="59" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="23" column="9" lean-forward="false" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/target/site/jacoco/jacoco.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1254,14 +1085,109 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
+        <state relative-caret-position="311">
           <caret line="34" column="40" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/src.zip!/java/io/Console.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4676">
+          <caret line="556" column="12" lean-forward="false" selection-start-line="556" selection-start-column="12" selection-end-line="556" selection-end-column="12" />
+          <folding>
+            <element signature="e#13796#13797#0" expanded="false" />
+            <element signature="e#13822#13823#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#321#322#0" expanded="false" />
+            <element signature="e#356#357#0" expanded="false" />
+            <element signature="e#420#421#0" expanded="false" />
+            <element signature="e#470#471#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/input">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/view/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="59" column="81" lean-forward="true" selection-start-line="59" selection-start-column="81" selection-end-line="59" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="68" column="24" lean-forward="true" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+          <folding>
+            <element signature="method#Application#0;class#Application#0" expanded="false" />
+            <element signature="method#buildModel#0;class#Application#0" expanded="false" />
+            <element signature="method#buildModel#1;class#Application#0" expanded="false" />
+            <element signature="method#updateView#0;class#Application#0" expanded="false" />
+            <element signature="method#addNewCommand#0;class#Application#0" expanded="false" />
+            <element signature="method#makeDrawableModel#0;class#Application#0" expanded="false" />
+            <element signature="method#makeDrawableLiftModel#0;class#Application#0" expanded="false" />
+            <element signature="method#getListOfPeople#0;class#Application#0" expanded="false" />
+            <element signature="method#getListOfLifts#0;class#Application#0" expanded="false" />
+            <element signature="method#getListOfFloors#0;class#Application#0" expanded="false" />
+            <element signature="method#injectLiftButtonsToFloors#0;class#Application#0" expanded="false" />
+            <element signature="method#injectLiftButtonsToPeople#0;class#Application#0" expanded="false" />
+            <element signature="method#pushFirstCommands#0;class#Application#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/src.zip!/java/lang/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="300" column="30" lean-forward="false" selection-start-line="300" selection-start-column="30" selection-end-line="300" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="61" column="84" lean-forward="false" selection-start-line="61" selection-start-column="84" selection-end-line="61" selection-end-column="84" />
           <folding />
         </state>
       </provider>

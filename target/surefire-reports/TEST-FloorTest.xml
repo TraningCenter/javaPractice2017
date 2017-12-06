@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="13" failures="0" name="FloorTest" time="0.012" errors="0" skipped="0">
+<testsuite tests="13" failures="0" name="FloorTest" time="0.009" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2017.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -64,16 +64,16 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="FloorTest" name="testTakePerson" time="0.007"/>
-  <testcase classname="FloorTest" name="testAddingExceptionMessage" time="0.001"/>
+  <testcase classname="FloorTest" name="testAddingExceptionMessage" time="0"/>
   <testcase classname="FloorTest" name="testHowManyPeopleWaiting" time="0.001"/>
   <testcase classname="FloorTest" name="testAddingException" time="0"/>
   <testcase classname="FloorTest" name="testToString" time="0"/>
-  <testcase classname="FloorTest" name="testAddingPersonWithIterator" time="0.001"/>
+  <testcase classname="FloorTest" name="testAddingPersonWithIterator" time="0"/>
   <testcase classname="FloorTest" name="testAddingPersonException" time="0"/>
   <testcase classname="FloorTest" name="testIteratorHasNext" time="0"/>
-  <testcase classname="FloorTest" name="testAddingPerson" time="0.001"/>
+  <testcase classname="FloorTest" name="testAddingPerson" time="0"/>
   <testcase classname="FloorTest" name="testPeopleCount" time="0"/>
   <testcase classname="FloorTest" name="testSetNumber" time="0"/>
-  <testcase classname="FloorTest" name="testGetNumber" time="0.001"/>
-  <testcase classname="FloorTest" name="testIteratorNext" time="0"/>
+  <testcase classname="FloorTest" name="testGetNumber" time="0"/>
+  <testcase classname="FloorTest" name="testIteratorNext" time="0.001"/>
 </testsuite>

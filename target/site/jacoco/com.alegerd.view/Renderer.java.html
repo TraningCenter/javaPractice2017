@@ -3,104 +3,120 @@
 import com.alegerd.mainData.ViewController;
 import com.alegerd.utils.Config;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.io.Console;
 
 /**
  * Builds House in console out of JSON
  */
-<span class="fc" id="L14">public class Renderer {</span>
+<span class="fc" id="L12">public class Renderer {</span>
 
-<span class="fc" id="L16">    Integer sectionSize = 10;</span>
+<span class="fc" id="L14">    Integer sectionSize = 10;</span>
     /**
      * Draws house to console
      * @param floorsToDraw twodimentional array of floors and people
      */
-    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections) throws Exception{
+    public void drawHouse(String[][] floorsToDraw, String[][] liftsToDraw, Integer numberOfSections){
 
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if(!Config.isStopDrawing()) {</span>
-<span class="nc" id="L24">            Integer additionalCells = countAdditionalCells(floorsToDraw);</span>
+        try {
+<span class="fc" id="L22">            Console console = System.console();</span>
 
-<span class="nc bnc" id="L26" title="All 2 branches missed.">            if (floorsToDraw == null)</span>
-<span class="nc" id="L27">                throw new IllegalArgumentException(&quot;floors array is null&quot;);</span>
-            else {
-<span class="nc bnc" id="L29" title="All 2 branches missed.">                for (int row = floorsToDraw.length - 1; row &gt;= 0; row--) {</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            if (!Config.isStopDrawing()) {</span>
+<span class="nc" id="L25">                Integer additionalCells = countAdditionalCells(floorsToDraw);</span>
 
-<span class="nc bnc" id="L31" title="All 2 branches missed.">                    for (int section = 0; section &lt; numberOfSections; section++) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                if (floorsToDraw == null)</span>
+<span class="nc" id="L28">                    throw new IllegalArgumentException(&quot;floors array is null&quot;);</span>
+                else {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                    for (int row = floorsToDraw.length - 1; row &gt;= 0; row--) {</span>
 
-<span class="nc" id="L33">                        System.out.print(&quot;   &quot;);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                        for (int section = 0; section &lt; numberOfSections; section++) {</span>
 
-<span class="nc bnc" id="L35" title="All 2 branches missed.">                        for (int j = 0; j &lt; (sectionSize + additionalCells); j++) {</span>
-<span class="nc" id="L36">                            System.out.print(&quot;=&quot;);</span>
-                        }
-                    }
+<span class="nc" id="L34">                            console.printf(&quot;   &quot;);</span>
 
-<span class="nc" id="L40">                    System.out.println();</span>
-
-<span class="nc bnc" id="L42" title="All 2 branches missed.">                    for (int section = 0; section &lt; numberOfSections; section++) {</span>
-
-<span class="nc" id="L44">                        Integer lift = null;</span>
-
-                        for (String s :
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                                liftsToDraw[row]) {</span>
-<span class="nc" id="L48">                            String[] line = s.split(&quot;:&quot;);</span>
-<span class="nc" id="L49">                            Integer sect = Integer.parseInt(line[0]);</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">                            if (sect == section) lift = Integer.parseInt(line[1]);</span>
-                        }
-
-<span class="nc bnc" id="L53" title="All 2 branches missed.">                        if (lift == null)</span>
-<span class="nc" id="L54">                            System.out.print(&quot;   &quot;);</span>
-                        else
-<span class="nc" id="L56">                            System.out.print(&quot;|&quot; + lift + &quot;|&quot;);</span>
-
-<span class="nc" id="L58">                        Integer peopleCount = 0;</span>
-                        for (String col :
-<span class="nc bnc" id="L60" title="All 2 branches missed.">                                floorsToDraw[row]) {</span>
-<span class="nc" id="L61">                            String[] line = col.split(&quot;:&quot;);</span>
-<span class="nc" id="L62">                            Integer sect = Integer.parseInt(line[0]);</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">                            if (sect == section) {</span>
-<span class="nc" id="L64">                                peopleCount++;</span>
-<span class="nc" id="L65">                                System.out.print(Integer.parseInt(line[1]) + 1);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                            for (int j = 0; j &lt; (sectionSize + additionalCells); j++) {</span>
+<span class="nc" id="L37">                                console.printf(&quot;=&quot;);</span>
                             }
                         }
-<span class="nc" id="L68">                        Integer count = sectionSize + additionalCells - peopleCount;</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">                        for (int i = 0; i &lt; count; i++) {</span>
-<span class="nc" id="L70">                            System.out.print(&quot; &quot;);</span>
+
+<span class="nc" id="L41">                        System.out.println();</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                        for (int section = 0; section &lt; numberOfSections; section++) {</span>
+
+<span class="nc" id="L45">                            Integer lift = null;</span>
+
+                            for (String s :
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                                    liftsToDraw[row]) {</span>
+<span class="nc" id="L49">                                String[] line = s.split(&quot;:&quot;);</span>
+<span class="nc" id="L50">                                Integer sect = Integer.parseInt(line[0]);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                                if (sect == section) lift = Integer.parseInt(line[1]);</span>
+                            }
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                            if (lift == null)</span>
+<span class="nc" id="L55">                                console.printf(&quot;   &quot;);</span>
+                            else
+<span class="nc" id="L57">                                console.printf(&quot;|&quot; + lift + &quot;|&quot;);</span>
+
+<span class="nc" id="L59">                            Integer peopleCount = 0;</span>
+                            for (String col :
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                                    floorsToDraw[row]) {</span>
+<span class="nc" id="L62">                                String[] line = col.split(&quot;:&quot;);</span>
+<span class="nc" id="L63">                                Integer sect = Integer.parseInt(line[0]);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                                if (sect == section) {</span>
+<span class="nc" id="L65">                                    peopleCount++;</span>
+<span class="nc" id="L66">                                    console.printf(&quot;%d&quot;, (Integer.parseInt(line[1]) + 1));</span>
+                                }
+                            }
+<span class="nc" id="L69">                            Integer count = sectionSize + additionalCells - peopleCount;</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                            for (int i = 0; i &lt; count; i++) {</span>
+<span class="nc" id="L71">                                console.printf(&quot; &quot;);</span>
+                            }
                         }
+<span class="nc" id="L74">                        console.printf(&quot;\n&quot;);</span>
                     }
-<span class="nc" id="L73">                    System.out.println();</span>
                 }
             }
-        }
-<span class="fc" id="L77">    }</span>
+<span class="nc" id="L78">        }catch (Exception e){</span>
+
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">    }</span>
 
     public void clear(){
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if(!Config.isStopDrawing()) {</span>
-<span class="nc" id="L81">            Integer num = ViewController.getNumberOfFloors() * 2 + 10;</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">            for (int i = 0; i &lt; num; i++) {</span>
-<span class="nc" id="L83">                System.out.println();</span>
+        try {
+<span class="fc" id="L85">            Console console = System.console();</span>
+
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">            if (!Config.isStopDrawing()) {</span>
+<span class="nc" id="L88">                Integer num = ViewController.getNumberOfFloors() * 2 + 10;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                for (int i = 0; i &lt; num; i++) {</span>
+<span class="nc" id="L90">                    console.printf(&quot;\n&quot;);</span>
+                }
             }
-        }
-<span class="fc" id="L86">    }</span>
+<span class="nc" id="L93">        }catch (Exception e){</span>
+
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
 
     public void writeMessage(String message){
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if(!Config.isStopDrawing()) {</span>
-<span class="nc" id="L90">            System.out.println(message);</span>
-        }
-<span class="fc" id="L92">    }</span>
+        try {
+<span class="fc" id="L100">            Console console = System.console();</span>
+
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            if (!Config.isStopDrawing()) {</span>
+<span class="nc" id="L103">                console.printf(message);</span>
+            }
+<span class="nc" id="L105">        }catch (Exception e){</span>
+
+<span class="fc" id="L107">        }</span>
+<span class="fc" id="L108">    }</span>
 
     private Integer countAdditionalCells(String[][] floors){
-<span class="nc" id="L95">        Integer maxValue = sectionSize;</span>
-<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (String[] floor : floors) {</span>
-<span class="nc" id="L97">            Integer value = 0;</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">            for(int i = 0; i &lt; floor.length; i++){</span>
-<span class="nc" id="L99">                value ++;</span>
+<span class="nc" id="L111">        Integer maxValue = sectionSize;</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (String[] floor : floors) {</span>
+<span class="nc" id="L113">            Integer value = 0;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            for(int i = 0; i &lt; floor.length; i++){</span>
+<span class="nc" id="L115">                value ++;</span>
             }
-<span class="nc bnc" id="L101" title="All 2 branches missed.">            if(maxValue &lt; value) maxValue = value;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if(maxValue &lt; value) maxValue = value;</span>
         }
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        return (maxValue - sectionSize) &gt; 0?maxValue-sectionSize:0;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        return (maxValue - sectionSize) &gt; 0?maxValue-sectionSize:0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
