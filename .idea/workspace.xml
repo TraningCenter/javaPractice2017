@@ -2,42 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a9c47b2-1972-4af6-a2e5-6ed20d311147" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lift.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/utils/Config.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" afterPath="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/input" afterPath="$PROJECT_DIR$/src/main/resources/input" />
-      <change beforePath="$PROJECT_DIR$/target/LiftApp-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/LiftApp-1.0-SNAPSHOT.jar" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/mainData/Main.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/mainData/Main.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/utils/Config.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/utils/Config.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/alegerd/view/Renderer.class" afterPath="$PROJECT_DIR$/target/classes/com/alegerd/view/Renderer.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/input" afterPath="$PROJECT_DIR$/target/classes/input" />
-      <change beforePath="$PROJECT_DIR$/target/coverage-reports/jacoco-unit.exec" afterPath="$PROJECT_DIR$/target/coverage-reports/jacoco-unit.exec" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/Main.java.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.mainData/index.source.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/Config.java.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.utils/index.source.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.java.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/Renderer.java.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.source.html" afterPath="$PROJECT_DIR$/target/site/jacoco/com.alegerd.view/index.source.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/index.html" afterPath="$PROJECT_DIR$/target/site/jacoco/index.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco-sessions.html" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.csv" />
-      <change beforePath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" afterPath="$PROJECT_DIR$/target/site/jacoco/jacoco.xml" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/FloorTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/FloorTest.txt" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/HouseTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/HouseTest.txt" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/LiftTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/LiftTest.txt" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/PersonTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/PersonTest.txt" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-FloorTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-FloorTest.xml" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-HouseTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-HouseTest.xml" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-LiftTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-LiftTest.xml" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-PersonTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-PersonTest.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -54,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="61" column="84" lean-forward="false" selection-start-line="61" selection-start-column="84" selection-end-line="61" selection-end-column="84" />
+            <state relative-caret-position="-700">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,7 +63,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/alegerd/model/buttons/CallLiftButton.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/CommandResiever.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/CommandReceiver.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/commands/interfaces/LiftMovesToNextFloorCommand.java" />
@@ -148,6 +113,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/view/Renderer.java" />
         <option value="$PROJECT_DIR$/src/main/resources/input" />
         <option value="$PROJECT_DIR$/src/main/java/com/alegerd/mainData/Main.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -346,6 +312,24 @@
               <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="site" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LiftApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LiftApp" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="site" type="462c0819:PsiDirectoryNode" />
+              <item name="jacoco" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -516,7 +500,7 @@
       <workItem from="1512428522034" duration="37000" />
       <workItem from="1512458402632" duration="1753000" />
       <workItem from="1512495791010" duration="16609000" />
-      <workItem from="1512547874836" duration="4362000" />
+      <workItem from="1512547874836" duration="4924000" />
     </task>
     <task id="LOCAL-00001" summary="building model">
       <created>1511607263741</created>
@@ -648,10 +632,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124821000" />
+    <option name="totallyTimeSpent" value="125383000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -666,7 +651,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1081,25 +1066,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/target/site/jacoco/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
           <caret line="34" column="40" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1188,6 +1158,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="61" column="84" lean-forward="false" selection-start-line="61" selection-start-column="84" selection-end-line="61" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/site/jacoco/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-700">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding />
         </state>
       </provider>
