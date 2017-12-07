@@ -20,8 +20,9 @@ public class ActionUp implements IAction{
      * Лифт опускается, если пассажир находится ниже, чем лифт,
      * иначе поднимается, если пассажир находится выше лифта
      * @param number-этаж назначения
+     * @return true-если все успешно
      */
-    public void run(int number) {
+    public boolean run(int number) {
         int location = lift.getLocation();
 
         if (location == number)
@@ -67,12 +68,14 @@ public class ActionUp implements IAction{
             --location;
             lift.setLocation(location);
         }
+
+        return true;
     }
 
     /**
      * найти этаж назначения, на котором кто-либо выходит или заходит
      * и расстояние до него самое наименьшее
-     * @return
+     * @return-этаж назначения
      */
     public int find(){
         int min = lift.getPossibleFinaleFloor();

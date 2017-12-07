@@ -45,25 +45,21 @@ public class Panel{
 
     /**
      * отображение движения пассажиров и местонахождения лифтов
+     * @return true-если все успешно
      */
-    public void showGraphics() {
+    public boolean showGraphics() {
         for (ObjectOfGraphics object: objects)
             object.showGraphics();
+        return  true;
     }
 
     /**
      * отображение информации о лифтах
      */
     public void showInfo() {
-        for (ObjectOfGraphics object: objects)
-            object.showInfo();
-    }
-
-    /**
-     * отображение информации о пассажирах лифтов
-     */
-    public  void showInfoPassange(){
-        for (ObjectOfGraphics object: objects)
-            object.showInfoPassange();
+        for (ObjectOfGraphics object: objects){
+            console.printf(object.showInfo() + "\n");
+            console.printf(object.showInfoPassange() + "\n");
+        }
     }
 }

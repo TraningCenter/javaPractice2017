@@ -35,7 +35,6 @@ public class UserInterfase {
         String str = "";
         int numOfLift = 0;
 
-
         str = console.readLine("Введите этажность дома: ");
         while (!isDigital(str))
             str = console.readLine("Ошибка! Введите этажность дома: ");

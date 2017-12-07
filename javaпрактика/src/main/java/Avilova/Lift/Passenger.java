@@ -46,8 +46,24 @@ public class Passenger {
         return floorOfDeparture;
     }
 
+    public void setFloorOfDeparture(int floorOfDeparture) {
+        this.floorOfDeparture = floorOfDeparture;
+    }
+
     public int getFloorOfDestination() {
         return floorOfDestination;
+    }
+
+    public void setFloorOfDestination(int floorOfDestinatio) {
+        this.floorOfDestination = floorOfDestinatio;
+    }
+
+    public int getProbabilityOfEnter() {
+        return probabilityOfEnter;
+    }
+
+    public void setProbabilityOfEnter(int probabilityOfEnter) {
+        this.probabilityOfEnter = probabilityOfEnter;
     }
 
     public void setIsLater(boolean later){

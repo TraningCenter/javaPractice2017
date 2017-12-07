@@ -4,13 +4,14 @@ public interface IAction {
     /**
      * движение лифта
      * @param number-этаж назначения
+     * @return true-если все успешно
      */
-    public void run(int number);
+    public boolean run(int number);
 
     /**
      * найти этаж назначения, на котором кто-либо выходит или заходит
      * и расстояние до него самое наименьшее
-     * @return
+     * @return-этаж назначения
      */
     public int find();
 

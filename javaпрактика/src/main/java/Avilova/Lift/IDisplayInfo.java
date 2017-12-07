@@ -2,7 +2,14 @@ package Avilova.Lift;
 
 public interface IDisplayInfo {
     /**
-     * отобразить информацию
+     * формирует информацию о лифте
+     * @return состояние лифта
      */
-    public void showInfo();
+    public String showInfo();
+
+    /**
+     * выводит на консоль всю информацию о пассажирах лифта
+     * @return вся информация о пассажирах
+     */
+    public String showInfoPassange();
 }

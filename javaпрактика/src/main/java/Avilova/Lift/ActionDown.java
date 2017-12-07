@@ -1,6 +1,6 @@
 package Avilova.Lift;
 
-public class ActionDown {
+public class ActionDown implements IAction {
 
     /**лифт, для которого осуществляется движение*/
     private Lift lift;
@@ -20,8 +20,9 @@ public class ActionDown {
      * Лифт поднимается, если пассажир находится выше, чем лифт,
      * иначе опускается, если пассажир находится ниже лифта
      * @param number-этаж назначения
+     * @return true-если все успешно
      */
-    public void run(int number) {
+    public boolean run(int number) {
         int location = lift.getLocation();
 
         if (location == number)
@@ -67,12 +68,14 @@ public class ActionDown {
             ++location;
             lift.setLocation(location);
         }
+
+        return  true;
     }
 
     /**
      * найти этаж назначения, на котором кто-либо выходит или заходит
      * и расстояние до него самое наименьшее
-     * @return
+     * @return этаж назначения
      */
     public int find(){
 

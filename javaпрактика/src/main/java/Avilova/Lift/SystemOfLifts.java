@@ -1,7 +1,8 @@
 package Avilova.Lift;
 
-import java.util.ArrayList;
 import java.io.Console;
+import java.util.ArrayList;
+
 
 public class SystemOfLifts {
     /**список лифтов*/
@@ -32,18 +33,18 @@ public class SystemOfLifts {
     /**
      * запуск движения всех лифтов до тех пор пока все пассажиры не будут доставлены к месту
      */
-    public void run(){
-
+    public void run() {
 
         printConsole.show();
         while (!isEnd()) {
-            System.out.print("\033[H\033[2J");
+            System.out.println("\033[H\033[2J");
             for (Lift lift : lifts)
-                if (lift.passengerList.size() != 0)
+                if (lift.passengerList.size() != 0) {
                     lift.controller.run();
+                    System.out.println("\033[H\033[2J");
+                }
             printConsole.show();
         }
-
     }
 
     /**
@@ -56,5 +57,4 @@ public class SystemOfLifts {
                 return  false;
         return  true;
     }
-
 }

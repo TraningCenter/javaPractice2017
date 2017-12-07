@@ -42,8 +42,9 @@ public class PrintConsole {
 
     /**
      * заполнение матрицы отрисовки
+     * @return true-если все успешно
      */
-    private void createMatr() {
+    public boolean createMatr() {
 
         for (int i = 0; i <= 2 * numberOfFloors; i++)
             for (int j = 0; j <= 6 + (lifts.size() - 1) * 4; j++)
@@ -71,7 +72,7 @@ public class PrintConsole {
         for (int i = 1; i <= 2 * numberOfFloors - 1; i += 2)
             for (int j = 0; j < lifts.size(); j++)
                 matr[i][6 + 4 * j] = " | ";
-        ;
+        return true;
     }
 
 
@@ -83,7 +84,6 @@ public class PrintConsole {
         panel.showGraphics();
         printMatr();
         panel.showInfo();
-        ShowInfoPassange();
 
         try {
             Thread.sleep(2000);
@@ -103,10 +103,4 @@ public class PrintConsole {
         }
     }
 
-    /**
-     *  отображение информации о пассажирах в консоль
-     */
-    public void ShowInfoPassange(){
-        panel.showInfoPassange();
-    }
 }

@@ -32,8 +32,10 @@ public class ObjectOfGraphics implements IDisplayGraphics, IDisplayInfo {
     /**
      * проходим по всем пассажирам и отображаем их направление на каждом этаже
      * отображаем сам лифт
+     * @return true- если успешно
      */
-    public void showGraphics(){
+    public boolean showGraphics() {
+
         clearMatrix();
 
         //проходим по всем пассажирам и отображаем их направление на каждом этаже
@@ -43,15 +45,18 @@ public class ObjectOfGraphics implements IDisplayGraphics, IDisplayInfo {
                     if (lift.passengerList.get(j).getFloorOfDeparture() - lift.passengerList.get(j).getFloorOfDestination() < 0) //едет вверх
                         matr[2 * numberOfFloors - 2 * i + 1][lift.getNumber() + 3 * (lift.getNumber() + 1)] = " < ";
                     else //едет вниз
-                        matr[2 * numberOfFloors - 2 * i + 1][lift.getNumber() + 3 * (lift.getNumber() + 1) +1] = " > ";
+                        matr[2 * numberOfFloors - 2 * i + 1][lift.getNumber() + 3 * (lift.getNumber() + 1) + 1] = " > ";
         //отображаем сам лифт
         matr[2 * numberOfFloors - 2 * lift.getLocation() + 1][lift.getNumber() + 3 * (lift.getNumber() + 1) + 2] = " # ";
+
+        return true;
     }
 
     /**
-     * выводит на консоль всю информацию о лифте
+     * формирует информацию о лифте
+     * @return состояние лифта
      */
-    public void showInfo() {
+    public String showInfo() {
 
         if (lift.passengerList.size() != 0) {
             String strInfo = " Лифт №" + Integer.toString(lift.getNumber() + 1) + " находится на этаже №"
@@ -74,17 +79,23 @@ public class ObjectOfGraphics implements IDisplayGraphics, IDisplayInfo {
                 strInfo += " подходит для движения вверх";
             else
                 strInfo += " подходит для движения вниз";
-            console.printf(strInfo + "\n");
+        //    console.printf(strInfo + "\n");
+
+            return  strInfo;
+
         } else {
-            String strInfo = " Лифт №" + Integer.toString(lift.getNumber() + 1) + " закончил работу";
-            console.printf(strInfo + "\n");
+          //  String strInfo = " Лифт №" + Integer.toString(lift.getNumber() + 1) + " закончил работу";
+          //  console.printf(strInfo + "\n");
+            return " Лифт №" + Integer.toString(lift.getNumber() + 1) + " закончил работу";
         }
+
+
     }
 
     /**
      * очищает матрицу отрисовки от записей местонахождения лифта и движения пассажиров
      */
-    public void clearMatrix(){
+    private void clearMatrix(){
         for (int i = lift.getPossibleInitialFloor(); i <= lift.getPossibleFinaleFloor(); i++) {
             matr[2 * numberOfFloors - 2 * i + 1][lift.getNumber() + 3 * (lift.getNumber() + 1)] = "   "; //направление вверх
             matr[2 * numberOfFloors - 2 * i + 1][lift.getNumber() + 3 * (lift.getNumber() + 1) + 1] = "   "; //направление вниз
@@ -94,17 +105,21 @@ public class ObjectOfGraphics implements IDisplayGraphics, IDisplayInfo {
 
     /**
      * выводит на консоль всю информацию о пассажирах лифта
+     * @return вся информация о пассажирах
      */
-    public void showInfoPassange(){
-
+    public String showInfoPassange(){
+        String strinfo = "";
         for (int i = 0; i < lift.passengerList.size(); i++){
-            String strinfo = "";
+           // String strinfo = "";
             strinfo += (" Пассажир лифта №" + Integer.toString(lift.getNumber()+1) + " хочет уехать с "
                     + Integer.toString(lift.passengerList.get(i).getFloorOfDeparture())
                     + " на этаж " + Integer.toString(lift.passengerList.get(i).getFloorOfDestination())  );
             if (lift.passengerList.get(i).getIsLater())
                 strinfo += " поедет, но не в этот раз :(";
-            console.printf(strinfo + "\n");
+            strinfo += "\n";
+        //    console.printf(strinfo + "\n");
         }
+
+        return strinfo;
     }
 }

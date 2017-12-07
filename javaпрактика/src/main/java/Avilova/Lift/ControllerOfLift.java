@@ -25,8 +25,9 @@ public class ControllerOfLift {
      * осуществление движения лифта и вызов методов для движения вверх и вниз
      * изменение направления лифта
      * если лифт изменил направление, то у всех пассажиров поле isLater меняется на false
+     * @return true-если все успешно
      */
-    public void run() {
+    public boolean run() {
 
         if (isChange()) {
             lift.setRout(!lift.getRout());
@@ -42,6 +43,7 @@ public class ControllerOfLift {
         else
             actiondown.run(actiondown.find());
 
+        return true;
     }
 
     /**
