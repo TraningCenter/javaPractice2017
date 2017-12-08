@@ -3,9 +3,10 @@ package com.netcracker.unc.commands.building;
 
 import com.netcracker.unc.commands.interfaces.IBuildingCommand;
 import com.netcracker.unc.logic.Floor;
+import com.netcracker.unc.logic.Passenger;
 import com.netcracker.unc.logic.State;
-import com.netcracker.unc.logic.WaitingCall;
 import com.netcracker.unc.logic.interfaces.IElevator;
+import com.netcracker.unc.logic.interfaces.IPassenger;
 
 import java.util.List;
 import java.util.Queue;
@@ -18,9 +19,9 @@ public class CallElevatorBuildingCommand implements IBuildingCommand {
     private Floor floor;
     private Floor destFloor;
     private State direction;
-    private Queue<WaitingCall> waiting;
+    private Queue<IPassenger> waiting;
 
-    public CallElevatorBuildingCommand(List<IElevator> elevators, Floor floor, Floor destFloor, State direction, Queue<WaitingCall> waiting) {
+    public CallElevatorBuildingCommand(List<IElevator> elevators, Floor floor, Floor destFloor, State direction, Queue<IPassenger> waiting) {
         this.elevators = elevators;
         this.floor = floor;
         this.destFloor = destFloor;
@@ -55,7 +56,7 @@ public class CallElevatorBuildingCommand implements IBuildingCommand {
         }
         if (nearestElevator == null) {
             if (!allUnavailable)
-                waiting.add(new WaitingCall(floor, destFloor));
+                waiting.add(new Passenger(floor, destFloor));
         } else {
             // если на этот этаж лифт уже вызвали
             if (direction == State.DOWN && floor.isPushedButtonDown())

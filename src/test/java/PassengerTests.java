@@ -22,16 +22,23 @@ public class PassengerTests {
         floors = new ArrayList<>();
         for (int i = 1; i <= 4; i++)
             floors.add(new Floor(i));
-        passenger = new Passenger(floors.get(0), floors.get(3));
+        passenger = new Passenger();
+        passenger.setStartFloor(floors.get(0));
+        passenger.setDestinationFloor(floors.get(3));
+        passenger.setWeight(50);
+        passenger.setProbabilityOfChoice(15);
     }
 
     @Test
-    public void getDirection() {
+    public void getDirectionPassenger() {
         State state = passenger.getDirection();
         Assert.assertEquals(State.UP, state);
         passenger.setStartFloor(floors.get(3));
         passenger.setDestinationFloor(floors.get(0));
         state = passenger.getDirection();
         Assert.assertEquals(State.DOWN, state);
+        passenger.setDestinationFloor(floors.get(3));
+        state = passenger.getDirection();
+        Assert.assertEquals(State.STOPPED, state);
     }
 }

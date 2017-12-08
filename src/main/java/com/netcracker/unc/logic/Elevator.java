@@ -28,9 +28,9 @@ public class Elevator implements IElevator {
     public Elevator(int id) {
         this.id = id;
         state = State.STOPPED;
-        availableFloors = new ArrayList<Floor>();
-        passengers = new ArrayList<IPassenger>();
-        floorsToVisit = new LinkedList<Floor>();
+        availableFloors = new ArrayList<>();
+        passengers = new ArrayList<>();
+        floorsToVisit = new LinkedList<>();
     }
 
     public Elevator(int id, Floor currentFloor, List<Floor> availableFloors, int capacity) {
@@ -38,8 +38,8 @@ public class Elevator implements IElevator {
         this.state = State.STOPPED;
         this.currentFloor = currentFloor;
         this.availableFloors = availableFloors;
-        this.passengers = new ArrayList<IPassenger>();
-        this.floorsToVisit = new LinkedList<Floor>();
+        this.passengers = new ArrayList<>();
+        this.floorsToVisit = new LinkedList<>();
         this.capacity = remainingCapacity = capacity;
     }
 
@@ -65,10 +65,6 @@ public class Elevator implements IElevator {
         return availableFloors;
     }
 
-    public void setAvailableFloors(List<Floor> floors) {
-        availableFloors = floors;
-    }
-
     public void addAvailableFloor(Floor floor) {
         availableFloors.add(floor);
     }
@@ -90,12 +86,6 @@ public class Elevator implements IElevator {
                             floorsToVisit.add(i, floor);
                             return;
                         }
-                        // перешли к этажам в обратном направлении
-                        if (floorsToVisit.get(i).compareTo(currentFloor) < 0) {
-                            floorsToVisit.add(i, floor);
-                            return;
-                        }
-
                     } else
                         // если этаж ниже текущего и добавляемый этаж выше того что в списке
                         if (floorsToVisit.get(i).compareTo(floor) < 0) {
@@ -112,11 +102,6 @@ public class Elevator implements IElevator {
                     if (floor.compareTo(currentFloor) < 0) {
                         // и добавляемый этаж выше того что в списке
                         if (floorsToVisit.get(i).compareTo(floor) < 0) {
-                            floorsToVisit.add(i, floor);
-                            return;
-                        }
-                        // перешли к этажам в обратном направлении
-                        if (currentFloor.compareTo(floorsToVisit.get(i)) < 0) {
                             floorsToVisit.add(i, floor);
                             return;
                         }
@@ -175,19 +160,6 @@ public class Elevator implements IElevator {
         return true;
     }
 
-    public boolean setPassengers(List<IPassenger> passengers) {
-        int cap = remainingCapacity;
-        for (IPassenger passenger : passengers) {
-            remainingCapacity -= passenger.getWeight();
-        }
-        if (remainingCapacity < 0) {
-            remainingCapacity = cap;
-            return false;
-        }
-        this.passengers = passengers;
-        return true;
-    }
-
     public List<Floor> getFloorsToVisit() {
         return floorsToVisit;
     }
@@ -202,10 +174,6 @@ public class Elevator implements IElevator {
 
     public int getRemainingCapacity() {
         return remainingCapacity;
-    }
-
-    public void setRemainingCapacity(int remainingCapacity) {
-        this.remainingCapacity = remainingCapacity;
     }
 
     public boolean isUnLoaded() {

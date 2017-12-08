@@ -28,6 +28,8 @@ public class Passenger implements IPassenger {
     }
 
     public State getDirection() {
+        if (startFloor == destinationFloor)
+            return State.STOPPED;
         return (startFloor.getId() - destinationFloor.getId()) > 0 ? State.DOWN : State.UP;
     }
 
@@ -62,5 +64,4 @@ public class Passenger implements IPassenger {
     public void setProbabilityOfChoice(int probabilityOfChoice) {
         this.probabilityOfChoice = probabilityOfChoice;
     }
-
 }

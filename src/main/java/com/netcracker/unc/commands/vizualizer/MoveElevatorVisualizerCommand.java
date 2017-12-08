@@ -36,13 +36,13 @@ public class MoveElevatorVisualizerCommand implements IVizualizerCommand {
         if (elevator.getState() == State.STOPPED)
             return;
         if (elevator.getState() == State.UP) {
-            nextPiece = elevatorPicture.getyCoordinate() - 1;
+            nextPiece = elevatorPicture.getYCoordinate() - 1;
             nextFloor = floorPicture.getyCoordinate() - VisualizerConfig.FLOOR_HEIGHT;
         } else {
-            nextPiece = elevatorPicture.getyCoordinate() + 1;
+            nextPiece = elevatorPicture.getYCoordinate() + 1;
             nextFloor = floorPicture.getyCoordinate() + VisualizerConfig.FLOOR_HEIGHT;
         }
-        elevatorPicture.setyCoordinate(nextPiece);
+        elevatorPicture.setYCoordinate(nextPiece);
         if (nextFloor == nextPiece) {
             elevator.setInFloor(true);
             new MoveElevatorCommand(elevator, floors).execute();

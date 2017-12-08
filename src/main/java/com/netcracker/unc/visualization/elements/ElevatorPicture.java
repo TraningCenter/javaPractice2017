@@ -1,6 +1,11 @@
 package com.netcracker.unc.visualization.elements;
 
 
+import java.util.Collections;
+
+import static com.netcracker.unc.visualization.VisualizerConfig.ELEVATOR_HEIGHT;
+import static com.netcracker.unc.visualization.VisualizerConfig.ELEVATOR_WIDTH;
+
 /**
  * Class which visualizes elevator with passengers, open and close doors
  */
@@ -18,25 +23,37 @@ public class ElevatorPicture implements IPicture {
         this.isOpened = isOpened;
     }
 
+
     public String draw(int line) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("| ");
-        switch (line - yCoordinate) {
-            case 0:
-                stringBuilder.append("|¯¯¯|");
-                break;
-            case 1:
-                if (isOpened) {
-                    stringBuilder.append("|<").append(countOfPassengers).append(">|");
-                } else {
-                    stringBuilder.append("| ").append(countOfPassengers).append(" |");
-                }
-                break;
-            case 2:
-                stringBuilder.append("|___|");
-                break;
-            default:
-                stringBuilder.append("     ");
+        int i = line - yCoordinate;
+        if (i == 0) {
+            stringBuilder.append("|").append(printNTimes("¯", ELEVATOR_WIDTH)).append("|");
+        } else if (i == ELEVATOR_HEIGHT / 2) {
+            int countSize = String.valueOf(countOfPassengers).length();
+            int leftSize = (ELEVATOR_WIDTH - countSize) / 2;
+            if (isOpened) {
+                stringBuilder
+                        .append("|")
+                        .append(printNTimes(" ", leftSize - 1))
+                        .append("<").append(countOfPassengers).append(">")
+                        .append(printNTimes(" ", ELEVATOR_WIDTH - leftSize - countSize - 1))
+                        .append("|");
+            } else {
+                stringBuilder
+                        .append("|")
+                        .append(printNTimes(" ", leftSize))
+                        .append(countOfPassengers)
+                        .append(printNTimes(" ", ELEVATOR_WIDTH - leftSize - countSize))
+                        .append("|");
+            }
+        } else if (i == ELEVATOR_HEIGHT - 1) {
+            stringBuilder.append("|").append(printNTimes("_", ELEVATOR_WIDTH)).append("|");
+        } else if (i > 0 && i < (ELEVATOR_HEIGHT - 1)) {
+            stringBuilder.append("|").append(printNTimes(" ", ELEVATOR_WIDTH)).append("|");
+        } else {
+            stringBuilder.append(printNTimes(" ", ELEVATOR_WIDTH + 2));
         }
         stringBuilder.append(" |");
         return stringBuilder.toString();
@@ -46,7 +63,7 @@ public class ElevatorPicture implements IPicture {
         return id;
     }
 
-    public int getyCoordinate() {
+    public int getYCoordinate() {
         return yCoordinate;
     }
 
@@ -58,11 +75,7 @@ public class ElevatorPicture implements IPicture {
         return isOpened;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setyCoordinate(int yCoordinate) {
+    public void setYCoordinate(int yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
 
@@ -74,5 +87,8 @@ public class ElevatorPicture implements IPicture {
         isOpened = opened;
     }
 
+    private static String printNTimes(String string, int n) {
+        return String.join("", Collections.nCopies(n, string));
+    }
 
 }

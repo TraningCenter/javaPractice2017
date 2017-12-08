@@ -19,7 +19,7 @@ public class UnLoadPassengersElevatorCommand implements IElevatorCommand {
     }
 
     public void execute() {
-        List<IPassenger> list = new ArrayList<IPassenger>(elevator.getPassengers());
+        List<IPassenger> list = new ArrayList<>(elevator.getPassengers());
         for (IPassenger passenger : list) {
             if (passenger.getDestinationFloor() == elevator.getCurrentFloor()) {
                 elevator.deletePassenger(passenger);

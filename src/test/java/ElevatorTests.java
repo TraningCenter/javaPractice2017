@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Tests that verify the correct operation of the internal elevator commands
  */
@@ -45,23 +46,29 @@ public class ElevatorTests {
     @Test
     public void addFloorInQueueWhenStateIsUp() {
         // стоим на 4.
-        // должно быть после добавлений: 5 8 3 1
+        // должно быть после добавлений: 5 8 3 2 1
         elevator.addFloorInQueue(floors.get(7));
-        elevator.addFloorInQueue(floors.get(2));
-        // должно быть: 8 3
+        elevator.addFloorInQueue(floors.get(1));
+        // должно быть: 8 2
         Assert.assertEquals(2, elevator.getFloorsToVisit().size());
         Assert.assertEquals(floors.get(7), elevator.getNextDestinationFloor());
 
         elevator.addFloorInQueue(floors.get(0));
-        // должно быть: 8 3 1
+        // должно быть: 8 2 1
         Assert.assertEquals(3, elevator.getFloorsToVisit().size());
         Assert.assertEquals(floors.get(0), elevator.getFloorsToVisit().get(2));
 
         elevator.addFloorInQueue(floors.get(4));
-        // должно быть: 5 8 3 1
+        // должно быть: 5 8 2 1
         Assert.assertEquals(4, elevator.getFloorsToVisit().size());
         Assert.assertEquals(floors.get(4), elevator.getNextDestinationFloor());
+
+        elevator.addFloorInQueue(floors.get(2));
+        // должно быть: 5 8 3 2 1
+        Assert.assertEquals(5, elevator.getFloorsToVisit().size());
+        Assert.assertEquals(floors.get(2), elevator.getFloorsToVisit().get(2));
     }
+
 
     @Test
     public void addFloorInQueueWhenStateIsDown() {
@@ -94,6 +101,8 @@ public class ElevatorTests {
         Assert.assertEquals(1, elevator.getFloorsToVisit().size());
         Assert.assertEquals(floors.get(1), elevator.getNextDestinationFloor());
         Assert.assertEquals(State.DOWN, elevator.getState());
+        elevator.deleteFloorFromQueue();
+        Assert.assertEquals(State.STOPPED, elevator.getState());
     }
 
     @Test
@@ -104,7 +113,6 @@ public class ElevatorTests {
         Assert.assertEquals(1, elevator.getPassengers().size());
         Assert.assertFalse(elevator.addPassenger(passenger2));
         Assert.assertEquals(1, elevator.getPassengers().size());
-
     }
 
     @Test
@@ -114,5 +122,20 @@ public class ElevatorTests {
         Assert.assertEquals(10, elevator.getRemainingCapacity());
         elevator.deletePassenger(passenger1);
         Assert.assertEquals(300, elevator.getRemainingCapacity());
+    }
+
+    @Test
+    public void initAndAddAvailableFloor() {
+        IElevator elevator = new Elevator(1);
+        Assert.assertEquals(State.STOPPED, elevator.getState());
+        Assert.assertFalse(elevator.isLoaded());
+        Assert.assertFalse(elevator.isUnLoaded());
+        elevator.setCapacity(500);
+        Assert.assertEquals(500, elevator.getRemainingCapacity());
+        Assert.assertEquals(500, elevator.getCapacity());
+        Assert.assertEquals(0, elevator.getAvailableFloors().size());
+        elevator.addAvailableFloor(new Floor(9));
+        Assert.assertEquals(1, elevator.getAvailableFloors().size());
+        Assert.assertFalse(elevator.setCurrentFloor(new Floor(15)));
     }
 }

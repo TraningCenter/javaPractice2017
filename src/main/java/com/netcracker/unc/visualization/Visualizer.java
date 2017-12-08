@@ -26,6 +26,8 @@ public class Visualizer {
     }
 
     public void setConfiguration(Building building) {
+        if (building.getElevators().isEmpty() || building.getFloors().isEmpty())
+            return;
         List<Floor> floors = building.getFloors();
         List<IElevator> elevators = building.getElevators();
         for (IElevator elevator : elevators) {
@@ -54,7 +56,7 @@ public class Visualizer {
         System.out.println(roof + floors);
     }
 
-    private String drawFloors() {
+    public String drawFloors() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < floorPicturesList.size(); i++) {
             for (int line = 1 + FLOOR_HEIGHT * i; line <= FLOOR_HEIGHT * (i + 1); line++) {
@@ -68,16 +70,16 @@ public class Visualizer {
                 builder.append(floorPicturesList.get(i).draw(line));
                 builder.append("|\n");
             }
-            builder.append(printNTimes("-", (FLOOR_WIDTH + 4 + ELEVATOR_WIDTH) * elevatorPictureList.size() + 2 * FLOOR_WIDTH + SEPARATOR_WIDTH + 2));
+            builder.append(printNTimes("-", (FLOOR_WIDTH + 4 + ELEVATOR_WIDTH + 2) * elevatorPictureList.size() + 2 * FLOOR_WIDTH + SEPARATOR_WIDTH + 2));
             builder.append("\n");
         }
         return builder.toString();
     }
 
-    private String drawRoof() {
+    public String drawRoof() {
         StringBuilder builder = new StringBuilder();
         builder.append(printNTimes(" ", ROOF_HEIGHT + 1));
-        int bottomWidth = (FLOOR_WIDTH + 4 + ELEVATOR_WIDTH) * elevatorPictureList.size() + 2 * FLOOR_WIDTH + SEPARATOR_WIDTH + 2;
+        int bottomWidth = (FLOOR_WIDTH + 4 + ELEVATOR_WIDTH + 2) * elevatorPictureList.size() + 2 * FLOOR_WIDTH + SEPARATOR_WIDTH + 2;
         int topWidth = bottomWidth - 2 * ROOF_HEIGHT - 1;
         builder.append(printNTimes("-", topWidth));
         builder.append("\n");
@@ -101,10 +103,6 @@ public class Visualizer {
         return elevatorPictureList;
     }
 
-    public List<FloorPicture> getFloorPicturesList() {
-        return floorPicturesList;
-    }
-
     public FloorPicture getFloorPictureById(int id) {
         FloorPicture floorPicture = null;
         for (FloorPicture fp : floorPicturesList) {
@@ -114,4 +112,17 @@ public class Visualizer {
         }
         return floorPicture;
     }
+
+    public void setElevatorPictureList(List<ElevatorPicture> elevatorPictureList) {
+        this.elevatorPictureList = elevatorPictureList;
+    }
+
+    public void setFloorPicturesList(List<FloorPicture> floorPicturesList) {
+        this.floorPicturesList = floorPicturesList;
+    }
+
+    public List<FloorPicture> getFloorPicturesList() {
+        return floorPicturesList;
+    }
 }
+

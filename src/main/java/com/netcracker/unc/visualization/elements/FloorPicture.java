@@ -28,29 +28,25 @@ public class FloorPicture implements IPicture {
 
     public String draw(int line) {
         StringBuilder stringBuilder = new StringBuilder();
-        int countSize = String.valueOf(countOfPassengers).length();
-        int leftSize = (FLOOR_WIDTH-countSize)/2;
-        switch (line%FLOOR_HEIGHT) {
-            case 1:
-                stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH-1)).append(isPushedUp?"˄":" ");
-                break;
-            case 0:
-                stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH-1)).append(isPushedDown?"˅":" ");
-                break;
-            case FLOOR_HEIGHT/2+1:
-                stringBuilder
+        int i = line % FLOOR_HEIGHT;
+        if (i == 1) {
+            stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH - 1)).append(isPushedUp ? "˄" : " ");
+        } else if (i == 0) {
+            stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH - 1)).append(isPushedDown ? "˅" : " ");
+        } else if (i == FLOOR_HEIGHT / 2 + 1) {
+            int countSize = String.valueOf(countOfPassengers).length();
+            int leftSize = (FLOOR_WIDTH - countSize) / 2;
+            stringBuilder
                     .append(printSpaceNTimes(leftSize))
                     .append(countOfPassengers)
                     .append(printSpaceNTimes(FLOOR_WIDTH - leftSize - countSize));
-                break;
-            default:
-                stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH));
-                break;
+        } else {
+            stringBuilder.append(printSpaceNTimes(FLOOR_WIDTH));
         }
         return stringBuilder.toString();
     }
 
-    public void update(Floor floor){
+    public void update(Floor floor) {
         countOfPassengers = floor.getPassengers().size();
         isPushedDown = floor.isPushedButtonDown();
         isPushedUp = floor.isPushedButtonUp();
@@ -60,32 +56,16 @@ public class FloorPicture implements IPicture {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getCountOfPassengers() {
         return countOfPassengers;
-    }
-
-    public void setCountOfPassengers(int countOfPassengers) {
-        this.countOfPassengers = countOfPassengers;
     }
 
     public boolean isPushedUp() {
         return isPushedUp;
     }
 
-    public void setPushedUp(boolean pushedUp) {
-        isPushedUp = pushedUp;
-    }
-
     public boolean isPushedDown() {
         return isPushedDown;
-    }
-
-    public void setPushedDown(boolean pushedDown) {
-        isPushedDown = pushedDown;
     }
 
     private static String printSpaceNTimes(int n) {
@@ -96,7 +76,11 @@ public class FloorPicture implements IPicture {
         return yCoordinate;
     }
 
-    public void setyCoordinate(int yCoordinate) {
-        this.yCoordinate = yCoordinate;
+    public void setPushedUp(boolean pushedUp) {
+        isPushedUp = pushedUp;
+    }
+
+    public void setPushedDown(boolean pushedDown) {
+        isPushedDown = pushedDown;
     }
 }
