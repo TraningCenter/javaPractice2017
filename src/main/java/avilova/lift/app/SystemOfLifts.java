@@ -45,17 +45,15 @@ public class SystemOfLifts {
      * доставлены к месту
      */
     public void run() {
-
+        System.out.println("\033[H\033[2J");
         printConsole.show();
         while (!isEnd()) {
-            System.out.println("\033[H\033[2J");
-            for (Lift lift : lifts) {
+            for (Lift lift : lifts)
                 if (lift.passengerList.size() != 0) {
                     lift.controller.run();
-                    System.out.println("\033[H\033[2J");
                 }
-            }
             printConsole.show();
+            System.out.println("\033[H\033[2J");
         }
     }
 
