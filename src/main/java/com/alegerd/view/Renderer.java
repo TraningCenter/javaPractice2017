@@ -83,13 +83,7 @@ public class Renderer {
     public void clear(){
         try {
             Console console = System.console();
-
-            if (!Config.isStopDrawing()) {
-                Integer num = ViewController.getNumberOfFloors() * 2 + 10;
-                for (int i = 0; i < num; i++) {
-                    console.printf("\n");
-                }
-            }
+            console.printf("\u001b[2J");
         }catch (Exception e){
 
         }
@@ -98,7 +92,6 @@ public class Renderer {
     public void writeMessage(String message){
         try {
             Console console = System.console();
-
             if (!Config.isStopDrawing()) {
                 console.printf(message);
             }
