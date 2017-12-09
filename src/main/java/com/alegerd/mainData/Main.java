@@ -34,7 +34,7 @@ public class Main{
                             fileName = console.readLine();
                             fileName = fileName.split("\n")[0];
                             application = new Application(fileName);
-                            application.start();
+                            application.start();                            
                             break;
                         }
                         case "default": {

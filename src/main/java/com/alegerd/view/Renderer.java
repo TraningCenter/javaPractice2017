@@ -83,7 +83,7 @@ public class Renderer {
     public void clear(){
         try {
             Console console = System.console();
-            console.printf("\u001b[2J");
+            console.printf("\033[H\033[2J");
         }catch (Exception e){
 
         }
