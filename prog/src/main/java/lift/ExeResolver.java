@@ -13,4 +13,7 @@ public class ExeResolver {
 	public static void addExecutable(Executable action) {
 		controller.addExecutable(action);
 	}
+	public static void stopSimulation(){
+		controller.stopSimulation();
+	}
 }

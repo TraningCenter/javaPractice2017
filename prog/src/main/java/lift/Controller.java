@@ -65,10 +65,10 @@ public class Controller {
 				simulationInProgress = true;
 				while(simulationInProgress) {
 					Dispatcher.nextStep();
+					runIt(controller);
 				}
 			}
 		}
-		//ExeResolver.addExecutable(new ); TODO: переходить дальше к реализации симул€ции
 	}
 	
 	private static boolean checkInput(String input) {

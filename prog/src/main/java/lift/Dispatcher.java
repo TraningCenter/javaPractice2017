@@ -3,6 +3,7 @@ package lift;
 import java.util.Deque;
 import java.util.Iterator;
 
+import execs.ActLiftExecutable;
 import execs.DelegateLiftExecutable;
 import execs.PushFloorButtonExecutable;
 import models.Request;
@@ -28,6 +29,7 @@ public class Dispatcher {
 	public static void nextStep() {
 		setDelegations();
 		actLifts();
+		checkEndOfSimulation();
 	}
 	public static void setDelegations() {
 		if (!requests.isEmpty())
@@ -37,7 +39,21 @@ public class Dispatcher {
 		Lift[] lifts = house.getLifts();
 		for (int i = 0; i < lifts.length; i++) {
 			if (lifts[i].getDirection() != LiftDirection.STOP)
-				lifts[i].actLift();
+				ExeResolver.addExecutable(new ActLiftExecutable(lifts[i], house.getFloorByNumber(lifts[i].getCurFloorNumber())));
 		}
+	}
+	public static void getBackRequest(Request request) {
+		requests.offerFirst(request);
+	}
+	public static void checkEndOfSimulation() {
+		if (!requests.isEmpty()) return;
+		for (Lift lift: house.getLifts()) {
+			if (lift.getLiftDirection() != LiftDirection.STOP) return;
+			if (!lift.getPassengers().isEmpty()) return;
+		}
+		for (Floor floor : house.getFloors()) {
+			if (!floor.getWaitingList().isEmpty()) return;
+		}
+		ExeResolver.stopSimulation();
 	}
 }
