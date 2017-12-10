@@ -11,11 +11,13 @@ public class FloorOutput {
 	
 	private int liftsCount;
 	private Floor floor;
+	private int floorsNum;
 	
 
-	public FloorOutput(int liftsCount, Floor floor) {
+	public FloorOutput(int liftsCount, Floor floor, int floorsNum) {
 		this.liftsCount = liftsCount;
 		this.floor = floor;
+		this.floorsNum = floorsNum;
 	}
 	
 	public String[][] getFloor(){
@@ -32,9 +34,9 @@ public class FloorOutput {
 					floorGrid[i][j] = "_";
 				}
 				int j = (liftsCount+1)*3;
-				Integer hundreds = floor.getNumber()/100;
-				Integer tens = floor.getNumber()%100/10;
-				Integer digits = floor.getNumber()%10;
+				Integer hundreds = (floorsNum-floor.getNumber()-1)/100;
+				Integer tens = (floorsNum-floor.getNumber()-1)%100/10;
+				Integer digits = (floorsNum-floor.getNumber()-1)%10;
 				floorGrid[i][j] = hundreds.toString();
 				floorGrid[i][j+1] = tens.toString();
 				floorGrid[i][j+2] = digits.toString();

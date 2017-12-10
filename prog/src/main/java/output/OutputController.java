@@ -25,7 +25,7 @@ public class OutputController {
 	public void showSituation(IBuilding house) {
 		int floorCounter = 0;
 		for (Floor floor: house.getFloors()){
-			FloorOutput fout = new FloorOutput(house.getLifts().length, floor);
+			FloorOutput fout = new FloorOutput(house.getLifts().length, floor, floorsNum);
 			String[][] floorGrid = fout.getFloor();
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < floorGrid[0].length; j++) {
