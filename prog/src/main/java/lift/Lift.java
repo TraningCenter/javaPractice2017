@@ -2,6 +2,8 @@ package lift;
 
 import java.util.*;
 
+import models.Request;
+
 public class Lift implements LiftInnerButton {
 	private static int globalLiftEnumerator = 1;
 	private int id;
@@ -11,6 +13,7 @@ public class Lift implements LiftInnerButton {
 	private List<Transportable> passengers; 
 	private int capacity;
 	private LiftDirection liftDirection;
+	private LiftDirection requestDirection;
 	private int maxFloor; 
 	private int minFloor;
 	
@@ -20,6 +23,8 @@ public class Lift implements LiftInnerButton {
 		passengers = new LinkedList<Transportable>();
 		capacity = 7; 
 		liftDirection = LiftDirection.STOP;
+		requestDirection = LiftDirection.STOP;
+		isPaused = false;
 	}
 	public Lift(int capacity, int curFloorNumber, int minFloor, int maxFloor) {
 		id = globalLiftEnumerator++;
@@ -28,20 +33,32 @@ public class Lift implements LiftInnerButton {
 		passengers = new LinkedList<Transportable>();
 		this.capacity = capacity; 
 		liftDirection = LiftDirection.STOP;
+		requestDirection = LiftDirection.STOP;
 		this.minFloor = minFloor;
 		this.maxFloor = maxFloor;
+		isPaused = false;
 	}
 	
 	public void addPassenger(Transportable passenger) {
 		passengers.add(passenger);
 	}
 	///// Method for external Executable class-manipulator. I guess
-	public void actLift(Floor floor) {
-		if (isPaused) {
-			for (Transportable t: passengers) {
-				if (t.getDest() == curFloorNumber)
-					letOutPassenger(t);
+	public void actLift(Floor curFloor) {
+		if (floorNumbersToStop.contains(curFloorNumber)) {
+			if (!passengers.isEmpty()) {
+				for (Transportable t: passengers) {
+					if (t.getDest() == curFloorNumber)
+						letOutPassenger(t);
+				}
 			}
+			while ((passengers.size() < capacity) || 
+					())
+			return;
+		}
+		curFloorNumber++;
+		
+		if (isPaused) {
+			
 			while ((passengers.size() != capacity) || (!floor.getWaitingList().isEmpty())) {
 				addPassenger(floor.getWaitingList().remove(0));
 			}
@@ -60,9 +77,25 @@ public class Lift implements LiftInnerButton {
 	public void pushButton(int floorNumber) {
 		addFloorToStop(floorNumber);
 	}
-//	public void useNextLift() {
-//		
-//	}
+	public LiftDirection getDirection() {
+		return liftDirection;
+	}
+	public int getCurFloorNumber() {
+		return curFloorNumber;
+	}
+	public boolean isFull() {
+		return (capacity == passengers.size());
+	}
+	public boolean isSpecialDirection() {
+		return (this.liftDirection != this.requestDirection);
+	}
+	public void delegateRequest(Request request) {
+		if (liftDirection == LiftDirection.STOP) {
+			this.requestDirection = request.getFloorDirection() == PassengerDirection.UP ? LiftDirection.UP : LiftDirection.DOWN;
+			this.liftDirection = (curFloorNumber - request.getFloorNumber()) < 0 ? LiftDirection.UP : LiftDirection.DOWN;
+		}
+		this.addFloorToStop(request.getFloorNumber());
+	}
 	
 	private void addFloorToStop(int floorNumber) {
 		floorNumbersToStop.add(floorNumber);

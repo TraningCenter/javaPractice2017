@@ -5,6 +5,7 @@ import java.util.*;
 
 import execs.AddPassengersExecutable;
 import execs.Executable;
+import execs.PushFloorButtonExecutable;
 import execs.SetHouseExecutable;
 import input.InputController;
 import output.OutputController;
@@ -15,6 +16,7 @@ public class Controller {
 	private static InputController inputController; 
 	private static OutputController outputController;
 	private static Queue<Executable> exeObjects;
+	private static boolean simulationInProgress;
 	
 	public Controller() {
 		exeObjects = new LinkedList<Executable>();
@@ -36,6 +38,9 @@ public class Controller {
 		nextExe.execute();
 		return 1;
 	}
+	public void stopSimulation() {
+		simulationInProgress = false;
+	}
 	
 	public static void main(String[] args) {
 		Controller controller = new Controller();
@@ -49,9 +54,18 @@ public class Controller {
 					+ "\tor \"Start\" to start your simulation: ");
 		}
 		if (checkInput(command)) {
-			if (command.equals("Add")) {
+			if (command.toLowerCase().equals("add")) {
 				ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
 				runIt(controller);
+			}
+			if (command.toLowerCase().equals("start")) {
+				Dispatcher.setHouse(building);
+				ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
+				runIt(controller);
+				simulationInProgress = true;
+				while(simulationInProgress) {
+					Dispatcher.nextStep();
+				}
 			}
 		}
 		//ExeResolver.addExecutable(new ); TODO: переходить дальше к реализации симул€ции

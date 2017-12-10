@@ -11,4 +11,7 @@ public class Shaft {
 	public Shaft(Lift lift) {
 		this.lift = lift;
 	}
+	public Lift getLift() {
+		return lift;
+	}
 }

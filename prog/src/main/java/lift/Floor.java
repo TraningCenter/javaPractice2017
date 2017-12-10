@@ -2,9 +2,13 @@ package lift;
 
 import java.util.*;
 
+import models.Request;
+
 public class Floor implements FloorOuterButton {
 	private int number;
 	private List<Transportable> waitingForLift;
+	private boolean isUpPressed;
+	private boolean isDownPressed;
 	
 	public Floor() {
 		waitingForLift = new LinkedList<Transportable>();
@@ -29,6 +33,10 @@ public class Floor implements FloorOuterButton {
 			System.out.println("Something wrong with passenger deletion from waiting people list");
 	}
 	public void pushButton(PassengerDirection passDirection) {
-		
+		if (passDirection == PassengerDirection.DOWN)
+			if (!isDownPressed) isDownPressed = true;
+		else
+			if (!isUpPressed) isUpPressed = true;
+		Dispatcher.addRequest(new Request(number, passDirection));
 	}
 }
