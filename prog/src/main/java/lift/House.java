@@ -54,4 +54,26 @@ public class House implements IBuilding{
 			}
 		}
 	}
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Floors: "); 
+		sb.append(getFloors().size() + " ");
+		for (Floor f: getFloors()) {
+			sb.append(f.toString());
+			sb.append(" Pass: ");
+			for (Transportable t: f.getWaitingList()) {
+				sb.append(t.toString() + " ");
+			}
+		}
+		sb.append("\nLifts: ");
+		sb.append(getLifts().length);
+		for (Lift l: getLifts()) {
+			sb.append(l.toString() + " ");
+		}
+		return sb.toString();
+	}
+	public void getParamsFromHouse(IBuilding house) {
+		this.floors = house.getFloors();
+		this.shafts = house.getShafts();
+	}
 }

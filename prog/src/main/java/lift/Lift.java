@@ -54,6 +54,9 @@ public class Lift implements LiftInnerButton {
 	public int getCapacity() {
 		return capacity;
 	}
+	public int getId() {
+		return this.id;
+	}
 	public LiftDirection getLiftDirection() {
 		return liftDirection;
 	}

@@ -19,9 +19,6 @@ public class InputController {
 	public InputController() {
 		inputConsole = new DefaultInputConsole();
 	}
-	public void getInputModel() {
-		
-	}
 	public IBuilding instantiateBuilding() {
 		HouseInfoModel houseModel = inputConsole.getHouseInfo();
 		InputController.houseModel = houseModel;

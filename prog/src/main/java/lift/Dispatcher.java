@@ -2,6 +2,7 @@ package lift;
 
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import execs.ActLiftExecutable;
 import execs.DelegateLiftExecutable;
@@ -14,6 +15,7 @@ public class Dispatcher {
 	
 	public static void setHouse(IBuilding newHouse) {
 		house = newHouse;
+		requests = new LinkedList<Request>();
 	}
 	public static void addRequest(Request request) {
 		Iterator<Request> it = requests.iterator();
@@ -34,6 +36,8 @@ public class Dispatcher {
 	public static void setDelegations() {
 		if (!requests.isEmpty())
 			ExeResolver.addExecutable(new DelegateLiftExecutable(house, requests));
+		else
+			System.out.println("requests are empty");
 	}
 	public static void actLifts() {
 		Lift[] lifts = house.getLifts();

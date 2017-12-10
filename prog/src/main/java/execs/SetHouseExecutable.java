@@ -4,6 +4,7 @@ import java.util.List;
 
 import input.InputController;
 import lift.ExeResolver;
+import lift.House;
 import lift.IBuilding;
 import lift.Passenger;
 
@@ -16,7 +17,8 @@ public class SetHouseExecutable implements HouseExecutable {
 		this.inputController = inputController;
 	}
 	public void execute() {
-		house = inputController.instantiateBuilding();
+		IBuilding temp = inputController.instantiateBuilding();
+		house.getParamsFromHouse(temp);
 		List<Passenger> passengersInput = inputController.getPassengersFromInput();
 		ExeResolver.addExecutable(new SetWaitingPassengerExecutable(house, inputController, passengersInput));
 	}

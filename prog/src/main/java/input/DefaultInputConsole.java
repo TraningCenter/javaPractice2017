@@ -1,6 +1,7 @@
 package input;
 
 import java.io.Console;
+import java.util.Scanner;
 
 import models.HouseInfoModel;
 import models.PassengerInfoModel;
@@ -8,43 +9,42 @@ import models.PassengerInfoModel;
 public class DefaultInputConsole implements InputConsole {
 
 	public HouseInfoModel getHouseInfo() {
-		Console console = System.console();
 		HouseInfoModel houseInfo = null;
-		if (console != null) {
-			int floorNum = 0;
-			int liftNum = 0;
-			PassengerInfoModel[] passengers = null;
-			int[] capacities = null;
-			Boolean isRight = false;
-			while (!isRight) {
-				try {
-					console.printf("Enter data about house with format usage: \"Floor:[floor_num]:[...capacity_for_each_lift...]:"
-							+ ":Lift:[lift_num]:Pass:[pass_number]:[start:dest]:[...as_much_passengers_as_pass_number...]:[start:dest]\"\n"
-							+ "Here Passengers are not necessary. ");
-					String fullInput = console.readLine();
-					String[] inputDivided = fullInput.split(":");
-					if (!checkRightTotalInput(inputDivided)) continue;
-					isRight = true;
-					floorNum = Integer.parseInt(inputDivided[1]);
-					liftNum = Integer.parseInt(inputDivided[3]);
-					passengers = new PassengerInfoModel[Integer.parseInt(inputDivided[5])+liftNum];
-					int j = 0;
-					for (int i = 6 + liftNum; i < inputDivided.length; i+=2) {
-						passengers[j++] = new PassengerInfoModel(Integer.parseInt(inputDivided[i]), Integer.parseInt(inputDivided[i+1]));
-					}
-					capacities = new int[liftNum];
-					for (int i = 4; i < 4 + liftNum; i++) {
-						capacities[i-4] = Integer.parseInt(inputDivided[i]);
-					}
+		int floorNum = 0;
+		int liftNum = 0;
+		PassengerInfoModel[] passengers = null;
+		int[] capacities = null;
+		Boolean isRight = false;
+		while (!isRight) {
+			try {
+				System.out.print("Enter data about house with format usage: \n\"Floor:[floor_num]"
+						+ ":Lift:[lift_num]:[...capacity_for_each_lift...]:\nPass:[pass_number]:[start:dest]:[...as_much_passengers_as_pass_number...]:[start:dest]\"\n"
+						+ "Here Passengers are not necessary. \n");
+				Scanner scanIn = new Scanner(System.in);
+				String fullInput = scanIn.nextLine();
+				String[] inputDivided = fullInput.split(":");
+				if (!checkRightTotalInput(inputDivided)) continue;
+				isRight = true;
+				floorNum = Integer.parseInt(inputDivided[1]);
+				liftNum = Integer.parseInt(inputDivided[3]);
+				passengers = new PassengerInfoModel[Integer.parseInt(inputDivided[5+liftNum])];
+				int j = 0;
+				for (int i = 6 + liftNum; i < inputDivided.length; i+=2) {
+					passengers[j++] = new PassengerInfoModel(Integer.parseInt(inputDivided[i]), Integer.parseInt(inputDivided[i+1]));
 				}
-				catch(Exception e) {
-					console.printf("Congrats! You have an exception. Now you are exceptional person.\n"
-							+ "Details: %s", e);
-					isRight = false;
+				capacities = new int[liftNum];
+				for (int i = 4; i < 4 + liftNum; i++) {
+					capacities[i-4] = Integer.parseInt(inputDivided[i]);
 				}
+				//scanIn.close();
 			}
-			houseInfo = new HouseInfoModel(floorNum, liftNum, passengers, capacities);
+			catch(Exception e) {
+				System.out.printf("Congrats! You have an exception. Now you are exceptional person.\n"
+						+ "Details: %s", e);
+				isRight = false;
+			}
 		}
+		houseInfo = new HouseInfoModel(floorNum, liftNum, passengers, capacities);
 		return houseInfo;
 	}
 	
@@ -56,7 +56,7 @@ public class DefaultInputConsole implements InputConsole {
 			while(!isRight) {
 				try {
 					String passInput = console.readLine("Enter data about new passengers, like: \"Pass:[pass_number]:[start:dest]...\"\n"
-							+ "PAssengers now are necessary. ");
+							+ "Passengers now are necessary. \n");
 					String[] passInputDivided = passInput.split(":");
 					if (!checkPassInput(passInputDivided)) continue;
 					isRight = true;
@@ -68,8 +68,9 @@ public class DefaultInputConsole implements InputConsole {
 					}
 				}
 				catch(Exception e) {
-					console.printf("Congrats! You have an exception. Now you are exceptional person.\n"
+					System.out.printf("Congrats! You have an exception. Now you are exceptional person.\n"
 							+ "Details: %s", e);
+					e.printStackTrace();
 					isRight = false;
 				}
 			}
@@ -80,12 +81,12 @@ public class DefaultInputConsole implements InputConsole {
 	private boolean checkRightTotalInput(String[] inputData) {
 		if (inputData == null) return false;
 		if (inputData.length == 0) return false;
-		if (inputData[0].toLowerCase() != "floor" || 
-				inputData[2].toLowerCase() != "lift")
+		if (!inputData[0].toLowerCase().equals("floor") || 
+				!inputData[2].toLowerCase().equals("lift")) 
 			return false;
-		if (inputData.length == 3 + Integer.parseInt(inputData[2]))
+		if (inputData.length == (4 + Integer.parseInt(inputData[3]))) 
 			return true;
-		if (inputData[4+Integer.parseInt(inputData[3])].toLowerCase() != "pass")
+		if (!inputData[4+Integer.parseInt(inputData[3])].toLowerCase().equals("pass"))
 			return false;
 		if (Integer.parseInt(inputData[5+Integer.parseInt(inputData[3])])*2 != inputData.length - 6 - Integer.parseInt(inputData[3]))
 			return false;
@@ -94,8 +95,9 @@ public class DefaultInputConsole implements InputConsole {
 	private boolean checkPassInput(String[] inputData) {
 		if (inputData == null) return false;
 		if (inputData.length == 0) return false;
-		if (inputData[0].toLowerCase() != "pass") return false;
-		if (Integer.parseInt(inputData[1])*2 != inputData.length - 2) return false;
+		if (!inputData[0].toLowerCase().equals("pass")) return false;
+		if (Integer.parseInt(inputData[1])*2 != (inputData.length - 2)) 
+			return false;
 		return true;
 	}
 }

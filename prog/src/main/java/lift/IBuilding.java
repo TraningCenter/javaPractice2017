@@ -10,4 +10,6 @@ public interface IBuilding {
 	public Floor getFloorByNumber(int floorNum);
 	public void floorChecker();
 	public Lift[] getLifts();
+	public void getParamsFromHouse(IBuilding house);
+	public String toString();
 }

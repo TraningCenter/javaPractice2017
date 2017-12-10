@@ -1,6 +1,7 @@
 package lift;
 
 import java.io.Console;
+import java.io.PrintStream;
 import java.util.*;
 
 import execs.AddPassengersExecutable;
@@ -31,48 +32,67 @@ public class Controller {
 	public void addExecutable(Executable exe) {
 		exeObjects.offer(exe);
 	}
-	public int nextExecutable() {
-		if (exeObjects == null) return -1;
-		if (exeObjects.isEmpty()) return 0;
-		Executable nextExe = exeObjects.poll();
-		nextExe.execute();
-		return 1;
-	}
+//	public int nextExecutable() {
+//		if (exeObjects == null) return -1;
+//		if (exeObjects.isEmpty()) return 0;
+//		Executable nextExe = exeObjects.poll();
+//		nextExe.execute();
+//		return 1;
+//	}
 	public void stopSimulation() {
 		simulationInProgress = false;
 	}
 	
 	public static void main(String[] args) {
-		Controller controller = new Controller();
-		ExeResolver.setController(controller);
-		// First house instantiation. 
-		runIt(controller);
-		Console console = System.console();
-		String command = "";
-		if (console != null) {
-			command = console.readLine("Enter please \"Add\" to add passengers\n"
+		try {
+			System.setOut(new PrintStream(System.out, true, "UTF-8"));
+			Controller controller = new Controller();
+			ExeResolver.setController(controller);
+			// First house instantiation. 
+			runIt(controller);
+			
+			outputController = new OutputController();
+			outputController.configureOutput(building);
+			outputController.showSituation(building);
+			String command = "";
+			System.out.println("Enter please \"Add\" to add passengers\n"
 					+ "\tor \"Start\" to start your simulation: ");
-		}
-		if (checkInput(command)) {
-			if (command.toLowerCase().equals("add")) {
-				ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
-				runIt(controller);
-			}
-			if (command.toLowerCase().equals("start")) {
-				Dispatcher.setHouse(building);
-				ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
-				runIt(controller);
-				simulationInProgress = true;
-				while(simulationInProgress) {
-					Dispatcher.nextStep();
+			Scanner in = new Scanner(System.in);
+			command = in.nextLine();
+			if (checkInput(command)) {
+				if (command.toLowerCase().equals("add")) {
+					House h = (House) building;
+					System.out.println(h.toString());
+					ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
 					runIt(controller);
+					outputController.showSituation(building);
+				}
+				if (command.toLowerCase().equals("start")) {
+					Dispatcher.setHouse(building);
+					ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
+					runIt(controller);
+					simulationInProgress = true;
+					while(simulationInProgress) {
+						Dispatcher.nextStep();
+						runIt(controller);
+						outputController.showSituation(building);
+					}
 				}
 			}
+			else {
+				System.out.println("WRONG");
+			}
+			System.out.println("EOP");
 		}
+		catch(Exception e) {
+			System.out.printf("Exception %s\n", e);
+			e.printStackTrace();
+		}
+	
 	}
 	
 	private static boolean checkInput(String input) {
-		if (input.equals("Add") || input.equals("Start")) return true;
+		if (input.toLowerCase().equals("add") || input.toLowerCase().equals("start")) return true;
 		return false;
 	}
 	private static void runIt(Controller controller) {
