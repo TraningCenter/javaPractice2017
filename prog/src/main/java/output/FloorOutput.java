@@ -34,9 +34,9 @@ public class FloorOutput {
 					floorGrid[i][j] = "_";
 				}
 				int j = (liftsCount+1)*3;
-				Integer hundreds = (floorsNum-floor.getNumber()-1)/100;
-				Integer tens = (floorsNum-floor.getNumber()-1)%100/10;
-				Integer digits = (floorsNum-floor.getNumber()-1)%10;
+				Integer hundreds = (floor.getNumber())/100;
+				Integer tens = (floor.getNumber())%100/10;
+				Integer digits = (floor.getNumber())%10;
 				floorGrid[i][j] = hundreds.toString();
 				floorGrid[i][j+1] = tens.toString();
 				floorGrid[i][j+2] = digits.toString();

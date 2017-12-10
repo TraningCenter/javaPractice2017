@@ -1,5 +1,8 @@
 package output;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import lift.Floor;
 import lift.IBuilding;
 import lift.Lift;
@@ -24,7 +27,8 @@ public class OutputController {
 	}
 	public void showSituation(IBuilding house) {
 		int floorCounter = 0;
-		for (Floor floor: house.getFloors()){
+//		for (Floor floor: house.getFloors()){
+		for (Floor floor: floorsBackwards(house.getFloors())) {
 			FloorOutput fout = new FloorOutput(house.getLifts().length, floor, floorsNum);
 			String[][] floorGrid = fout.getFloor();
 			for (int i = 0; i < 3; i++) {
@@ -34,8 +38,8 @@ public class OutputController {
 				if (i == 1) {
 					Integer tens = floor.getWaitingList().size()/10%10;
 					Integer digits = floor.getWaitingList().size()%10;
-					grid[i][house.getLifts().length+1] = tens.toString();
-					grid[i][house.getLifts().length+2] = digits.toString();
+					grid[i + floorCounter*3][house.getLifts().length*3+1] = tens.toString();
+					grid[i + floorCounter*3][house.getLifts().length*3+2] = digits.toString();
 				}
 			}
 			floorCounter++;
@@ -51,11 +55,18 @@ public class OutputController {
 	public void showGrid(String[][] grid) {
 		if (grid == null) return;
 		System.out.println("\033[H\033[2J");
+		System.out.flush();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++)
 				System.out.print(grid[i][j]);
 			System.out.print("\n");
 		}
+	}
+	public List<Floor> floorsBackwards(List<Floor> floors){
+		LinkedList<Floor> backFloors = new LinkedList<Floor>();
+		for (Floor floor: floors)
+			backFloors.offerFirst(floor);
+		return backFloors;
 	}
 	
 	
