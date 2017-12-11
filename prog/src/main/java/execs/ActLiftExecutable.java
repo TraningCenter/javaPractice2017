@@ -7,6 +7,7 @@ import lift.LiftDirection;
 import lift.PassengerDirection;
 import lift.Transportable;
 import models.Request;
+import java.util.LinkedList;
 
 public class ActLiftExecutable implements LiftExecutable {
 	private Lift lift;
@@ -33,25 +34,52 @@ public class ActLiftExecutable implements LiftExecutable {
 			if (lift.getFloorNumbersToStop().size() == 1 && lift.getLiftDirection() != lift.getRequestDirection())
 				lift.setLiftDirection(lift.getRequestDirection());
 			if (!lift.getPassengers().isEmpty()) {
+				LinkedList<Transportable> listToLetOut = new LinkedList<Transportable>();
 				for (Transportable t: lift.getPassengers()) {
 					if (t.getDest() == lift.getCurFloorNumber())
-						lift.letOutPassenger(t);
+						listToLetOut.add(t);
+						//lift.letOutPassenger(t);
 				}
+				if (!listToLetOut.isEmpty())
+					for (Transportable t: listToLetOut)
+						lift.letOutPassenger(t);
+				listToLetOut = null;
 			}
 			while (lift.getPassengers().size() < lift.getCapacity())  {
+				boolean isBrokeOut = false;
+				System.out.println("Lift " + lift.getId());
+				System.out.println("LiftDirection " + lift.getLiftDirection());
+				System.out.println("RequestDirection " + lift.getRequestDirection());
+				System.out.println("People on floor " + floor.getWaitingList().size());
+				System.out.println("People in lift " + lift.getPassengers().size());
 				for (Transportable t: floor.getWaitingList()) {
-					if (lift.getPassengers().size() < lift.getCapacity())						
-						if ((t.getDirection() == PassengerDirection.UP && lift.getLiftDirection() == lift.getLiftDirection().UP) ||
-							(t.getDirection() == PassengerDirection.DOWN && lift.getLiftDirection() == LiftDirection.DOWN)) {
-							floor.removeWaitingPass(t);
-							lift.addPassenger(t);
-							//break;
-						}
-						else {}
-					else
-						break;
+					System.out.println("direction " + t.getDirection());
+					if ((lift.getPassengers().size() < lift.getCapacity()) &&
+						((t.getDirection() == PassengerDirection.UP && lift.getLiftDirection() == LiftDirection.UP) ||
+						(t.getDirection() == PassengerDirection.DOWN && lift.getLiftDirection() == LiftDirection.DOWN))) {
+						//floor.removeWaitingPass(t);
+						lift.addPassenger(t);
+						//break;
+					}
+					else {
+						if (lift.getPassengers().size() == lift.getCapacity())
+							break;
+						//isBrokeOut = true;
+					}
+				}
+				if (lift.getLiftDirection() == LiftDirection.UP && lift.getCurFloorNumber() == lift.getMax()) {
+					lift.setLiftDirection(LiftDirection.DOWN);
+					continue;
+				}
+				if (lift.getLiftDirection() == LiftDirection.DOWN && lift.getCurFloorNumber() == lift.getMin()) {
+					lift.setLiftDirection(LiftDirection.UP);
+					continue;
 				}
 				break;
+			}
+			for (Transportable t: lift.getPassengers()) {
+				if (floor.getWaitingList().contains(t))
+					floor.removeWaitingPass(t);
 			}
 			for (Transportable t: floor.getWaitingList()) {
 				if (t.getDirection() == PassengerDirection.UP && lift.getLiftDirection() == LiftDirection.UP) {
@@ -63,7 +91,7 @@ public class ActLiftExecutable implements LiftExecutable {
 					break;
 				}
 			}
-			lift.getFloorNumbersToStop().remove(lift.getCurFloorNumber());
+			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
 			if (lift.getPassengers().size() == lift.getCapacity()) {
 				for (Integer stopNum: lift.getFloorNumbersToStop()) {
 					if (!lift.isDestFloor(stopNum)) {

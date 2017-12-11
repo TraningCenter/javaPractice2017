@@ -3,6 +3,7 @@ package output;
 import java.util.LinkedList;
 import java.util.List;
 
+import lift.Controller;
 import lift.Floor;
 import lift.IBuilding;
 import lift.Lift;
@@ -54,7 +55,8 @@ public class OutputController {
 	}
 	public void showGrid(String[][] grid) {
 		if (grid == null) return;
-		System.out.println("\033[H\033[2J");
+		//System.out.println("\033[H\033[2J");
+		Controller.clrscreen();
 		System.out.flush();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++)

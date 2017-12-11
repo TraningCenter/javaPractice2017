@@ -39,6 +39,17 @@ public class Controller {
 //		nextExe.execute();
 //		return 1;
 //	}
+	public static void clrscreen() {
+		try {
+			if (System.getProperty("os.name").contains("Windows"))
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+			else
+				Runtime.getRuntime().exec("clear");
+		}
+		catch(Exception e) {
+			e.getStackTrace();
+		}
+	}
 	public void stopSimulation() {
 		simulationInProgress = false;
 	}
@@ -47,6 +58,7 @@ public class Controller {
 		try {
 			System.setOut(new PrintStream(System.out, true, "UTF-8"));
 			Controller controller = new Controller();
+			clrscreen();
 			ExeResolver.setController(controller);
 			// First house instantiation. 
 			runIt(controller);
