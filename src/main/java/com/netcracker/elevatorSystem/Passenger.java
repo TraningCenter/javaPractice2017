@@ -70,7 +70,7 @@ public class Passenger {
                 setDestinationFloor(tmpDestinationFloor + 1);
             }
         }
-        setProbabilityIn(Math.random());
+        setProbabilityIn(0.5 + Math.random()*0.5);
         setWeight(random.nextInt(141)+15);
         return true;
     }
