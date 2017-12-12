@@ -32,13 +32,6 @@ public class Controller {
 	public void addExecutable(Executable exe) {
 		exeObjects.offer(exe);
 	}
-//	public int nextExecutable() {
-//		if (exeObjects == null) return -1;
-//		if (exeObjects.isEmpty()) return 0;
-//		Executable nextExe = exeObjects.poll();
-//		nextExe.execute();
-//		return 1;
-//	}
 	public static void clrscreen() {
 		try {
 			if (System.getProperty("os.name").contains("Windows"))
@@ -56,7 +49,6 @@ public class Controller {
 	
 	public static void main(String[] args) {
 		try {
-			System.setOut(new PrintStream(System.out, true, "UTF-8"));
 			Controller controller = new Controller();
 			clrscreen();
 			ExeResolver.setController(controller);
@@ -65,46 +57,53 @@ public class Controller {
 			
 			outputController = new OutputController();
 			outputController.configureOutput(building);
-			outputController.showSituation(building);
-			String command = "";
-			System.out.println("Enter please \"Add\" to add passengers\n"
-					+ "\tor \"Start\" to start your simulation: ");
-			Scanner in = new Scanner(System.in);
-			command = in.nextLine();
-			if (checkInput(command)) {
-				if (command.toLowerCase().equals("add")) {
-					House h = (House) building;
-					System.out.println(h.toString());
-					ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
-					runIt(controller);
-					outputController.showSituation(building);
-				}
-				if (command.toLowerCase().equals("start")) {
-					Dispatcher.setHouse(building);
-					ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
-					runIt(controller);
-					simulationInProgress = true;
-					while(simulationInProgress) {
-						Dispatcher.nextStep();
-						runIt(controller);
-						outputController.showSituation(building);
-					}
-				}
-			}
-			else {
-				System.out.println("WRONG");
-			}
-			System.out.println("EOP");
 		}
 		catch(Exception e) {
 			System.out.printf("Exception %s\n", e);
 			e.printStackTrace();
 		}
-	
+		while (true) {
+			try {				
+				outputController.showSituation(building);
+				String command = "";
+				System.out.println("Enter please \"Add\" to add passengers\n"
+						+ "\tor \"Start\" to start your simulation: \n"
+						+ "\tor \"Exit\" to finish the program work!\n");
+				Scanner in = new Scanner(System.in);
+				command = in.nextLine();
+				if (checkInput(command)) {
+					if (command.toLowerCase().equals("add")) {
+						ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
+						runIt(ExeResolver.getController());
+						outputController.showSituation(building);
+						continue;
+					}
+					if (command.toLowerCase().equals("start")) {
+						Dispatcher.setHouse(building);
+						ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
+						runIt(ExeResolver.getController());
+						simulationInProgress = true;
+						while(simulationInProgress) {
+							Dispatcher.nextStep();
+							runIt(ExeResolver.getController());
+							outputController.showSituation(building);
+						}
+					}
+					if (command.toLowerCase().equals("exit")) {
+						break;
+					}
+				}
+			}
+			catch(Exception e) {
+				System.out.printf("Exception %s\n", e);
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private static boolean checkInput(String input) {
-		if (input.toLowerCase().equals("add") || input.toLowerCase().equals("start")) return true;
+		if (input.toLowerCase().equals("add") || input.toLowerCase().equals("start") ||
+				input.toLowerCase().equals("exit")) return true;
 		return false;
 	}
 	private static void runIt(Controller controller) {

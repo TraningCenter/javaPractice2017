@@ -16,4 +16,7 @@ public class ExeResolver {
 	public static void stopSimulation(){
 		controller.stopSimulation();
 	}
+	public static Controller getController() {
+		return controller;
+	}
 }

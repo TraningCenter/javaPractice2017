@@ -19,13 +19,8 @@ public class ActLiftExecutable implements LiftExecutable {
 	}
 
 	public void execute() {
-//		if (lift.getLiftDirection() == LiftDirection.STOP) return;
-//		System.out.println("Floors to stop ");
-//		for (Integer i: lift.getFloorNumbersToStop()) {
-//			System.out.print(i + " ");
-//		}
 		try {
-			Thread.sleep(500);
+			Thread.sleep(700);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -38,33 +33,24 @@ public class ActLiftExecutable implements LiftExecutable {
 				for (Transportable t: lift.getPassengers()) {
 					if (t.getDest() == lift.getCurFloorNumber())
 						listToLetOut.add(t);
-						//lift.letOutPassenger(t);
 				}
 				if (!listToLetOut.isEmpty())
 					for (Transportable t: listToLetOut)
 						lift.letOutPassenger(t);
 				listToLetOut = null;
 			}
+			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
 			while (lift.getPassengers().size() < lift.getCapacity())  {
-				boolean isBrokeOut = false;
-				System.out.println("Lift " + lift.getId());
-				System.out.println("LiftDirection " + lift.getLiftDirection());
-				System.out.println("RequestDirection " + lift.getRequestDirection());
-				System.out.println("People on floor " + floor.getWaitingList().size());
-				System.out.println("People in lift " + lift.getPassengers().size());
 				for (Transportable t: floor.getWaitingList()) {
 					System.out.println("direction " + t.getDirection());
 					if ((lift.getPassengers().size() < lift.getCapacity()) &&
 						((t.getDirection() == PassengerDirection.UP && lift.getLiftDirection() == LiftDirection.UP) ||
 						(t.getDirection() == PassengerDirection.DOWN && lift.getLiftDirection() == LiftDirection.DOWN))) {
-						//floor.removeWaitingPass(t);
 						lift.addPassenger(t);
-						//break;
 					}
 					else {
 						if (lift.getPassengers().size() == lift.getCapacity())
 							break;
-						//isBrokeOut = true;
 					}
 				}
 				if (lift.getLiftDirection() == LiftDirection.UP && lift.getCurFloorNumber() == lift.getMax()) {
@@ -91,7 +77,7 @@ public class ActLiftExecutable implements LiftExecutable {
 					break;
 				}
 			}
-			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
+//			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
 			if (lift.getPassengers().size() == lift.getCapacity()) {
 				for (Integer stopNum: lift.getFloorNumbersToStop()) {
 					if (!lift.isDestFloor(stopNum)) {

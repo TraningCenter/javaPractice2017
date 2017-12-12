@@ -3,6 +3,7 @@ package input;
 import java.io.Console;
 import java.util.Scanner;
 
+import lift.Controller;
 import models.HouseInfoModel;
 import models.PassengerInfoModel;
 
@@ -17,11 +18,24 @@ public class DefaultInputConsole implements InputConsole {
 		Boolean isRight = false;
 		while (!isRight) {
 			try {
+				Controller.clrscreen();
 				System.out.print("Enter data about house with format usage: \n\"Floor:[floor_num]"
 						+ ":Lift:[lift_num]:[...capacity_for_each_lift...]:\nPass:[pass_number]:[start:dest]:[...as_much_passengers_as_pass_number...]:[start:dest]\"\n"
-						+ "Here Passengers are not necessary. \n");
+						+ "\nHere Passengers are not necessary. \n"
+						+ "Here some samples for you to copy. Enjoy!\n"
+						+ "Floor:3:Lift:3:8:8:8:Pass:2:0:1:0:2\n"
+						+ "Floor:5:Lift:3:8:8:8:Pass:7:0:1:0:2:4:3:4:2:3:4:3:4:2:0\n"
+						+ "Hope, you like it! :-)\n"
+						+ "And now you may even just type \"1\" or \"2\" to set'em by default.\n"
+						+ "P.S. I've hardcoded them specially for you\n");
 				Scanner scanIn = new Scanner(System.in);
 				String fullInput = scanIn.nextLine();
+				if (fullInput.equals("1")) {
+					fullInput = "Floor:3:Lift:3:8:8:8:Pass:2:0:1:0:2";
+				}
+				if (fullInput.equals("2")) {
+					fullInput = "Floor:5:Lift:3:8:8:8:Pass:7:0:1:0:2:4:3:4:2:3:4:3:4:2:0";
+				}
 				String[] inputDivided = fullInput.split(":");
 				if (!checkRightTotalInput(inputDivided)) continue;
 				isRight = true;
@@ -49,30 +63,33 @@ public class DefaultInputConsole implements InputConsole {
 	}
 	
 	public PassengerInfoModel[] getPassengersInfo() {
-		Console console = System.console();
 		PassengerInfoModel[] passengers = null;
-		if (console != null) {
-			boolean isRight = false;
-			while(!isRight) {
-				try {
-					String passInput = console.readLine("Enter data about new passengers, like: \"Pass:[pass_number]:[start:dest]...\"\n"
-							+ "Passengers now are necessary. \n");
-					String[] passInputDivided = passInput.split(":");
-					if (!checkPassInput(passInputDivided)) continue;
+		boolean isRight = false;
+		while(!isRight) {
+			try {
+				System.out.print("Enter data about new passengers, like: \"Pass:[pass_number]:[start:dest]...\"\n"
+						+ "Passengers now are necessary. But you may type \"Back\" to return without changes\n");
+				Scanner scanIn = new Scanner(System.in);
+				String passInput = scanIn.nextLine();
+				if (passInput.toLowerCase().equals("back")) {
 					isRight = true;
-					int passNum = Integer.parseInt(passInputDivided[1]);
-					passengers = new PassengerInfoModel[passNum];
-					int j = 0;
-					for (int i = 2; i < passInputDivided.length; i += 2) {
-						passengers[j++] = new PassengerInfoModel(Integer.parseInt(passInputDivided[i]), Integer.parseInt(passInputDivided[i+1]));
-					}
+					continue;
 				}
-				catch(Exception e) {
-					System.out.printf("Congrats! You have an exception. Now you are exceptional person.\n"
-							+ "Details: %s", e);
-					e.printStackTrace();
-					isRight = false;
+				String[] passInputDivided = passInput.split(":");
+				if (!checkPassInput(passInputDivided)) continue;
+				isRight = true;
+				int passNum = Integer.parseInt(passInputDivided[1]);
+				passengers = new PassengerInfoModel[passNum];
+				int j = 0;
+				for (int i = 2; i < passInputDivided.length; i += 2) {
+					passengers[j++] = new PassengerInfoModel(Integer.parseInt(passInputDivided[i]), Integer.parseInt(passInputDivided[i+1]));
 				}
+			}
+			catch(Exception e) {
+				System.out.printf("Congrats! You have an exception. Now you are exceptional person.\n"
+						+ "Details: %s", e);
+				e.printStackTrace();
+				isRight = false;
 			}
 		}
 		return passengers;
@@ -84,14 +101,20 @@ public class DefaultInputConsole implements InputConsole {
 		if (!inputData[0].toLowerCase().equals("floor") || 
 				!inputData[2].toLowerCase().equals("lift")) 
 			return false;
+		if (Integer.parseInt(inputData[1]) >= 1000) return false;
 		if (inputData.length == (4 + Integer.parseInt(inputData[3]))) 
 			return true;
 		if (!inputData[4+Integer.parseInt(inputData[3])].toLowerCase().equals("pass"))
 			return false;
 		if (Integer.parseInt(inputData[5+Integer.parseInt(inputData[3])])*2 != inputData.length - 6 - Integer.parseInt(inputData[3]))
 			return false;
+		for (int i = 6 + Integer.parseInt(inputData[3]); i < (inputData.length - 1); i++) {
+			if (Integer.parseInt(inputData[i]) < 0 || Integer.parseInt(inputData[i]) > (Integer.parseInt(inputData[1]) - 1))
+				return false;
+		}
 		return true;
 	}
+	// TODO: дописать проверку для случая добавления пассажиров, дом надо подтягивать походу
 	private boolean checkPassInput(String[] inputData) {
 		if (inputData == null) return false;
 		if (inputData.length == 0) return false;
