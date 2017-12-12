@@ -108,7 +108,7 @@ public class ActLiftExecutable implements LiftExecutable {
 		if (lift.getCurFloorNumber() == lift.getMax())
 			lift.setLiftDirection(LiftDirection.DOWN);
 		if (lift.getCurFloorNumber() == lift.getMin())
-			lift.setLiftDirection(LiftDirection.UP);;
+			lift.setLiftDirection(LiftDirection.UP);
 		if (lift.getLiftDirection() == LiftDirection.UP) {
 			lift.setCurFloorNumber(lift.getCurFloorNumber()+1);
 		}
