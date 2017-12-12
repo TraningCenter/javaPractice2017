@@ -6,7 +6,6 @@ import lift.LiftDirection;
 import lift.Passenger;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import execs.ActLiftExecutable;
@@ -16,19 +15,15 @@ public class ActLiftExecSpecialLiftTest {
 	Floor floor;
 	ActLiftExecutable exer;
 	
-	@Before
-	public void init() {
-		
-		
-	}
-	
 	@Test
 	public void testSpecialExecute() {
+		clean();
 		floor = new Floor(1);
 		lift = new Lift(1, 1, 0, 2);
 		exer = new ActLiftExecutable(lift, floor);
 		lift.setLiftDirection(LiftDirection.UP);
 		lift.setRequestDirection(LiftDirection.DOWN);
+		lift.addFloorToStop(1);
 		Passenger pass = new Passenger(1, 0);
 		floor.addWaiting(pass);
 		exer.execute();
@@ -42,7 +37,8 @@ public class ActLiftExecSpecialLiftTest {
 	}
 	
 	@Test
-	public void testOrdinaryWorkExecute(){
+	public void testOrdinaryWorkExecute() {
+		clean();
 		floor = new Floor(1);
 		lift = new Lift(1, 1, 0, 2);
 		exer = new ActLiftExecutable(lift, floor);
@@ -53,12 +49,12 @@ public class ActLiftExecSpecialLiftTest {
 		exer.execute();
 		Assert.assertEquals(LiftDirection.STOP, lift.getDirection());
 		Assert.assertEquals(0, lift.getPassengers().size());
-		Assert.assertEquals(1, lift.getFloorNumbersToStop().size());
-		Assert.assertEquals((Integer)2, lift.getFloorNumbersToStop().get(0));
+		Assert.assertEquals(0, lift.getFloorNumbersToStop().size());
 	}
 	
 	@Test
 	public void testOrdinarySwitchDirectionExecute() {
+		clean();
 		floor = new Floor(2);
 		lift = new Lift(1, 2, 0, 2);
 		exer = new ActLiftExecutable(lift, floor);
@@ -76,6 +72,7 @@ public class ActLiftExecSpecialLiftTest {
 	
 	@Test
 	public void testOrdinaryMotion() {
+		clean();
 		floor = new Floor(2);
 		lift = new Lift(1, 2, 0, 2);
 		exer = new ActLiftExecutable(lift, floor);
@@ -84,5 +81,11 @@ public class ActLiftExecSpecialLiftTest {
 		exer.execute();
 		Assert.assertEquals(LiftDirection.DOWN, lift.getLiftDirection());
 		Assert.assertEquals(1, lift.getCurFloorNumber());
+	}
+	
+	private void clean() {
+		floor = null;
+		lift = null;
+		exer = null;
 	}
 }

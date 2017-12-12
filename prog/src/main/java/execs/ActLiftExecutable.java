@@ -46,7 +46,6 @@ public class ActLiftExecutable implements LiftExecutable {
 			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
 			while (lift.getPassengers().size() < lift.getCapacity())  {
 				for (Transportable t: floor.getWaitingList()) {
-					System.out.println("direction " + t.getDirection());
 					if ((lift.getPassengers().size() < lift.getCapacity()) &&
 						((t.getDirection() == PassengerDirection.UP && lift.getLiftDirection() == LiftDirection.UP) ||
 						(t.getDirection() == PassengerDirection.DOWN && lift.getLiftDirection() == LiftDirection.DOWN))) {
@@ -106,8 +105,10 @@ public class ActLiftExecutable implements LiftExecutable {
 			}
 			return;
 		}
-		if (lift.getCurFloorNumber() == lift.getMax() || lift.getCurFloorNumber() == lift.getMin())
-			lift.switchDirection(lift);
+		if (lift.getCurFloorNumber() == lift.getMax())
+			lift.setLiftDirection(LiftDirection.DOWN);
+		if (lift.getCurFloorNumber() == lift.getMin())
+			lift.setLiftDirection(LiftDirection.UP);;
 		if (lift.getLiftDirection() == LiftDirection.UP) {
 			lift.setCurFloorNumber(lift.getCurFloorNumber()+1);
 		}

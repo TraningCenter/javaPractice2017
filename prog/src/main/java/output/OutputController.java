@@ -46,10 +46,13 @@ public class OutputController {
 			floorCounter++;
 		}
 		for (Lift lift: house.getLifts()) {
-			Integer tens = lift.getPassengers().size()%10;
-			Integer digits = lift.getId()%10;
-			grid[1 + (house.getFloors().size() - lift.getCurFloorNumber() - 1)*3][1+(lift.getId()-1)*3] = tens.toString();
-			grid[grid.length-1][1+(lift.getId()-1)*3] = digits.toString();
+			Integer passNum = lift.getPassengers().size()%10;
+			Integer liftId = lift.getId()%10;
+			System.out.println(house.getFloors().size());
+			System.out.println(lift.getCurFloorNumber());
+			System.out.println("x " + (1 + (house.getFloors().size() - lift.getCurFloorNumber() - 1)*3));
+			grid[1 + (house.getFloors().size() - lift.getCurFloorNumber() - 1)*3][1+(lift.getId()-1)*3] = passNum.toString();
+			grid[grid.length-1][1+(lift.getId()-1)*3] = liftId.toString();
 		}
 		showGrid(grid);
 	}

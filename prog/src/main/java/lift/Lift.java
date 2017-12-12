@@ -118,10 +118,10 @@ public class Lift implements LiftInnerButton {
 		floorNumbersToStop.add(floorNumber);
 	}
 	
-	public void switchDirection(Lift lift) {
-		if (lift.getLiftDirection() == LiftDirection.UP)
-			lift.setDirection(LiftDirection.DOWN);
-		if (lift.getLiftDirection() == LiftDirection.DOWN)
-			lift.setDirection(LiftDirection.UP);
+	public void switchDirection() {
+		if (this.getLiftDirection().equals(LiftDirection.UP))
+			this.setDirection(LiftDirection.DOWN);
+		else if (this.getLiftDirection().equals(LiftDirection.DOWN))
+			this.setDirection(LiftDirection.UP);
 	}
 }
