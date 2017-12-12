@@ -26,8 +26,12 @@ public class ActLiftExecutable implements LiftExecutable {
 		}
 		
 		if (lift.getFloorNumbersToStop().contains(lift.getCurFloorNumber())) {
-			if (lift.getFloorNumbersToStop().size() == 1 && lift.getLiftDirection() != lift.getRequestDirection())
+			if (lift.getFloorNumbersToStop().size() == 1 && 
+					(lift.getLiftDirection() == LiftDirection.UP && lift.getRequestDirection() == LiftDirection.DOWN) ||
+					(lift.getLiftDirection() == LiftDirection.DOWN && lift.getRequestDirection() == LiftDirection.UP)) {
 				lift.setLiftDirection(lift.getRequestDirection());
+				lift.setRequestDirection(LiftDirection.STOP);
+			}				
 			if (!lift.getPassengers().isEmpty()) {
 				LinkedList<Transportable> listToLetOut = new LinkedList<Transportable>();
 				for (Transportable t: lift.getPassengers()) {
@@ -77,16 +81,19 @@ public class ActLiftExecutable implements LiftExecutable {
 					break;
 				}
 			}
-//			lift.getFloorNumbersToStop().remove(lift.getFloorNumbersToStop().indexOf(lift.getCurFloorNumber()));
 			if (lift.getPassengers().size() == lift.getCapacity()) {
+				LinkedList<Integer> removeFloorsToStop = new LinkedList<Integer>();
 				for (Integer stopNum: lift.getFloorNumbersToStop()) {
 					if (!lift.isDestFloor(stopNum)) {
 						if (lift.getLiftDirection() == LiftDirection.UP)
 							Dispatcher.getBackRequest(new Request(stopNum, PassengerDirection.UP));
 						if (lift.getLiftDirection() == LiftDirection.DOWN)
 							Dispatcher.getBackRequest(new Request(stopNum, PassengerDirection.DOWN));
-						lift.getFloorNumbersToStop().remove(stopNum);						
-					}						
+						removeFloorsToStop.add(stopNum);					
+					}
+				}
+				for (Integer i : removeFloorsToStop) {
+					lift.getFloorNumbersToStop().remove(i);
 				}
 			}
 			if (lift.getFloorNumbersToStop().isEmpty() && lift.getPassengers().isEmpty()) {
@@ -99,8 +106,8 @@ public class ActLiftExecutable implements LiftExecutable {
 			}
 			return;
 		}
-		if (lift.getCurFloorNumber() == lift.getMax()|| lift.getCurFloorNumber() == lift.getMin())
-			lift.switchDirection(lift.getLiftDirection());
+		if (lift.getCurFloorNumber() == lift.getMax() || lift.getCurFloorNumber() == lift.getMin())
+			lift.switchDirection(lift);
 		if (lift.getLiftDirection() == LiftDirection.UP) {
 			lift.setCurFloorNumber(lift.getCurFloorNumber()+1);
 		}

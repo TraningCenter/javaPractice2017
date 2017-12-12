@@ -36,8 +36,6 @@ public class Dispatcher {
 	public static void setDelegations() {
 		if (!requests.isEmpty())
 			ExeResolver.addExecutable(new DelegateLiftExecutable(house, requests));
-		else
-			System.out.println("requests are empty");
 	}
 	public static void actLifts() {
 		Lift[] lifts = house.getLifts();

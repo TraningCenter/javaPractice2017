@@ -101,9 +101,13 @@ public class DefaultInputConsole implements InputConsole {
 		if (!inputData[0].toLowerCase().equals("floor") || 
 				!inputData[2].toLowerCase().equals("lift")) 
 			return false;
-		if (Integer.parseInt(inputData[1]) >= 1000) return false;
+		if (Integer.parseInt(inputData[1]) < 1 || Integer.parseInt(inputData[1]) >= 1000) return false;
 		if (inputData.length == (4 + Integer.parseInt(inputData[3]))) 
 			return true;
+		if (Integer.parseInt(inputData[3]) <= 0) return false;
+		for (int i = 4; i < 4 + Integer.parseInt(inputData[3]); i++) {
+			if (Integer.parseInt(inputData[i]) <= 0) return false;
+		}
 		if (!inputData[4+Integer.parseInt(inputData[3])].toLowerCase().equals("pass"))
 			return false;
 		if (Integer.parseInt(inputData[5+Integer.parseInt(inputData[3])])*2 != inputData.length - 6 - Integer.parseInt(inputData[3]))
@@ -114,7 +118,6 @@ public class DefaultInputConsole implements InputConsole {
 		}
 		return true;
 	}
-	// TODO: дописать проверку для случая добавления пассажиров, дом надо подтягивать походу
 	private boolean checkPassInput(String[] inputData) {
 		if (inputData == null) return false;
 		if (inputData.length == 0) return false;

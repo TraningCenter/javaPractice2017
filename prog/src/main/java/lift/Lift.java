@@ -43,7 +43,7 @@ public class Lift implements LiftInnerButton {
 	public void addPassenger(Transportable passenger) {
 		passengers.add(passenger);
 		if (!floorNumbersToStop.contains(passenger.getDest()))
-			floorNumbersToStop.add(passenger.getDest());
+			pushButton(passenger.getDest());
 	}	
 	public int getMin() {
 		return minFloor;
@@ -85,6 +85,9 @@ public class Lift implements LiftInnerButton {
 	public LiftDirection getDirection() {
 		return liftDirection;
 	}
+	public void setDirection(LiftDirection direction) {
+		this.liftDirection = direction;
+	}
 	public int getCurFloorNumber() {
 		return curFloorNumber;
 	}
@@ -115,9 +118,10 @@ public class Lift implements LiftInnerButton {
 		floorNumbersToStop.add(floorNumber);
 	}
 	
-	public void switchDirection(LiftDirection direction) {
-		if (direction == LiftDirection.UP)
-			direction = LiftDirection.DOWN;
-		direction = LiftDirection.UP;
+	public void switchDirection(Lift lift) {
+		if (lift.getLiftDirection() == LiftDirection.UP)
+			lift.setDirection(LiftDirection.DOWN);
+		if (lift.getLiftDirection() == LiftDirection.DOWN)
+			lift.setDirection(LiftDirection.UP);
 	}
 }

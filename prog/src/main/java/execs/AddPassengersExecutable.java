@@ -1,5 +1,6 @@
 package execs;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import input.InputController;
@@ -17,7 +18,21 @@ public class AddPassengersExecutable implements HouseExecutable {
 
 	public void execute() {
 		List<Passenger> passengers = inputController.addPassengers();
+		filterPassengers(passengers);
 		inputController.setPassengersForBuilding(passengers, building);
+	}
+	
+	private List<Passenger> filterPassengers(List<Passenger> passengers) {
+		LinkedList<Integer> indecies = new LinkedList<Integer>();
+		for(Passenger pass: passengers) {
+			if (pass.getDest() < 0 || pass.getDest() >= building.getFloors().size() || 
+					pass.getStart() < 0 || pass.getStart() >= building.getFloors().size())
+				passengers.indexOf(pass);
+		}
+		for (Integer i: indecies) {
+			passengers.remove(i);
+		}
+		return passengers;
 	}
 
 }

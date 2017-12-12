@@ -47,7 +47,7 @@ public class InputController {
 		return passengers;
 	}
 	public IBuilding setPassengersForBuilding(List<Passenger> passengers, IBuilding house) {
-		if (passengers == null) return house;
+		if (passengers == null || passengers.isEmpty()) return house;
 		for(Passenger p: passengers) {
 			house.getFloorByNumber(p.getStart()).addWaiting(p);
 		}
