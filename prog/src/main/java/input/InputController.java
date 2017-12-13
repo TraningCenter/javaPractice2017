@@ -2,6 +2,7 @@ package input;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 import lift.Floor;
 import lift.House;
@@ -18,6 +19,9 @@ public class InputController {
 	
 	public InputController() {
 		inputConsole = new DefaultInputConsole();
+	}
+	public InputController(InputConsole console) {
+		inputConsole = console;
 	}
 	public IBuilding instantiateBuilding() {
 		HouseInfoModel houseModel = inputConsole.getHouseInfo();

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import execs.ActLiftExecutable;
 
-public class ActLiftExecSpecialLiftTest {
+public class ActLiftExecTest {
 	Lift lift;
 	Floor floor;
 	ActLiftExecutable exer;

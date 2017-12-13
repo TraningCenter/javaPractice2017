@@ -8,8 +8,8 @@ import lift.IBuilding;
 import lift.Passenger;
 
 public class AddPassengersExecutable implements HouseExecutable {
-	IBuilding building;
-	InputController inputController;
+	private IBuilding building;
+	private InputController inputController;
 	
 	public AddPassengersExecutable(IBuilding building, InputController inputController) {
 		this.building = building;
@@ -23,14 +23,18 @@ public class AddPassengersExecutable implements HouseExecutable {
 	}
 	
 	private List<Passenger> filterPassengers(List<Passenger> passengers) {
-		LinkedList<Integer> indecies = new LinkedList<Integer>();
+		int[] indecies = new int[passengers.size() + 1];
+		int counter = 0;
 		for(Passenger pass: passengers) {
 			if (pass.getDest() < 0 || pass.getDest() >= building.getFloors().size() || 
 					pass.getStart() < 0 || pass.getStart() >= building.getFloors().size())
-				passengers.indexOf(pass);
+				indecies[counter++] = passengers.indexOf(pass);
 		}
-		for (Integer i: indecies) {
-			passengers.remove(i);
+		for (int i = 0; i < counter; i++) {
+			passengers.remove(indecies[i]);
+			for (int j = i + 1; j < counter; j++)
+				if (indecies[j] > indecies[i])
+					indecies[j]--;
 		}
 		return passengers;
 	}

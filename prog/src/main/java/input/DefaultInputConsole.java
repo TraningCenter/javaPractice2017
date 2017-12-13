@@ -1,6 +1,5 @@
 package input;
 
-import java.io.Console;
 import java.util.Scanner;
 
 import lift.Controller;
@@ -8,7 +7,14 @@ import models.HouseInfoModel;
 import models.PassengerInfoModel;
 
 public class DefaultInputConsole implements InputConsole {
+	private Scanner scanner;
 
+	public DefaultInputConsole() {
+		scanner = new Scanner(System.in);
+	}
+	public DefaultInputConsole(Scanner scanner) {
+		this.scanner = scanner;
+	}
 	public HouseInfoModel getHouseInfo() {
 		HouseInfoModel houseInfo = null;
 		int floorNum = 0;
@@ -28,8 +34,7 @@ public class DefaultInputConsole implements InputConsole {
 						+ "Hope, you like it! :-)\n"
 						+ "And now you may even just type \"1\" or \"2\" to set'em by default.\n"
 						+ "P.S. I've hardcoded them specially for you\n");
-				Scanner scanIn = new Scanner(System.in);
-				String fullInput = scanIn.nextLine();
+				String fullInput = scanner.nextLine();
 				if (fullInput.equals("1")) {
 					fullInput = "Floor:3:Lift:3:8:8:8:Pass:2:0:1:0:2";
 				}
@@ -69,8 +74,7 @@ public class DefaultInputConsole implements InputConsole {
 			try {
 				System.out.print("Enter data about new passengers, like: \"Pass:[pass_number]:[start:dest]...\"\n"
 						+ "Passengers now are necessary. But you may type \"Back\" to return without changes\n");
-				Scanner scanIn = new Scanner(System.in);
-				String passInput = scanIn.nextLine();
+				String passInput = scanner.nextLine();
 				if (passInput.toLowerCase().equals("back")) {
 					isRight = true;
 					continue;

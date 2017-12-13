@@ -1,5 +1,7 @@
 package input;
 
+import java.util.Scanner;
+
 import models.HouseInfoModel;
 import models.PassengerInfoModel;
 
