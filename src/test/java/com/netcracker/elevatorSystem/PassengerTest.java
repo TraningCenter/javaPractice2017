@@ -92,7 +92,7 @@ public class PassengerTest {
         passenger.setWeight(70);
         passenger.setProbabilityIn(0.07);
         String actual = passenger.toString();
-        String expected = "Passenger №" + 1 + ": " + 2 + " -> " + 4 + " ( " + 70 + "kg ) " + "0,07";
+        String expected = "Passenger №" + 1 + ": " + 2 + " -> " + 4 + " ( " + 70 + "kg ) " + "7%";
         assertEquals(actual, expected);
     }
 

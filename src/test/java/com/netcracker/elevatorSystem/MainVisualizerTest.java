@@ -47,13 +47,13 @@ public class MainVisualizerTest {
                 p.setWeight(70);
                 p.setDepartureFloor(3);
                 p.setDestinationFloor(5);
-                p.setProbabilityIn(0.05);
+                p.setProbabilityIn(0.78);
             }
         }
         mainVisualizer.setShafts(shaft);
         String actual = mainVisualizer.showPassengersInfo();
         String  expected = "Passengers of elevator №" + 1 + "\n" + "Passenger №" + 1 + ": " + 3 + " -> " + 5 + " ( " + 70 + "kg ) "
-                + "0,05" + "\n";
+                + "78%" + "\n";
         assertEquals(actual, expected);
     }
 

@@ -122,7 +122,7 @@ public class Passenger {
     @Override
     public String toString(){
         return "Passenger №" + String.valueOf(passengerIndex) + ": " + String.valueOf(departureFloor) + " -> " + String.valueOf(destinationFloor) +
-                " ( " + String.valueOf(weight)+ "kg " + ") " + String.format("%.2f", probabilityIn);
+                " ( " + String.valueOf(weight)+ "kg " + ") " + String.valueOf(Math.round(probabilityIn*100)) + "%";
     }
 
     /** Метод для получения значения поля {@link Passenger#departureFloor}

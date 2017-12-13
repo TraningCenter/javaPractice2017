@@ -62,7 +62,7 @@ public class RenderTest {
         }
         String actual = render.showPassengersInfo(shaft.getElevator().getPassengers(), 1);
         String expected = "Passengers of elevator №" + 1 + "\n" + "Passenger №" + 1 + ": " + 8 + " -> " + 2 + " ( " + 85 + "kg ) "
-                + "0,08" + "\n";
+                + "8%" + "\n";
         assertEquals(actual, expected);
     }
 
