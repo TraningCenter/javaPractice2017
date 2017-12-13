@@ -60,13 +60,28 @@ public class DefaultVisualizer extends Visualizer {
     }
 
     private void clearConsole() {
-        try {
+        /*try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+		
+		try
+		{
+			final String os = System.getProperty("os.name");
+			if (os.contains("Windows")) {
+				System.out.print("\033[H\033[2J");
+				Runtime.getRuntime().exec("cls");
+			}
+			else {
+				System.out.print("\033[H\033[2J");
+				Runtime.getRuntime().exec("clear");
+			}
+		}
+		catch (final Exception e)
+		{ }
     }
 
     private void paintHouse() {
