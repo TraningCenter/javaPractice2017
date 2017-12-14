@@ -98,12 +98,16 @@ public class Lift implements LiftInnerButton {
 		return (capacity == passengers.size());
 	}
 	public boolean isSpecialDirection() {
-		return (this.liftDirection != this.requestDirection);
+		return (this.liftDirection != LiftDirection.STOP && 
+				this.liftDirection != this.requestDirection);
 	}
 	public void delegateRequest(Request request) {
 		if (liftDirection == LiftDirection.STOP) {
 			this.requestDirection = request.getFloorDirection() == PassengerDirection.UP ? LiftDirection.UP : LiftDirection.DOWN;
-			this.liftDirection = (curFloorNumber - request.getFloorNumber()) < 0 ? LiftDirection.UP : LiftDirection.DOWN;
+			if ((curFloorNumber - request.getFloorNumber()) == 0) 
+				this.liftDirection = requestDirection;
+			else
+				this.liftDirection = (curFloorNumber - request.getFloorNumber()) < 0 ? LiftDirection.UP : LiftDirection.DOWN;
 		}
 		this.addFloorToStop(request.getFloorNumber());
 	}

@@ -22,19 +22,25 @@ public class DelegateLiftExecutable implements LiftExecutable {
 		int dequeLength = 0;
 		while (!requests.isEmpty()) {
 			Lift chosen = null;
+			Request curRequest = requests.peekFirst();
+			int chosenDistance = house.getFloors().size();
+			int curLiftDistance = chosenDistance;
 			for (Lift lift: lifts) {
 				if (lift.getDirection() == LiftDirection.STOP) {
-					chosen = lift;
-					break;
+					curLiftDistance = Math.abs(lift.getCurFloorNumber() - curRequest.getFloorNumber());
+					if (curLiftDistance <= chosenDistance) {
+						chosenDistance = curLiftDistance;
+						chosen = lift;
+					}					
 				}					
 			}
 			if (chosen != null) {
 				chosen.delegateRequest(requests.pollFirst());
 				continue;
 			}
-			int chosenDistance = house.getFloors().size();
-			int curLiftDistance = chosenDistance;
-			Request curRequest = requests.peekFirst();
+			chosenDistance = house.getFloors().size();
+			curLiftDistance = chosenDistance;
+			curRequest = requests.peekFirst();
 			for (Lift lift: lifts) {
 				curLiftDistance = Math.abs(lift.getCurFloorNumber() - curRequest.getFloorNumber());
 				if (!lift.isFull()
