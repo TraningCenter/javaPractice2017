@@ -12,7 +12,7 @@ public class OutputController {
 	private final int LIFT_WIDTH = 3;
 	private final int FLOOR_HEIGHT = 3;	
 	
-	private String[][] grid;
+	private static String[][] grid;
 	private static int floorsNum; 
 	private static int liftsCount;
 	
@@ -25,6 +25,9 @@ public class OutputController {
 		for (int i = 0; i < houseHeight; i++)
 			for (int j = 0; j < houseWidth; j++)
 				grid[i][j] = " ";
+	}
+	public String[][] getGrid(){
+		return grid;
 	}
 	public void showSituation(IBuilding house) {
 		int floorCounter = 0;
@@ -48,9 +51,6 @@ public class OutputController {
 		for (Lift lift: house.getLifts()) {
 			Integer passNum = lift.getPassengers().size()%10;
 			Integer liftId = lift.getId()%10;
-			System.out.println(house.getFloors().size());
-			System.out.println(lift.getCurFloorNumber());
-			System.out.println("x " + (1 + (house.getFloors().size() - lift.getCurFloorNumber() - 1)*3));
 			grid[1 + (house.getFloors().size() - lift.getCurFloorNumber() - 1)*3][1+(lift.getId()-1)*3] = passNum.toString();
 			grid[grid.length-1][1+(lift.getId()-1)*3] = liftId.toString();
 		}
@@ -58,7 +58,6 @@ public class OutputController {
 	}
 	public void showGrid(String[][] grid) {
 		if (grid == null) return;
-		//System.out.println("\033[H\033[2J");
 		Controller.clrscreen();
 		System.out.flush();
 		for (int i = 0; i < grid.length; i++) {
@@ -72,14 +71,5 @@ public class OutputController {
 		for (Floor floor: floors)
 			backFloors.offerFirst(floor);
 		return backFloors;
-	}
-	
-	
-	public String multyStr(String str, int count) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			sb.append(str);
-		}
-		return sb.toString();
 	}
 }

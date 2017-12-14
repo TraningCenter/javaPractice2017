@@ -23,6 +23,12 @@ public class Floor implements FloorOuterButton {
 	public List<Transportable> getWaitingList(){
 		return this.waitingForLift;
 	}
+	public boolean isUpPressed() {
+		return  isUpPressed;
+	}
+	public boolean isDownPressed() {
+		return  isDownPressed;
+	}
 	public void addWaiting(Transportable passenger) {
 		if (waitingForLift == null) 
 			waitingForLift = new LinkedList<Transportable>();
@@ -33,8 +39,9 @@ public class Floor implements FloorOuterButton {
 			System.out.println("Something wrong with passenger deletion from waiting people list");
 	}
 	public void pushButton(PassengerDirection passDirection) {
-		if (passDirection == PassengerDirection.DOWN)
+		if (passDirection.equals(PassengerDirection.DOWN)) {
 			if (!isDownPressed) isDownPressed = true;
+		}
 		else
 			if (!isUpPressed) isUpPressed = true;
 		Dispatcher.addRequest(new Request(number, passDirection));

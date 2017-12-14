@@ -13,8 +13,13 @@ public class Dispatcher {
 	private static IBuilding house;
 	private static Deque<Request> requests;
 	
+	static {
+		requests = new LinkedList<Request>();
+	}
+	
 	public static void setHouse(IBuilding newHouse) {
 		house = newHouse;
+		//if (requests.isEmpty() || requests == null)
 		requests = new LinkedList<Request>();
 	}
 	public static void addRequest(Request request) {
@@ -35,16 +40,21 @@ public class Dispatcher {
 	}
 	public static void setDelegations() {
 		if (!requests.isEmpty())
-			ExeResolver.addExecutable(new DelegateLiftExecutable(house, requests));
+			Controller.addExecutable(new DelegateLiftExecutable(house, requests));
 	}
 	public static void actLifts() {
 		Lift[] lifts = house.getLifts();
 		for (int i = 0; i < lifts.length; i++) {
 			if (lifts[i].getDirection() != LiftDirection.STOP)
-				ExeResolver.addExecutable(new ActLiftExecutable(lifts[i], house.getFloorByNumber(lifts[i].getCurFloorNumber())));
+				Controller.addExecutable(new ActLiftExecutable(lifts[i], house.getFloorByNumber(lifts[i].getCurFloorNumber())));
 		}
 	}
 	public static void getBackRequest(Request request) {
+		Iterator<Request> it = requests.iterator();
+		while(it.hasNext()) {
+			if (it.next().equals(request))
+				return;
+		}
 		requests.offerFirst(request);
 	}
 	public static void checkEndOfSimulation() {
@@ -56,6 +66,6 @@ public class Dispatcher {
 		for (Floor floor : house.getFloors()) {
 			if (!floor.getWaitingList().isEmpty()) return;
 		}
-		ExeResolver.stopSimulation();
+		Controller.stopSimulation();
 	}
 }

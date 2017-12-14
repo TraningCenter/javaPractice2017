@@ -19,7 +19,8 @@ public class Lift implements LiftInnerButton {
 	private int minFloor;
 	
 	public Lift() {
-		id = globalLiftEnumerator++;
+		globalLiftEnumerator = 1;
+		id = globalLiftEnumerator;
 		floorNumbersToStop = new LinkedList<Integer>();
 		passengers = new LinkedList<Transportable>();
 		capacity = 7; 

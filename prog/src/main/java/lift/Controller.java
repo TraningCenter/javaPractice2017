@@ -26,10 +26,13 @@ public class Controller {
 		building = new House();
 		addExecutable(new SetHouseExecutable(building, inputController));
 	}
-	public void setHouse(IBuilding house) {
-		this.building = house;
+	public static void setHouse(IBuilding house) {
+		building = house;
 	}
-	public void addExecutable(Executable exe) {
+	public static IBuilding getHouse() {
+		return building;
+	}
+	public static void addExecutable(Executable exe) {
 		exeObjects.offer(exe);
 	}
 	public static void clrscreen() {
@@ -45,19 +48,25 @@ public class Controller {
 			e.getStackTrace();
 		}
 	}
-	public void stopSimulation() {
+	public static void stopSimulation() {
 		simulationInProgress = false;
+	}
+	public static boolean isQueueEmpty() {
+		return exeObjects.isEmpty();
+	}
+	public static void runIt() {
+		while(!isQueueEmpty()) {
+			exeObjects.poll().execute();
+		}
 	}
 	
 	public static void main(String[] args) {
 		try {
 			Controller controller = new Controller();
 			clrscreen();
-			ExeResolver.setController(controller);
 			// First house instantiation. 
-			runIt(controller);
+			runIt();
 			
-			outputController = new OutputController();
 			outputController.configureOutput(building);
 		}
 		catch(Exception e) {
@@ -75,19 +84,19 @@ public class Controller {
 				command = in.nextLine();
 				if (checkInput(command)) {
 					if (command.toLowerCase().equals("add")) {
-						ExeResolver.addExecutable(new AddPassengersExecutable(building, inputController));
-						runIt(ExeResolver.getController());
+						addExecutable(new AddPassengersExecutable(building, inputController));
+						runIt();
 						outputController.showSituation(building);
 						continue;
 					}
 					if (command.toLowerCase().equals("start")) {
 						Dispatcher.setHouse(building);
-						ExeResolver.addExecutable(new PushFloorButtonExecutable(building));
-						runIt(ExeResolver.getController());
+						addExecutable(new PushFloorButtonExecutable(building));
+						runIt();
 						simulationInProgress = true;
 						while(simulationInProgress) {
 							Dispatcher.nextStep();
-							runIt(ExeResolver.getController());
+							runIt();
 							outputController.showSituation(building);
 						}
 					}
@@ -107,10 +116,5 @@ public class Controller {
 		if (input.toLowerCase().equals("add") || input.toLowerCase().equals("start") ||
 				input.toLowerCase().equals("exit")) return true;
 		return false;
-	}
-	private static void runIt(Controller controller) {
-		while(!controller.exeObjects.isEmpty()) {
-			controller.exeObjects.poll().execute();
-		}
 	}
 }
