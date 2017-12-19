@@ -1,6 +1,6 @@
-package com.eugene.сontroller.Actions.LiftActions;
+package com.eugene.сontroller.actions.LiftActions;
 
-import com.eugene.сontroller.Actions.Action;
+import com.eugene.сontroller.actions.Action;
 
 /**
  * Interface for lifts actions

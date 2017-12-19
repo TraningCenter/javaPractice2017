@@ -8,7 +8,7 @@ import com.eugene.сontroller.Entities.Lift;
  */
 public interface LiftListener {
 
-    void liftMoved(Lift lift);
+    /*void liftMoved(Lift lift);
 
     void liftStopped(Lift lift);
 
@@ -16,6 +16,8 @@ public interface LiftListener {
 
     void liftClosedDoors(Lift lift);
 
-    void liftArrived(Lift lift);
+    void liftArrived(Lift lift);*/
+
+    void liftStopped(Lift lift);
 
 }

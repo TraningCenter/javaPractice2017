@@ -1,4 +1,4 @@
-package com.eugene.сontroller.Actions;
+package com.eugene.сontroller.actions;
 
 /**
  * Interface for actions of units

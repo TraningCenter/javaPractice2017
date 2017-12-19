@@ -1,6 +1,6 @@
-package com.eugene.сontroller.Actions.PassengerActions;
+package com.eugene.сontroller.actions.PassengerActions;
 
-import com.eugene.сontroller.Actions.Action;
+import com.eugene.сontroller.actions.Action;
 
 /**
  * Interface for passenger actions

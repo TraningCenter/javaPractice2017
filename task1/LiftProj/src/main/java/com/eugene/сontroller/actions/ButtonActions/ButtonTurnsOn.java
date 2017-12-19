@@ -3,18 +3,18 @@ package com.eugene.сontroller.actions.ButtonActions;
 import com.eugene.сontroller.Entities.Button;
 
 /**
- * Button switch off class
+ * Lift call class
  */
-public class ButtonTurnsOff implements ButtonAction {
+public class ButtonTurnsOn implements ButtonAction {
 
     protected Button button;
 
-    public ButtonTurnsOff(Button button) {
+    public ButtonTurnsOn(Button button) {
         this.button = button;
     }
 
     @Override
     public void execute() {
-        button.deactivate();
+        button.activate();
     }
 }

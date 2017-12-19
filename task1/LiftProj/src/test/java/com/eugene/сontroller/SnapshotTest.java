@@ -14,7 +14,7 @@ public class SnapshotTest {
 
     @Before
     public void init() {
-        house = DataHandlerUserInputTest.generateHouse();
+        house = DataHandlerUserInputTest.staticGenerateHouse();
         controller = new Controller(new House(house));
         controller.buildStates();
     }

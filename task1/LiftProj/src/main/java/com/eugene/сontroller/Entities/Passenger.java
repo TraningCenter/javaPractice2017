@@ -40,12 +40,12 @@ public class Passenger extends Entity {
         return inLift;
     }
 
-    public void enterToLift() {
-        inLift = true;
+    public void setInLift(boolean inLift) {
+        this.inLift = inLift;
     }
 
-    public void exitFromLift() {
-        inLift = false;
+    public void enterToLift() {
+        inLift = true;
     }
 
     public Passenger(int startFloor, int endFloor) {

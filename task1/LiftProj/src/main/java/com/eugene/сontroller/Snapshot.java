@@ -1,6 +1,5 @@
 package com.eugene.сontroller;
 
-import com.eugene.сontroller.Actions.Action;
 import com.eugene.сontroller.Entities.House;
 
 /**
@@ -9,19 +8,13 @@ import com.eugene.сontroller.Entities.House;
 public class Snapshot {
 
     private House house;
-    private String description;
 
-    public Snapshot(House house, Action lastAction) {
+    public Snapshot(House house) {
         this.house = new House(house);
-        this.description = (lastAction == null ? "" : lastAction.toString());
     }
 
     public House getHouse() {
         return house;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override
@@ -31,14 +24,11 @@ public class Snapshot {
 
         Snapshot snapshot = (Snapshot) o;
 
-        if (!house.equals(snapshot.house)) return false;
-        return true;
+        return house.equals(snapshot.house);
     }
 
     @Override
     public int hashCode() {
-        int result = house.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return house.hashCode();
     }
 }

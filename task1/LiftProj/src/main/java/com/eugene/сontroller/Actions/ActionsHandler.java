@@ -1,17 +1,17 @@
-package com.eugene.сontroller.Actions;
+package com.eugene.сontroller.actions;
 
-import com.eugene.сontroller.Actions.ButtonActions.ButtonAction;
-import com.eugene.сontroller.Actions.ButtonActions.ButtonCallLift;
-import com.eugene.сontroller.Actions.ButtonActions.ButtonTurnsOff;
-import com.eugene.сontroller.Actions.LiftActions.*;
-import com.eugene.сontroller.Actions.PassengerActions.*;
+import com.eugene.сontroller.actions.ButtonActions.ButtonTurnsOff;
+import com.eugene.сontroller.actions.ButtonActions.ButtonTurnsOn;
+import com.eugene.сontroller.actions.LiftActions.LiftMove;
+import com.eugene.сontroller.actions.LiftActions.LiftStop;
+import com.eugene.сontroller.actions.PassengerActions.PassengerEnterToLift;
+import com.eugene.сontroller.actions.PassengerActions.PassengerExitFromLift;
 import com.eugene.сontroller.Entities.*;
 import com.eugene.сontroller.Listeners.ButtonListener;
 import com.eugene.сontroller.Listeners.LiftListener;
 import com.eugene.сontroller.Listeners.PassengerListener;
 import com.eugene.сontroller.Snapshot;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,82 +24,100 @@ public class ActionsHandler implements PassengerListener, ButtonListener, LiftLi
 
     private House house;
     private List<Snapshot> snapshots;
-    private List<Action> commands;
-    private List<Action> commandsCopy;//
+    private List<Passenger> waitingPassengers;
 
     public ActionsHandler(House house, List<Snapshot> snapshots) {
         this.house = house;
         this.snapshots = snapshots;
-        this.commands = new LinkedList<>();
-        this.commandsCopy = new ArrayList<>();
+        waitingPassengers = new LinkedList<>();
     }
 
     private void addHouseState() {
-        Action lastCommand = null;
-        if (commands != null && !commands.isEmpty())
-            lastCommand = commands.get(commands.size() - 1);
-        snapshots.add(new Snapshot(house, lastCommand));
-    }
-
-    private void addCommand(Action action) {
-        commands.add(action);
-    }
-
-    private void addPriorityCommand(Action action) {
-        commands.add(0, action);
+        snapshots.add(new Snapshot(house));
     }
 
     public void startActions() {
-        //добавляем начальное состояние дома
+        //add initial house state
         addHouseState();
-        //all persons activates buttons
         for (Passenger p : house.getPassengers()) {
-            Button button = passengerFindNeededButton(p.getStartFloor(), p.getDirection());
-            PassengerAction action = new PassengerPressButton(button, this);
-            addCommand(action);
+            //all passengers are waiting for lifts
+            waitingPassengers.add(p);
+            //all passengers call lifts
+            Button b = passengerFindNeededButton(p.getStartFloor(), p.getDirection());
+            Action a = new ButtonTurnsOn(b);
+            a.execute();
         }
+        addHouseState();
     }
 
     public void handleActions() {
-        while (!commands.isEmpty()) {
-            commandsCopy.add(commands.get(0));
-            commands.remove(0).execute();
-            addHouseState();
+        do {
+            //lifts continue their actions
+            liftsContinue();
+            //send lifts to the nearest passengers
+            if (checkPassengersWaiting()) {
+                sendEmptyLift();
+            }
+        } while (!checkAllPassengersArrived());
+    }
+
+    private void liftsContinue() {
+        for (Lift l : house.getLifts()) {
+            //if lift doesn't have to go anywhere, it is waiting next task
+            if (l.getFloors().isEmpty()) {
+                l.stop();
+                continue;
+            }
+            //if we need to this floor, stop
+            if (l.getFloors().contains(l.getFloor())) {
+                Action a = new LiftStop(l, this);
+                a.execute();
+            }
+            //if there is a person here who needs the same direction and we can take it, we take
+            pickupPassenger(l);
+            //if lift is still somewhere you need-we are moving
+            if (!l.getFloors().isEmpty()) {
+                Action a = new LiftMove(l);
+                a.execute();
+                addHouseState();
+            }
         }
     }
 
-    @Override
-    public void wasPressedButton(Button button) {
-        ButtonAction action = new ButtonCallLift(button, this);
-        addCommand(action);
+    private void pickupPassenger(Lift lift) {
+        try {
+            for (Passenger p : waitingPassengers) {
+                if (p.getStartFloor() == lift.getFloor()) {
+                    if (!checkOverload(lift))
+                        continue;
+                    if (!lift.getPassengers().isEmpty() && lift.getDirection() != p.getDirection())
+                        continue;
+                    Action a = new LiftStop(lift, this);
+                    a.execute();
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
-    @Override
-    public void wasCalledLift(int floor, int direction) {
-        Lift lift = findLiftOnSameFloor(floor, direction);
-        LiftAction action;
-        //if we have lifts on the same floor
-        if (lift != null) {
-            action = new LiftStop(lift, this);
-        }
-        //lifts on other floor
-        else {
-            lift = findNearestLift(floor, direction);
-            action = new LiftMove(lift, this);
-        }
-        lift.getFloors().add(floor);
-        addCommand(action);
-    }
-
-    @Override
-    public void liftMoved(Lift lift) {
-        LiftAction action;
-        if (lift.getFloors().contains(lift.getFloor())) {
-            action = new LiftStop(lift, this);
-            addPriorityCommand(action);
-        } else {
-            action = new LiftMove(lift, this);
-            addCommand(action);
+    private void sendEmptyLift() {
+        List<Lift> emptyLifts = findEmptyLifts();
+        for (int i = 0; i < emptyLifts.size(); i++) {
+            int distance = house.getNumFloors();
+            int num = -1;
+            for (int k = 0; k < waitingPassengers.size(); k++) {
+                int dist = Math.abs(emptyLifts.get(i).getFloor() - waitingPassengers.get(k).getFloor());
+                if (dist < distance) {
+                    num = k;
+                    distance = dist;
+                }
+            }
+            if (num != -1) {
+                emptyLifts.get(i).getFloors().add(waitingPassengers.get(num).getStartFloor());
+                waitingPassengers.remove(waitingPassengers.get(num));
+                emptyLifts.remove(i);
+                i--;
+            }
         }
     }
 
@@ -107,74 +125,108 @@ public class ActionsHandler implements PassengerListener, ButtonListener, LiftLi
     public void liftStopped(Lift lift) {
         if (lift.getFloors().isEmpty())
             return;
-        if (lift.getFloors().contains(lift.getFloor())) {
-            LiftAction action = new LiftArrive(lift, this);
-            addPriorityCommand(action);
+        if (lift.getFloors().contains(lift.getFloor()))
+            lift.getFloors().remove((Integer) lift.getFloor());
+        List<Passenger> waitingHerePassengers = findWaitingPassengers(lift.getFloor(), lift.getDirection());
+        if (lift.getPassengers().isEmpty() && waitingHerePassengers.isEmpty())
+            return;
+        //open the doors
+        openDoors(lift);
+        //turn off button
+        if (!waitingHerePassengers.isEmpty()) {
+            int copyDirection = lift.getDirection();
+            if (copyDirection == 0)
+                copyDirection = waitingHerePassengers.get(0).getDirection();
+            buttonTurnOff(lift.getFloor(), copyDirection);
+        }
+        //if someone needs to go out, go out
+        passengerExitFromLift(lift);
+        //if someone needs to enter, they enter
+        passengerEnterToLift(lift, waitingHerePassengers);
+        //close the doors
+        closeDoors(lift);
+    }
+
+    private void passengerEnterToLift(Lift lift, List<Passenger> waitingHerePassengers) {
+        for (int i = 0; i < waitingHerePassengers.size(); i++) {
+            Passenger p = waitingHerePassengers.get(i);
+            if (checkOverload(lift)) {
+                Action a = new PassengerEnterToLift(lift, p);
+                a.execute();
+                //passenger is no longer waiting
+                if (waitingPassengers.contains(p))
+                    waitingPassengers.remove(p);
+                addHouseState();
+            }
+            //otherwise please wait for the next lift
+            else if (!waitingPassengers.contains(p))
+                waitingPassengers.add(p);
         }
     }
 
-    @Override
-    public void liftArrived(Lift lift) {
+    private void passengerExitFromLift(Lift lift) {
+        for (int i = 0; i < lift.getPassengers().size(); i++) {
+            Passenger p = lift.getPassengers().get(i);
+            if (p.getEndFloor() == lift.getFloor()) {
+                //passenger go out from lift
+                Action a = new PassengerExitFromLift(p);
+                a.execute();
+                lift.getPassengers().remove(p);
+                addHouseState();
+                i--;
+            }
+        }
+    }
+
+    private void openDoors(Lift lift) {
         lift.setDoorsActions(1);
-        LiftAction action = new LiftOpenDoors(lift, this);
-        addPriorityCommand(action);
+        addHouseState();
     }
 
-    @Override
-    public void liftOpenedDoors(Lift lift) {
-
-        List<Passenger> waitingPassengers;
-        if (lift.getPassengers().isEmpty())
-            waitingPassengers = findWaitingPassenger(lift.getFloor(), 0);
-        else
-            waitingPassengers = findWaitingPassenger(lift.getFloor(), lift.getDirection());
-        for (Passenger p : waitingPassengers) {
-            PassengerAction a = new PassengerEnterToLift(lift, p, this);
-            addPriorityCommand(a);
-        }
-
-        List<Passenger> arrivedPassengers = findArrivedPassenger(lift);
-        for (Passenger p : arrivedPassengers) {
-            PassengerAction a = new PassengerExitFromLift(lift, p, this);
-            addPriorityCommand(a);
-        }
-
-        Button button = liftFindNeededButton(lift);
-        if (button != null && button.getOn()) {
-            ButtonAction action = new ButtonTurnsOff(button);
-            addPriorityCommand(action);
-        }
-    }
-
-    @Override
-    public void passengerEnteredToLift(Lift lift, Passenger passenger) {
-        //закрываем двери
+    private void closeDoors(Lift lift) {
         lift.setDoorsActions(-1);
-        LiftAction action = new LiftCloseDoors(lift, this);
-        addPriorityCommand(action);
-    }
-
-    @Override
-    public void liftClosedDoors(Lift lift) {
+        addHouseState();
         lift.setDoorsActions(0);
-        Action action;
-        if (lift.getPassengers().isEmpty())
-            action = new LiftStop(lift, this);
-        else {
-            List<Passenger> passengers = lift.getNewPassengers();
-            for (Passenger p : passengers)
-                lift.getFloors().add(p.getEndFloor());
-            action = new LiftMove(lift, this);
-        }
-        addCommand(action);
+        addHouseState();
     }
 
-    @Override
-    public void passengerExitedFromLift(Lift lift, Passenger passenger) {
-        lift.getPassengers().remove(passenger);
-        lift.setDoorsActions(-1);
-        LiftAction action = new LiftCloseDoors(lift, this);
-        addPriorityCommand(action);
+    private void buttonTurnOff(int floor, int direction) {
+        try {
+            Button button = house.getButtons().stream()
+                    .filter(b -> b.getFloor() == floor && b.getDirection() == direction).findFirst().get();
+            ButtonTurnsOff a = new ButtonTurnsOff(button);
+            a.execute();
+            addHouseState();
+        } catch (Exception e) {
+        }
+    }
+
+    private List<Passenger> findWaitingPassengers(int floor, int liftDirection) {
+        List<Passenger> result = house.getPassengers().stream()
+                .filter(p -> p.getFloor() == floor && !p.getInLift() && p.getFloor() != p.getEndFloor()
+                        && (liftDirection == 0 || p.getDirection() == liftDirection))
+                .collect(Collectors.toList());
+        if (liftDirection != 0)
+            return result;
+        //case when lift is standing, and it is called simultaneously on the descent and on the rise
+        boolean flag = false;
+        for (Passenger p : result) {
+            //if passengers want in different directions...
+            if (p.getDirection() != result.get(0).getDirection()) {
+                flag = true;
+                break;
+            }
+        }
+        //..first omit, and only then we raise
+        if (flag)
+            result = result.stream().filter(p -> p.getDirection() == -1).collect(Collectors.toList());
+        return result;
+    }
+
+    private List<Lift> findEmptyLifts() {
+        return house.getLifts().stream()
+                .filter(l -> l.getWorking() && l.getPassengers().isEmpty() && l.getFloors().isEmpty())
+                .collect(Collectors.toList());
     }
 
     private Button passengerFindNeededButton(int floor, int direction) {
@@ -183,110 +235,18 @@ public class ActionsHandler implements PassengerListener, ButtonListener, LiftLi
                 .findFirst().get();
     }
 
-    private Button liftFindNeededButton(Lift lift) {
-        if (lift.getDirection() == 0 || lift.getPassengers().isEmpty())
-            return liftFindNeededButtonWithUnknownDirection(lift.getFloor());
-        if (!lift.getPassengers().isEmpty()) {
-            int floor = lift.getFloor();
-            try {
-                Passenger passenger = house.getPassengers().stream()
-                        .filter(p -> p.getStartFloor() == floor)
-                        .findFirst().get();
-                return house.getButtons().stream()
-                        .filter(b -> (b.getFloor() == floor && b.getDirection() == passenger.getDirection()))
-                        .findFirst().get();
-            } catch (Exception e) {
-            }
-        }
-        return null;
+    private boolean checkAllPassengersArrived() {
+        for (Passenger p : house.getPassengers())
+            if (p.getFloor() != p.getEndFloor() || p.getInLift())
+                return false;
+        return true;
     }
 
-    private Button liftFindNeededButtonWithUnknownDirection(int floor) {
-        Button button = null;
-        for (Passenger p : house.getPassengers()) {
-            if (p.getStartFloor() == floor)
-                button = house.getButtons().stream()
-                        .filter(b -> (b.getFloor() == floor && b.getDirection() == p.getDirection()))
-                        .findFirst().get();
-        }
-        return button;
+    private boolean checkPassengersWaiting() {
+        return !waitingPassengers.isEmpty();
     }
 
-    private List<Passenger> findWaitingPassenger(int floor, int direction) {
-        List<Passenger> passengers;
-        if (direction != 0)
-            passengers = house.getPassengers().stream()
-                    .filter(p -> (p.getStartFloor() == floor && (p.getDirection() == direction)))
-                    .collect(Collectors.toList());
-        else {
-            passengers = house.getPassengers().stream()
-                    .filter(p -> (p.getStartFloor() == floor && (p.getDirection() == -1)))
-                    .collect(Collectors.toList());
-            if (passengers.isEmpty())
-                passengers = house.getPassengers().stream()
-                        .filter(p -> (p.getStartFloor() == floor && (p.getDirection() == 1)))
-                        .collect(Collectors.toList());
-        }
-        return passengers;
-    }
-
-    private List<Passenger> findArrivedPassenger(Lift lift) {
-        return lift.getPassengers().stream()
-                .filter(p -> p.getEndFloor() == lift.getFloor())
-                .collect(Collectors.toList());
-    }
-
-    private Lift findLiftOnSameFloor(int floor, int direction) {
-        for (Lift l : house.getLifts()) {
-            if (l.getFloor() != floor)
-                continue;
-            if (!l.getMoving())
-                return l;
-            else {
-                if (l.getOverload()) //if lift is overload, drive past
-                    continue;
-                if (l.getDirection() == direction)
-                    return l;
-
-            }
-        }
-        return null;
-    }
-
-    private Lift findNearestLift(int floor, int direction) {
-        //find all moving and stopping lifts
-        List<Lift> movingLifts = new ArrayList<>();
-        List<Lift> stoppingLifts = new ArrayList<>();
-        for (Lift l : house.getLifts()) {
-            if (!l.getMoving()) {
-                stoppingLifts.add(l);
-                continue;
-            }
-            if (l.getOverload()) //if lift is overload, drive past
-                continue;
-            if (l.getDirection() == direction) {
-                //lift is almost overloaded. lift doesn't take passengers
-                if (l.getPassengers().size() * 80 + 80 > l.getMaxWeight())
-                    continue;
-                //if the directions and the floor match, lift take passenger
-                if ((direction == 1 && l.getFloor() <= floor) || (direction == -1 && l.getFloor() >= floor))
-                    movingLifts.add(l);
-            }
-        }
-        //select nearest lift
-        Lift nearestLift;
-        List<Lift> neededLifts;
-        if (!movingLifts.isEmpty()) {
-            neededLifts = movingLifts;
-        } else {
-            neededLifts = stoppingLifts;
-        }
-        int distance = Math.abs(neededLifts.get(0).getFloor() - floor);
-        nearestLift = neededLifts.get(0);
-        for (Lift l : neededLifts) {
-            if (Math.abs(l.getFloor() - floor) <= distance)
-                nearestLift = l;
-        }
-        return nearestLift;
+    private boolean checkOverload(Lift lift) {
+        return lift.getPassengers().size() < lift.getMaxWeight();
     }
 }

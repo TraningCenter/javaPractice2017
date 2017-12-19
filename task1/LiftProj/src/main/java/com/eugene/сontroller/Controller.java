@@ -1,6 +1,6 @@
 package com.eugene.сontroller;
 
-import com.eugene.сontroller.Actions.ActionsHandler;
+import com.eugene.сontroller.actions.ActionsHandler;
 import com.eugene.сontroller.Entities.*;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public class Controller {
     public void buildStates() {
         //add start actions
         actionsHandler.startActions();
-        //we process everything
+        //process everything
         actionsHandler.handleActions();
     }
 

@@ -1,6 +1,6 @@
-package com.eugene.сontroller.Actions.ButtonActions;
+package com.eugene.сontroller.actions.ButtonActions;
 
-import com.eugene.сontroller.Actions.Action;
+import com.eugene.сontroller.actions.Action;
 
 /**
  * Interface for buttons actions

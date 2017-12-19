@@ -18,9 +18,8 @@ public class Lift extends Entity {
     private int doorsActions;
     private List<Integer> floors;
     private List<Passenger> passengers;
-    private List<Passenger> newPassengers;
 
-    public boolean isWorking() {
+    public boolean getWorking() {
         return working;
     }
 
@@ -34,13 +33,18 @@ public class Lift extends Entity {
 
     public void stop() {
         moving = false;
-        if (floors != null && floors.isEmpty())
+        direction = 0;//today
+        /*if (floors != null && floors.isEmpty())
             direction = 0;
-        newPassengers = new ArrayList<>();
+        newPassengers = new ArrayList<>();*/
     }
 
     public int getDirection() {
         return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 
     public int getMaxWeight() {
@@ -71,19 +75,16 @@ public class Lift extends Entity {
         passengers.add(passenger);
     }
 
-    public List<Passenger> getNewPassengers() {
-        return newPassengers;
-    }
-
     public void letinPassenger(Passenger passenger) {
-        direction = passenger.getDirection();
-        //floors.add(passenger.getEndFloor());
+        //if lift hasnt yet planned to go to the final floor of the passenger, we add this floor
+        if (!floors.contains(passenger.getEndFloor()))
+            floors.add(passenger.getEndFloor());
         passengers.add(passenger);
-        newPassengers.add(passenger);
-        overload = (passengers.size() * 80 > maxWeight);
     }
 
     public void move() {
+        if (floors.isEmpty())
+            return;
         moving = true;
         if (direction == 0)
             direction = (floors.get(0) - floor) > 0 ? 1 : -1;
@@ -101,7 +102,6 @@ public class Lift extends Entity {
         this.maxWeight = maxWeight;
         this.floors = new ArrayList<>();
         this.passengers = new ArrayList<>();
-        this.newPassengers = new ArrayList<>();
     }
 
     public Lift(Lift lift) {
@@ -114,13 +114,10 @@ public class Lift extends Entity {
         this.doorsActions = lift.doorsActions;
         this.floors = new ArrayList<>();
         this.passengers = new ArrayList<>();
-        this.newPassengers = new ArrayList<>();
         for (Integer i : lift.floors)
             floors.add(new Integer(i));
         for (Passenger p : lift.passengers)
             passengers.add(new Passenger(p));
-        for (Passenger p : newPassengers)
-            newPassengers.add(new Passenger(p));
     }
 
     @Override
@@ -138,8 +135,7 @@ public class Lift extends Entity {
         if (overload != lift.overload) return false;
         if (doorsActions != lift.doorsActions) return false;
         if (!floors.equals(lift.floors)) return false;
-        if (!passengers.equals(lift.passengers)) return false;
-        return newPassengers.equals(lift.newPassengers);
+        return passengers.equals(lift.passengers);
     }
 
     @Override
@@ -153,7 +149,6 @@ public class Lift extends Entity {
         result = 31 * result + doorsActions;
         result = 31 * result + floors.hashCode();
         result = 31 * result + passengers.hashCode();
-        result = 31 * result + newPassengers.hashCode();
         return result;
     }
 }

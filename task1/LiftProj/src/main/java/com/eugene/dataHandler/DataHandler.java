@@ -11,7 +11,7 @@ public abstract class DataHandler {
 
     public abstract List<Integer> getInput();
 
-    public boolean verifyInput(int value, int min, int max) {
+    boolean verifyInput(int value, int min, int max) {
         return (value >= min && value <= max);
     }
 

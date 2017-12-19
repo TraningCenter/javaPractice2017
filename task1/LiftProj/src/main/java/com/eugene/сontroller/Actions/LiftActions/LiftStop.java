@@ -1,4 +1,4 @@
-package com.eugene.сontroller.Actions.LiftActions;
+package com.eugene.сontroller.actions.LiftActions;
 
 import com.eugene.сontroller.Entities.Lift;
 import com.eugene.сontroller.Listeners.LiftListener;

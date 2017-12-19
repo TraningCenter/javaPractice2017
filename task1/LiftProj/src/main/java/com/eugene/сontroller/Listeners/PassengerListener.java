@@ -9,10 +9,10 @@ import com.eugene.сontroller.Entities.Passenger;
  */
 public interface PassengerListener {
 
-    void wasPressedButton(Button button);
+    /*void wasPressedButton(Button button);
 
     void passengerEnteredToLift(Lift lift, Passenger passenger);
 
-    void passengerExitedFromLift(Lift lift, Passenger passenger);
+    void passengerExitedFromLift(Lift lift, Passenger passenger);*/
 
 }

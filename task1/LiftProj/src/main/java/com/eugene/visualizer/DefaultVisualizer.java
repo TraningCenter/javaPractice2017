@@ -31,17 +31,16 @@ public class DefaultVisualizer extends Visualizer {
     @Override
     public void paint() {
         clearConsole();
-        paintStartInfo();
+        drawStartInfo();
         for (Snapshot s : snapshots) {
             this.house = s.getHouse();
             clearConsole();
-            paintInfo(s.getDescription());
-            paintHouse();
+            drawHouse();
             paintPause();
         }
     }
 
-    private void paintStartInfo() {
+    private void drawStartInfo() {
         console.printf("3...");
         paintPause();
         console.printf("2...");
@@ -51,12 +50,6 @@ public class DefaultVisualizer extends Visualizer {
         console.printf("GO! \n");
         paintPause();
         clearConsole();
-    }
-
-    private void paintInfo(String info) {
-        if (info == null)
-            info = "";
-        console.printf(info + "\n");
     }
 
     private void clearConsole() {
@@ -72,11 +65,11 @@ public class DefaultVisualizer extends Visualizer {
 		{
 			final String os = System.getProperty("os.name");
 			if (os.contains("Windows")) {
-				System.out.print("\033[H\033[2J");
+                console.printf("\033[H\033[2J");
 				Runtime.getRuntime().exec("cls");
 			}
 			else {
-				System.out.print("\033[H\033[2J");
+                console.printf("\033[H\033[2J");
 				Runtime.getRuntime().exec("clear");
 			}
 		}
@@ -84,44 +77,44 @@ public class DefaultVisualizer extends Visualizer {
 		{ }
     }
 
-    private void paintHouse() {
-        paintGround();
+    private void drawHouse() {
+        drawGround();
         for (int i = 0; i < house.getNumFloors(); i++) {
-            paintFloor(indexToFloorNum(i));
-            paintGround();
+            drawFloor(indexToFloorNum(i));
+            drawGround();
         }
         console.printf("\n");
     }
 
-    private void paintGround() {
+    private void drawGround() {
         for (int i = 0; i < 10; i++) {
             console.printf("___");
         }
         console.printf("\n");
     }
 
-    private void paintFloor(int floor) {
+    private void drawFloor(int floor) {
         for (int part = 0; part < entityParts; part++) {
             for (int i = 0; i < house.getLifts().size(); i++) {
-                console.printf(paintShaft());
+                console.printf(drawShaft());
                 console.printf(drawLift(floor, i, part));
-                console.printf(paintShaft());
-                console.printf(paintWall());
+                console.printf(drawShaft());
+                console.printf(drawWall());
             }
-            console.printf(paintButtons(floor, part));
+            console.printf(drawButtons(floor, part));
             console.printf("\n");
         }
     }
 
-    private String paintShaft() {
+    private String drawShaft() {
         return "|";
     }
 
-    private String paintWall() {
+    private String drawWall() {
         return " ";
     }
 
-    private String paintButtons(int floor, int part) {
+    private String drawButtons(int floor, int part) {
         String tmp = "";
         switch (part) {
             case 0:
@@ -152,7 +145,7 @@ public class DefaultVisualizer extends Visualizer {
     }
 
     private String drawPassengersOnFloor(int floor) {
-        String result = "";
+        StringBuilder result = new StringBuilder("");
         String passengerSymbol = "P";
         List<Passenger> passengers = house.getPassengers().stream()
                 .filter(p -> (p.getFloor() == floor && !p.getInLift()))
@@ -160,10 +153,13 @@ public class DefaultVisualizer extends Visualizer {
         for (Passenger p : passengers) {
             String direction = "";
             if (p.getFloor() == p.getStartFloor())
-                direction = (p.getDirection() == -1 ? "down;" : "up;");
-            result = passengerSymbol + (house.getPassengers().indexOf(p) + 1) + direction;
+                direction = (p.getDirection() == -1 ? "down" : "up");
+            result.append(passengerSymbol);
+            result.append(house.getPassengers().indexOf(p) + 1);
+            result.append(direction);
+            result.append("; ");
         }
-        return result;
+        return result.toString();
     }
 
     private String drawLift(int floor, int shaft, int part) {

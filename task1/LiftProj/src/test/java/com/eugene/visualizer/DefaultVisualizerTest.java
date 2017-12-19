@@ -14,22 +14,22 @@ public class DefaultVisualizerTest {
 
     @Before
     public void init() {
-        House house = DataHandlerUserInputTest.generateHouse();
+        House house = DataHandlerUserInputTest.staticGenerateHouse();
         Controller controller = new Controller(new House(house));
         controller.buildStates();
         visualizer = new DefaultVisualizer(controller.getHouseStates());
     }
 
     @Test
-    public void paint(){
-        /*//if used System.out.print() instead console.printf(), this test will cover 100% of DefaultVisualizer class
+    public void paint() {
+        //if used System.out.print() instead console.printf(), this test will cover 100% of DefaultVisualizer class
         try {
             visualizer.paint();
             assertTrue(true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
+
     }
 
 }
